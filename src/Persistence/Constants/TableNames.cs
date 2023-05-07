@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Persistence.Configurations
+namespace Persistence.Constants
 {
-    internal class ModelConfiguration
+    internal static class TableNames
     {
+        internal const string Offices = nameof(Offices);
     }
 }
