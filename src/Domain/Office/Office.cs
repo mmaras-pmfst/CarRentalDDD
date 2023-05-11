@@ -44,4 +44,9 @@ public sealed class Office : AggregateRoot, IAuditableEntity
     {
         return new Office(id, country, city, streetName, streetNumber, openingTime, closingTime, phoneNumber);
     }
+
+    public static Office Update(Guid id, string country, string city, string streetName, string streetNumber, DateTime? openingTime, DateTime? closingTime, string phoneNumber)
+    {
+        return new Office(id, country, city, streetName, streetNumber, openingTime, closingTime, phoneNumber);
+    }
 }

@@ -8,22 +8,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Office.Create;
+namespace Application.Offices.Create;
 
-internal sealed class CreateOfficeCommandHandler : IRequestHandler<CreateOfficeCommand, Unit>
+internal sealed class OfficeCreateCommandHandler : IRequestHandler<OfficeCreateCommand, Unit>
 {
     private readonly IOfficeRepository _officeRepository;
     private readonly IUnitOfWork _unitOfWork;
-    private ILogger<CreateOfficeCommandHandler> _logger;
+    private ILogger<OfficeCreateCommandHandler> _logger;
 
-    public CreateOfficeCommandHandler(IOfficeRepository officeRepository, IUnitOfWork unitOfWork, ILogger<CreateOfficeCommandHandler> logger)
+    public OfficeCreateCommandHandler(IOfficeRepository officeRepository, IUnitOfWork unitOfWork, ILogger<OfficeCreateCommandHandler> logger)
     {
         _officeRepository = officeRepository;
         _unitOfWork = unitOfWork;
         _logger = logger;
     }
 
-    public async Task<Unit> Handle(CreateOfficeCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(OfficeCreateCommand request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Started CreateOfficeCommandHandler");
 

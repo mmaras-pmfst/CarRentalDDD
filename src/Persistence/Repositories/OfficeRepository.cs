@@ -37,7 +37,12 @@ namespace Persistence.Repositories
 
         public async Task<Office?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await _dbContext.Set<Office>().Where(x => x.Id == id).SingleOrDefaultAsync();
+            return await _dbContext.Set<Office>().Where(x => x.Id == id).AsNoTracking().SingleOrDefaultAsync();
+        }
+
+        public async Task Update(Office office, CancellationToken cancellationToken = default)
+        {
+            _dbContext.Set<Office>().Update(office);
         }
     }
 }

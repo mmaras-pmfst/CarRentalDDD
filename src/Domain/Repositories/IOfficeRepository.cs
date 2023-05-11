@@ -16,4 +16,6 @@ public interface IOfficeRepository
     Task<Office.Office?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
     Task<bool> AlreadyExists(string city, string streetName, string streetNumber, CancellationToken cancellationToken = default);
+
+    Task Update(Office.Office office, CancellationToken cancellationToken = default);
 }
