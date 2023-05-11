@@ -1,4 +1,4 @@
-﻿using Domain.Office;
+﻿using Domain.Color;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Offices.GetAll;
+namespace Application.Colors.GetById;
 
-public sealed record OfficeGetAllCommand() : IRequest<List<Office>>;
+public sealed record ColorGetByIdCommand(Guid id) : IRequest<Color?>;
+

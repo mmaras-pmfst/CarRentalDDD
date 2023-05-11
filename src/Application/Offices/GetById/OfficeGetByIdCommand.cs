@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Offices.GetById
-{
-    public sealed record OfficeGetByIdCommand(Guid id) : IRequest<Office?>;
-}
+namespace Application.Offices.GetById;
+
+public sealed record OfficeGetByIdCommand(Guid id) : IRequest<Office?>;

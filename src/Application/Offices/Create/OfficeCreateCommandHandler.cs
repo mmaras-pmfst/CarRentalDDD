@@ -54,7 +54,7 @@ internal sealed class OfficeCreateCommandHandler : IRequestHandler<OfficeCreateC
         }
         catch (Exception ex)
         {
-            _logger.LogError("CreateOfficeCommandHandler error: {0}",ex.Message);
+            _logger.LogError("CreateOfficeCommandHandler error: {0}",ex.Message);   
 
             throw;
         }

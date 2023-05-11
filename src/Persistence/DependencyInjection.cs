@@ -18,6 +18,7 @@ public static class DependencyInjection
             options.UseSqlServer(connectionString));
 
         services.AddScoped<IOfficeRepository, OfficeRepository>();
+        services.AddScoped<IColorRepository, ColorRepository>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
