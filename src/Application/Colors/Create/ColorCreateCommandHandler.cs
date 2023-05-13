@@ -32,7 +32,7 @@ namespace Application.Colors.Create
                 var exists = await _colorRepository.AlreadyExists(request.colorName, cancellationToken);
                 if (exists)
                 {
-                    _logger.LogWarning("ColorCreateCommandHandler: Color already exists!");
+                    _logger.LogWarning("ColorCreateCommandHandler: Color already exists!"); 
                     return Unit.Value;
                 }
                 var newColor = Color.Create(

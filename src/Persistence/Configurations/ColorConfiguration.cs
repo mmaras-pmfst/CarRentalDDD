@@ -8,19 +8,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Persistence.Configurations
+namespace Persistence.Configurations;
+
+internal class ColorConfiguration : IEntityTypeConfiguration<Color>
 {
-    internal class ColorConfiguration : IEntityTypeConfiguration<Color>
+    public void Configure(EntityTypeBuilder<Color> builder)
     {
-        public void Configure(EntityTypeBuilder<Color> builder)
-        {
-            builder.ToTable(TableNames.Colors, SchemaNames.Catalog);
+        builder.ToTable(TableNames.Colors, SchemaNames.Catalog);
 
-            builder.HasKey(x => x.Id);
+        builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.ColorName)
-                .HasMaxLength(50)
-                .IsRequired(true);
-        }
+        builder.Property(x => x.ColorName)
+            .HasMaxLength(50)
+            .IsRequired(true);
     }
 }

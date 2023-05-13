@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 
 namespace Domain.CarCategory;
 
-public sealed class CarCategory : AggregateRoot
+public sealed class CarCategory : AggregateRoot, IAuditableEntity
 {
     private readonly List<Guid> _carModelIds = new(); //??
     public string Name { get; private set; }
     public string ShortName { get; private set; }
     public string Description { get; private set; }
+    public DateTime CreatedOnUtc { get; set ; }
+    public DateTime? ModifiedOnUtc { get; set; }
     public IReadOnlyCollection<Guid> CarModelIds => _carModelIds; //??
 
     private CarCategory(Guid id, string name, string shortName, string description)
@@ -25,6 +27,11 @@ public sealed class CarCategory : AggregateRoot
     private CarCategory() { }
 
     public static CarCategory Create(Guid id, string name, string shortName, string description)
+    {
+        return new CarCategory(id, name, shortName, description);
+    }
+
+    public static CarCategory Update(Guid id, string name, string shortName, string description)
     {
         return new CarCategory(id, name, shortName, description);
     }

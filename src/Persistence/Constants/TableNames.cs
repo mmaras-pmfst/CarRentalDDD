@@ -10,5 +10,8 @@ namespace Persistence.Constants
     {
         internal const string Offices = nameof(Offices);
         internal const string Colors = nameof(Colors);
+        internal const string CarBrands = nameof(CarBrands);
+        internal const string CarModels = nameof(CarModels);
+        internal const string CarCategories = nameof(CarCategories);
     }
 }

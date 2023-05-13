@@ -9,12 +9,12 @@ namespace Domain.CarBrand.Entities;
 
 public sealed class CarModel : Entity
 {
-    private readonly List<Guid> _carIds = new();
+    private readonly HashSet<Guid> _carIds = new();
     public string CarModelName { get; private set; }
     public Guid CarBrandId { get; private set; }
     public Guid CarCategoryId { get; private set; }
 
-    public IReadOnlyCollection<Guid> CarIds => _carIds;
+    public IReadOnlyList<Guid> CarIds => _carIds.ToList();
 
     internal CarModel(Guid id, string carModelName, CarBrand carBrand, CarCategory.CarCategory carCategory)
     {

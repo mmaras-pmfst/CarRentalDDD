@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
@@ -11,9 +12,11 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230513151839_CarBrandMigration")]
+    partial class CarBrandMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,48 +55,13 @@ namespace Persistence.Migrations
 
                     b.Property<string>("CarModelName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CarBrandId");
 
-                    b.HasIndex("CarCategoryId");
-
-                    b.ToTable("CarModels", "Catalog");
-                });
-
-            modelBuilder.Entity("Domain.CarCategory.CarCategory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedOnUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("nvarchar(60)");
-
-                    b.Property<DateTime?>("ModifiedOnUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<string>("ShortName")
-                        .IsRequired()
-                        .HasMaxLength(6)
-                        .HasColumnType("nvarchar(6)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CarCategories", "Catalog");
+                    b.ToTable("CarModel");
                 });
 
             modelBuilder.Entity("Domain.Color.Color", b =>
@@ -165,12 +133,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.CarBrand.CarBrand", null)
                         .WithMany("CarModels")
                         .HasForeignKey("CarBrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.CarCategory.CarCategory", null)
-                        .WithMany()
-                        .HasForeignKey("CarCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -19,7 +19,7 @@ public static class DependencyInjection
 
         services.AddScoped<IOfficeRepository, OfficeRepository>();
         services.AddScoped<IColorRepository, ColorRepository>();
-
+        services.AddScoped<ICarCategoryRepository, CarCategoryRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
