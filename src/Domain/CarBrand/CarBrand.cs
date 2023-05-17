@@ -10,10 +10,10 @@ namespace Domain.CarBrand;
 
 public sealed class CarBrand : AggregateRoot
 {
-    private readonly HashSet<CarModel> _carModels = new();
+    private readonly List<CarModel> _carModels = new();
 
     public string CarBrandName { get; private set; }
-    public IReadOnlyList<CarModel> CarModels => _carModels.ToList();
+    public IReadOnlyCollection<CarModel> CarModels => _carModels;
 
     private CarBrand(Guid id, string carBrandName)
         : base(id)
@@ -23,6 +23,11 @@ public sealed class CarBrand : AggregateRoot
     private CarBrand() { }
 
     public static CarBrand Create(Guid id, string carBrandName)
+    {
+        return new CarBrand(id, carBrandName);
+    }
+
+    public static CarBrand Update(Guid id, string carBrandName)
     {
         return new CarBrand(id, carBrandName);
     }
