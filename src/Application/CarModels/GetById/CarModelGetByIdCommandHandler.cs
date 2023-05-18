@@ -44,6 +44,7 @@ internal sealed class CarModelGetByIdCommandHandler : IRequestHandler<CarModelGe
             {
                 return null;
             }
+
             _logger.LogInformation("Finished CarModelGetByIdCommandHandler");
 
             return carModel;
