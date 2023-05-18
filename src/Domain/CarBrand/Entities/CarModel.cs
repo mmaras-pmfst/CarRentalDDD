@@ -13,10 +13,10 @@ public sealed class CarModel : Entity
     public string CarModelName { get; private set; }
     public Guid CarBrandId { get; private set; }
     public Guid CarCategoryId { get; private set; }
-
     public IReadOnlyList<Guid> CarIds => _carIds.ToList();
 
     internal CarModel(Guid id, string carModelName, CarBrand carBrand, CarCategory.CarCategory carCategory)
+        :base(id)
     {
         CarModelName = carModelName;
         CarBrandId = carBrand.Id;

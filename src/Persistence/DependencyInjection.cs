@@ -21,6 +21,7 @@ public static class DependencyInjection
         services.AddScoped<IColorRepository, ColorRepository>();
         services.AddScoped<ICarCategoryRepository, CarCategoryRepository>();
         services.AddScoped<ICarBrandRepository, CarBrandRepository>();
+        services.AddScoped<ICarModelRepository, CarModelRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 

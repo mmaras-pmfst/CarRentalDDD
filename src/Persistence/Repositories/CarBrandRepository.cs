@@ -32,13 +32,19 @@ internal sealed class CarBrandRepository : ICarBrandRepository
 
     public async Task<List<CarBrand>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Set<CarBrand>().ToListAsync(cancellationToken);
+        return await _dbContext.Set<CarBrand>()
+            .Include(x => x.CarModels)
+            .ToListAsync(cancellationToken);
 
     }
 
     public async Task<CarBrand?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Set<CarBrand>().Where(x => x.Id == id).AsNoTracking().SingleOrDefaultAsync(cancellationToken);
+        return await _dbContext.Set<CarBrand>()
+            .Include(x => x.CarModels)
+            .Where(x => x.Id == id)
+            .AsNoTracking()
+            .SingleOrDefaultAsync(cancellationToken);
 
     }
 
