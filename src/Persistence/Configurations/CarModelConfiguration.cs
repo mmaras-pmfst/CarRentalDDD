@@ -23,6 +23,14 @@ internal class CarModelConfiguration : IEntityTypeConfiguration<CarModel>
             .HasMaxLength(50)
             .IsRequired(true);
 
+        builder.Property(x => x.BasePricePerDay)
+            .HasColumnType("decimal(18,2)")
+            .IsRequired();
+
+        builder.HasMany(x => x.Reservations)
+            .WithOne()
+            .HasForeignKey(x => x.CarModelId);
+
         builder.HasOne<CarCategory>() // CarModel belongs to one CarCategory
             .WithMany() //CarCategory belongs to many CarModels
             .HasForeignKey(x => x.CarCategoryId)

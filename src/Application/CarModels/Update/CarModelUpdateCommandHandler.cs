@@ -52,7 +52,7 @@ internal sealed class CarModelUpdateCommandHandler : IRequestHandler<CarModelUpd
                 return Unit.Value;
             }
 
-            carModel = carBrand.UpdateCarModel(carModel.Id, request.CarModelName, carCategory);
+            carModel = carBrand.UpdateCarModel(carModel.Id, request.CarModelName, request.BasePricePerDay, carCategory);
 
             await _carModelRepository.Update(carModel, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

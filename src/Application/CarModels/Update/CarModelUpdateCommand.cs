@@ -9,6 +9,7 @@ namespace Application.CarModels.Update;
 
 public sealed record CarModelUpdateCommand(
     Guid CarModelId,
+    decimal BasePricePerDay,
     string CarModelName, 
     Guid CarBrandId, 
     Guid CarCategoryId) : IRequest<Unit>;

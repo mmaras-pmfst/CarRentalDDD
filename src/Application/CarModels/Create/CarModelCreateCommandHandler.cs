@@ -43,12 +43,18 @@ internal sealed class CarModelCreateCommandHandler : IRequestHandler<CarModelCre
             var carBrand = await _carBrandRepository
                 .GetByIdAsync(request.CarBrandId, cancellationToken);
 
+
             if (carCategory is null || carBrand is null)
             {
                 return Unit.Value;
             }
+            var carModelExist = carBrand.CarModels.Where(x => x.CarModelName == request.CarModelName).Any();
+            if (carModelExist)
+            {
+                return Unit.Value;
+            }
 
-            var carModel = carBrand.CreateCarModel(request.CarModelName, carCategory);
+            var carModel = carBrand.CreateCarModel(request.CarModelName, request.BasePricePerDay, carCategory);
 
             await _carModelRepository.AddAsync(carModel, cancellationToken);
 

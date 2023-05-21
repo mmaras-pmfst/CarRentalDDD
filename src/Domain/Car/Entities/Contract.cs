@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 
 namespace Domain.Car.Entities;
 
-public sealed class Reservation : Entity
+public sealed class Contract : Entity
 {
 }

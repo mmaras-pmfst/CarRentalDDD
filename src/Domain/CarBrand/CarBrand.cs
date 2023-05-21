@@ -34,18 +34,26 @@ public sealed class CarBrand : AggregateRoot
         return new CarBrand(id, carBrandName);
     }
 
-    public CarModel CreateCarModel(string carModelName, CarCategory.CarCategory carCategory)
+    public CarModel CreateCarModel(string carModelName, decimal basePricePerDay, CarCategory.CarCategory carCategory)
     {
-        var carModel = new CarModel(Guid.NewGuid(), carModelName, this, carCategory);
+        var carModel = new CarModel(Guid.NewGuid(), carModelName,basePricePerDay, this, carCategory);
         _carModels.Add(carModel);
         return carModel;
     }
 
-    public CarModel UpdateCarModel(Guid carModelId, string carModelName, CarCategory.CarCategory carCategory)
+    public CarModel UpdateCarModel(Guid carModelId, string carModelName, decimal basePricePerDay, CarCategory.CarCategory carCategory)
     {
         _carModels.RemoveAll(x => x.Id == carModelId);
-        var carModel = new CarModel(carModelId, carModelName, this, carCategory);
+        var carModel = new CarModel(carModelId, carModelName, basePricePerDay, this, carCategory);
         _carModels.Add(carModel);
         return carModel;
+    }
+
+    public Reservation CreateReservation(Guid carModelId, DateTime pickUpDate, DateTime dropDownDate, Guid pickUpLocationId, Guid dropDownLocationId)
+    {
+        var carModel = _carModels.Where(x => x.Id == carModelId).FirstOrDefault();
+        var reservation = carModel!.AddReservation(carModel, pickUpDate, dropDownDate, pickUpLocationId, dropDownLocationId);
+
+        return reservation;
     }
 }

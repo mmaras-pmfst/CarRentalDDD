@@ -28,7 +28,7 @@ namespace WebApi.Controllers
         {
             _logger.LogInformation("Started CarModelController.Create");
 
-            var command = new CarModelCreateCommand(request.CarModelName, request.CarBrandId, request.CarCategoryId);
+            var command = new CarModelCreateCommand(request.CarModelName, request.BasePricePerDay, request.CarBrandId,  request.CarCategoryId);
 
             var response = await _sender.Send(command);
 
@@ -72,7 +72,7 @@ namespace WebApi.Controllers
         {
             _logger.LogInformation("Started CarModelController.Update");
 
-            var command = new CarModelUpdateCommand(request.CarModelId, request.CarModelName, request.CarBrandId, request.CarCategoryId);
+            var command = new CarModelUpdateCommand(request.CarModelId, request.BasePricePerDay, request.CarModelName,  request.CarBrandId, request.CarCategoryId);
 
             var response = await _sender.Send(command);
 

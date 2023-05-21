@@ -11,7 +11,7 @@ namespace Domain.Car;
 
 public sealed class Car : AggregateRoot
 {
-    private readonly List<Reservation> _reservations = new();
+    private readonly List<Contract> _reservations = new();
     public string NumberPlate { get; private set; }
     public string Name { get; private set; }
     public string Kilometers { get; private set; }
@@ -23,7 +23,7 @@ public sealed class Car : AggregateRoot
     public Guid CarModelId { get; private set; }
     public Guid OfficeId { get; private set; }
 
-    public IReadOnlyCollection<Reservation> Reservations => _reservations;
+    public IReadOnlyCollection<Contract> Reservations => _reservations;
 
 
     private Car(Guid id, string numberPlate, string name, string kilometers, string image, decimal pricePerDay, CarStatus status, FuelType fuelType, Guid colorId, Guid carModelId, Guid officeId)
