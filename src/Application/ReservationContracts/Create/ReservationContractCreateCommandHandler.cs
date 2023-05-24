@@ -7,17 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Reservations.Create;
+namespace Application.ReservationContracts.Create;
 
-internal sealed class ReservationCreateCommandHandler : IRequestHandler<ReservationCreateCommand, Unit>
+internal sealed class ReservationContractCreateCommandHandler : IRequestHandler<ReservationContractCreateCommand, Unit>
 {
-    private ILogger<ReservationCreateCommandHandler> _logger;
+    private ILogger<ReservationContractCreateCommandHandler> _logger;
     private readonly ICarBrandRepository _carBrandRepository;
-    private readonly IReservationRepository _reservationRepository;
+    private readonly IReservationContractRepository _reservationRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IOfficeRepository _officeRepository;
 
-    public ReservationCreateCommandHandler(ILogger<ReservationCreateCommandHandler> logger, ICarBrandRepository carBrandRepository, IReservationRepository reservationRepository, IUnitOfWork unitOfWork, IOfficeRepository officeRepository)
+    public ReservationContractCreateCommandHandler(ILogger<ReservationContractCreateCommandHandler> logger, ICarBrandRepository carBrandRepository, IReservationContractRepository reservationRepository, IUnitOfWork unitOfWork, IOfficeRepository officeRepository)
     {
         _logger = logger;
         _carBrandRepository = carBrandRepository;
@@ -26,7 +26,7 @@ internal sealed class ReservationCreateCommandHandler : IRequestHandler<Reservat
         _officeRepository = officeRepository;
     }
 
-    public async Task<Unit> Handle(ReservationCreateCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(ReservationContractCreateCommand request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Started ReservationCreateCommandHandler");
 

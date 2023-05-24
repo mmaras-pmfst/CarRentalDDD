@@ -8,27 +8,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Reservations.GetAll;
+namespace Application.ReservationContracts.GetAll;
 
-internal sealed class ReservationGetAllCommandHandler : IRequestHandler<ReservationGetAllCommand, List<Reservation>>
+internal sealed class ReservationContractGetAllCommandHandler : IRequestHandler<ReservationContractGetAllCommand, List<ReservationContract>>
 {
-    private ILogger<ReservationGetAllCommandHandler> _logger;
+    private ILogger<ReservationContractGetAllCommandHandler> _logger;
     private readonly ICarBrandRepository _carBrandRepository;
 
-    public ReservationGetAllCommandHandler(ILogger<ReservationGetAllCommandHandler> logger, ICarBrandRepository carBrandRepository)
+    public ReservationContractGetAllCommandHandler(ILogger<ReservationContractGetAllCommandHandler> logger, ICarBrandRepository carBrandRepository)
     {
         _logger = logger;
         _carBrandRepository = carBrandRepository;
     }
 
-    public async Task<List<Reservation>> Handle(ReservationGetAllCommand request, CancellationToken cancellationToken)
+    public async Task<List<ReservationContract>> Handle(ReservationContractGetAllCommand request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Started ReservationGetAllCommandHandler");
 
         try
         {
             var brands = await _carBrandRepository.GetAllAsync(cancellationToken);
-            var reservations = brands.SelectMany(x => x.CarModels).SelectMany(x => x.Reservations).ToList();
+            var reservations = brands.SelectMany(x => x.CarModels).SelectMany(x => x.ReservationContracts).ToList();
 
             _logger.LogInformation("Finished ReservationGetAllCommandHandler");
             return reservations;

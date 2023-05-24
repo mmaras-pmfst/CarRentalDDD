@@ -27,7 +27,7 @@ internal class CarModelConfiguration : IEntityTypeConfiguration<CarModel>
             .HasColumnType("decimal(18,2)")
             .IsRequired();
 
-        builder.HasMany(x => x.Reservations)
+        builder.HasMany(x => x.ReservationContracts)
             .WithOne()
             .HasForeignKey(x => x.CarModelId);
 

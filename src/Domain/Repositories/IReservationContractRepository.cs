@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Domain.Repositories;
 
-public interface IReservationRepository
+public interface IReservationContractRepository
 {
-    Task AddAsync(Reservation reservation, CancellationToken cancellationToken = default);
+    Task AddAsync(ReservationContract reservation, CancellationToken cancellationToken = default);
     //Task<List<Reservation>> GetAllAsync(CancellationToken cancellationToken = default);
     //Task<Reservation?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
     //Task<bool> AlreadyExists(string carBrandName, CancellationToken cancellationToken = default);

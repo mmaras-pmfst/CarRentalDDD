@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.CarBrand.Entities;
 
-public sealed class Reservation : Entity
+public sealed class ReservationContract : Entity
 {
     public DateTime PickUpDate { get; private set; }
     public DateTime DropDownDate { get; private set; }
@@ -16,7 +16,7 @@ public sealed class Reservation : Entity
     public Guid PickUpLocationId { get; private set; }
     public Guid DropDownLocationId { get; private set; }
 
-    internal Reservation(Guid id, DateTime pickUpDate, DateTime dropDownDate, CarModel carModel, Guid pickUpLocationId, Guid dropDownLocationId)
+    internal ReservationContract(Guid id, DateTime pickUpDate, DateTime dropDownDate, CarModel carModel, Guid pickUpLocationId, Guid dropDownLocationId)
         :base(id)
     {
         {
@@ -31,8 +31,16 @@ public sealed class Reservation : Entity
         DropDownLocationId = dropDownLocationId;
     }
 
-    private Reservation()
+    private ReservationContract()
     {
+    }
+
+    public void Update(decimal price)
+    {
+        
+        TotalPrice = price;
+        
+
     }
 
 }

@@ -40,8 +40,8 @@ internal sealed class CarModelRepository : ICarModelRepository
     //    return await _dbContext.Set<CarModel>().Where(x => x.Id == id).AsNoTracking().SingleOrDefaultAsync(cancellationToken);
     //}
 
-    public async Task Update(CarModel carModel, CancellationToken cancellationToken = default)
-    {
-        _dbContext.Set<CarModel>().Update(carModel);
-    }
+    //public async Task Update(CarModel carModel, CancellationToken cancellationToken = default)
+    //{
+    //    _dbContext.Set<CarModel>().Update(carModel);
+    //}
 }

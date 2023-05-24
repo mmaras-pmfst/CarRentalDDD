@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace Persistence.Configurations;
 
-internal class ReservationConfiguration : IEntityTypeConfiguration<Reservation>
+internal class ReservationContractConfiguration : IEntityTypeConfiguration<ReservationContract>
 {
-    public void Configure(EntityTypeBuilder<Reservation> builder)
+    public void Configure(EntityTypeBuilder<ReservationContract> builder)
     {
-        builder.ToTable(TableNames.Reservations, SchemaNames.Data);
+        builder.ToTable(TableNames.ReservationContracts, SchemaNames.Data);
 
         builder.HasKey(r => r.Id);
 

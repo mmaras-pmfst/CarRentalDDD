@@ -1,33 +1,34 @@
-﻿using Application.Reservations.Create;
-using Application.Reservations.Delete;
-using Application.Reservations.GetAll;
-using Application.Reservations.GetById;
+﻿using Application.ReservationContracts.Create;
+using Application.ReservationContracts.Delete;
+using Application.ReservationContracts.GetAll;
+using Application.ReservationContracts.GetById;
+using Application.ReservationContracts.Update;
 using Domain.CarBrand.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Contracts.Reservations;
+using WebApi.Contracts.ReservationContracts;
 
 namespace WebApi.Controllers
 {
     [Route("api/reservation")]
     [ApiController]
-    public class ReservationController : ControllerBase
+    public class ReservationContractController : ControllerBase
     {
-        private ILogger<ReservationController> _logger;
+        private ILogger<ReservationContractController> _logger;
         private ISender _sender;
 
-        public ReservationController(ILogger<ReservationController> logger, ISender sender)
+        public ReservationContractController(ILogger<ReservationContractController> logger, ISender sender)
         {
             _logger = logger;
             _sender = sender;
         }
 
         [HttpPost]
-        public async Task Create(CreateReservationRequest request)
+        public async Task Create(CreateReservationContractRequest request)
         {
             _logger.LogInformation("Started ReservationController.Create");
-            var command = new ReservationCreateCommand(request.PickUpDate, request.DropDownDate, request.CarModelId, request.PickupLocationId, request.DropDownLocationId);
+            var command = new ReservationContractCreateCommand(request.PickUpDate, request.DropDownDate, request.CarModelId, request.PickupLocationId, request.DropDownLocationId);
 
             var response = await _sender.Send(command);
 
@@ -37,11 +38,11 @@ namespace WebApi.Controllers
 
         [Route("getall")]
         [HttpGet]
-        public async Task<List<Reservation>> GetAll()
+        public async Task<List<ReservationContract>> GetAll()
         {
             _logger.LogInformation("Started ReservationController.GetAll");
 
-            var command = new ReservationGetAllCommand();
+            var command = new ReservationContractGetAllCommand();
 
             var response = await _sender.Send(command);
 
@@ -53,11 +54,11 @@ namespace WebApi.Controllers
 
         [Route("{id}")]
         [HttpGet]
-        public async Task<Reservation> GetById(Guid id)
+        public async Task<ReservationContract> GetById(Guid id)
         {
             _logger.LogInformation("Started ReservationController.GetById");
 
-            var command = new ReservationGetByIdCommand(id);
+            var command = new ReservationContractGetByIdCommand(id);
 
             var response = await _sender.Send(command);
 
@@ -73,11 +74,20 @@ namespace WebApi.Controllers
         {
             _logger.LogInformation("Started ReservationController.Delete");
 
-            var command = new ReservationDeleteCommand(id);
+            var command = new ReservationContractDeleteCommand(id);
 
             var response = await _sender.Send(command);
 
             _logger.LogInformation("Finished ReservationController.Delete");
+
+        }
+
+        [HttpPut]
+        public async Task Update(UpdateReservationContractRequest request)
+        {
+            var command = new ReservationContractUpdateCommand(request.id, request.Price);
+
+            var response = await _sender.Send(command);
 
         }
     }

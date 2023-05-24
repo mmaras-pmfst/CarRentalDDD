@@ -7,21 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Reservations.Delete;
+namespace Application.ReservationContracts.Delete;
 
-internal sealed class ReservationDeleteCommandHandler : IRequestHandler<ReservationDeleteCommand, Unit>
+internal sealed class ReservationContractDeleteCommandHandler : IRequestHandler<ReservationContractDeleteCommand, Unit>
 {
-    private ILogger<ReservationDeleteCommandHandler> _logger;
-    private readonly IReservationRepository _reservationRepository;
+    private ILogger<ReservationContractDeleteCommandHandler> _logger;
+    private readonly IReservationContractRepository _reservationRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public ReservationDeleteCommandHandler(ILogger<ReservationDeleteCommandHandler> logger, IReservationRepository reservationRepository, IUnitOfWork unitOfWork)
+    public ReservationContractDeleteCommandHandler(ILogger<ReservationContractDeleteCommandHandler> logger, IReservationContractRepository reservationRepository, IUnitOfWork unitOfWork)
     {
         _logger = logger;
         _reservationRepository = reservationRepository;
         _unitOfWork = unitOfWork;
     }
-    public async Task<Unit> Handle(ReservationDeleteCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(ReservationContractDeleteCommand request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Started ReservationDeleteCommandHandler");
 

@@ -6,6 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Reservations.GetById;
+namespace Application.ReservationContracts.GetById;
 
-public sealed record ReservationGetByIdCommand(Guid ReservationId) : IRequest<Reservation>;
+public sealed record ReservationContractGetByIdCommand(Guid ReservationId) : IRequest<ReservationContract>;

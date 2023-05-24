@@ -6,6 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Reservations.GetAll;
+namespace Application.ReservationContracts.GetAll;
 
-public sealed record ReservationGetAllCommand() : IRequest<List<Reservation>>;
+public sealed record ReservationContractGetAllCommand() : IRequest<List<ReservationContract>>;

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Reservations.Create;
+namespace Application.ReservationContracts.Create;
 
-public sealed record ReservationCreateCommand(
+public sealed record ReservationContractCreateCommand(
     DateTime PickUpDate,
     DateTime DropDownDate,
     Guid CarModelId,

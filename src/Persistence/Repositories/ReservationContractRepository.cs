@@ -10,21 +10,21 @@ using System.Threading.Tasks;
 
 namespace Persistence.Repositories;
 
-internal sealed class ReservationRepository : IReservationRepository
+internal sealed class ReservationContractRepository : IReservationContractRepository
 {
     private readonly ApplicationDbContext _dbContext;
-    public ReservationRepository(ApplicationDbContext dbContext)
+    public ReservationContractRepository(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
     }
-    public async Task AddAsync(Reservation reservation, CancellationToken cancellationToken = default)
+    public async Task AddAsync(ReservationContract reservation, CancellationToken cancellationToken = default)
     {
-        await _dbContext.Set<Reservation>().AddAsync(reservation, cancellationToken);
+        await _dbContext.Set<ReservationContract>().AddAsync(reservation, cancellationToken);
 
     }
 
     public async Task Delete(Guid reservationId, CancellationToken cancellationToken = default)
     {
-        await _dbContext.Set<Reservation>().Where(x => x.Id == reservationId).ExecuteDeleteAsync(cancellationToken);
+        await _dbContext.Set<ReservationContract>().Where(x => x.Id == reservationId).ExecuteDeleteAsync(cancellationToken);
     }
 }
