@@ -12,5 +12,4 @@ public interface ICarBrandRepository
     Task<List<CarBrand.CarBrand>> GetAllAsync(CancellationToken cancellationToken = default);
     Task<CarBrand.CarBrand?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
     Task<bool> AlreadyExists(string carBrandName, CancellationToken cancellationToken = default);
-    Task Update(CarBrand.CarBrand carBrand, CancellationToken cancellationToken = default);
 }

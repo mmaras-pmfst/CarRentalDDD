@@ -17,5 +17,4 @@ public interface IOfficeRepository
 
     Task<bool> AlreadyExists(string city, string streetName, string streetNumber, CancellationToken cancellationToken = default);
 
-    Task Update(Office.Office office, CancellationToken cancellationToken = default);
 }

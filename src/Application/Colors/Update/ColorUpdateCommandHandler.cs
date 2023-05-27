@@ -36,9 +36,8 @@ namespace Application.Colors.Update
                     return Unit.Value;
                 }
 
-                dbColor = Color.Update(request.id, request.colorName);
+                dbColor.Update(request.colorName);
 
-                await _colorRepository.Update(dbColor, cancellationToken);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
 
                 _logger.LogInformation("Finished ColorUpdateCommandHandler");

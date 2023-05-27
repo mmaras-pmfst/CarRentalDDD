@@ -13,6 +13,5 @@ namespace Domain.Repositories
         Task<List<Color.Color>> GetAllAsync(CancellationToken cancellationToken = default);
         Task<Color.Color?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
         Task<bool> AlreadyExists(string colorName, CancellationToken cancellationToken = default);
-        Task Update(Color.Color color, CancellationToken cancellationToken = default);
     }
 }

@@ -37,9 +37,8 @@ namespace Application.Offices.Update
                     return Unit.Value;
                 }
 
-                dbOffice = Office.Update(request.id, request.country, request.city, request.streetName, request.streetNumber, request.openingTime, request.closingTime, request.phoneNumber);
+                dbOffice.Update(request.country, request.city, request.streetName, request.streetNumber, request.openingTime, request.closingTime, request.phoneNumber);
 
-                await _officeRepository.Update(dbOffice);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
 
                 _logger.LogInformation("Finished OfficeUpdateCommandHandler");

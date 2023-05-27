@@ -23,8 +23,8 @@ public sealed class Color : AggregateRoot
         return new Color(id, colorName);
     }
 
-    public static Color Update(Guid id, string colorName)
+    public void Update(string colorName)
     {
-        return new Color(id, colorName);
+        ColorName = colorName;
     }
 }

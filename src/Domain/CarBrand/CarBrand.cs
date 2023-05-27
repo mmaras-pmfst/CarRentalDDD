@@ -29,9 +29,9 @@ public sealed class CarBrand : AggregateRoot
         return new CarBrand(id, carBrandName);
     }
 
-    public static CarBrand Update(Guid id, string carBrandName)
+    public void Update(string carBrandName)
     {
-        return new CarBrand(id, carBrandName);
+        CarBrandName = carBrandName;
     }
 
     public CarModel CreateCarModel(string carModelName, decimal basePricePerDay, CarCategory.CarCategory carCategory)

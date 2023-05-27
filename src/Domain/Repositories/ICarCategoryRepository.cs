@@ -12,5 +12,4 @@ public interface ICarCategoryRepository
     Task<List<CarCategory.CarCategory>> GetAllAsync(CancellationToken cancellationToken = default);
     Task<CarCategory.CarCategory?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
     Task<bool> AlreadyExists(string shortName, CancellationToken cancellationToken = default);
-    Task Update(CarCategory.CarCategory carCategory, CancellationToken cancellationToken = default);
 }

@@ -24,7 +24,9 @@ namespace Persistence.Repositories
 
         public async Task<bool> AlreadyExists(string city, string streetName, string streetNumber, CancellationToken cancellationToken = default)
         {
-            var office = await _dbContext.Set<Office>().Where(x => x.City == city && x.StreetName == streetName && x.StreetNumber == streetName).SingleOrDefaultAsync(cancellationToken);
+            var office = await _dbContext.Set<Office>()
+                .Where(x => x.City == city && x.StreetName == streetName && x.StreetNumber == streetName)
+                .SingleOrDefaultAsync(cancellationToken);
 
             return office != null ? false : true;
 
@@ -37,12 +39,10 @@ namespace Persistence.Repositories
 
         public async Task<Office?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await _dbContext.Set<Office>().Where(x => x.Id == id).AsNoTracking().SingleOrDefaultAsync();
+            return await _dbContext.Set<Office>()
+                .Where(x => x.Id == id)
+                .SingleOrDefaultAsync();
         }
 
-        public async Task Update(Office office, CancellationToken cancellationToken = default)
-        {
-            _dbContext.Set<Office>().Update(office);
-        }
     }
 }

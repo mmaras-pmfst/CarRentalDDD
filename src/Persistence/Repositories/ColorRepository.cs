@@ -24,25 +24,26 @@ namespace Persistence.Repositories
 
         public async Task<bool> AlreadyExists(string colorName, CancellationToken cancellationToken = default)
         {
-            var color = await _dbContext.Set<Color>().Where(x => x.ColorName == colorName).SingleOrDefaultAsync(cancellationToken);
+            var color = await _dbContext.Set<Color>()
+                .Where(x => x.ColorName == colorName)
+                .SingleOrDefaultAsync(cancellationToken);
 
             return color != null ? false : true;
         }
 
         public async Task<List<Color>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            return await _dbContext.Set<Color>().ToListAsync(cancellationToken);
+            return await _dbContext.Set<Color>()
+                .ToListAsync(cancellationToken);
 
         }
 
         public async Task<Color?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await _dbContext.Set<Color>().Where(x => x.Id == id).AsNoTracking().SingleOrDefaultAsync();
+            return await _dbContext.Set<Color>()
+                .Where(x => x.Id == id)
+                .SingleOrDefaultAsync();
         }
 
-        public async Task Update(Color color, CancellationToken cancellationToken = default)
-        {
-            _dbContext.Set<Color>().Update(color);
-        }
     }
 }

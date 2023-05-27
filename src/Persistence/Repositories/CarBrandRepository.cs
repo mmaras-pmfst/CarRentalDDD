@@ -49,9 +49,4 @@ internal sealed class CarBrandRepository : ICarBrandRepository
 
     }
 
-    public async Task Update(CarBrand carBrand, CancellationToken cancellationToken = default)
-    {
-        _dbContext.Set<CarBrand>().Update(carBrand);
-
-    }
 }

@@ -36,14 +36,9 @@ internal sealed class CarCategoryUpdateCommandHandler : IRequestHandler<CarCateg
                 return Unit.Value;
             }
 
-            dbCarCategory = CarCategory.Update(
-                request.id,
-                request.name,
-                request.shortName,
-                request.description);
+            dbCarCategory.Update(request.name, request.shortName, request.description);
 
 
-            await _carCategoryRepository.Update(dbCarCategory, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             _logger.LogInformation("Finished CarCategoryUpdateCommandHandler");

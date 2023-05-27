@@ -36,11 +36,9 @@ internal sealed class CarCategoryRepository : ICarCategoryRepository
 
     public async Task<CarCategory?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Set<CarCategory>().Where(x => x.Id == id).AsNoTracking().SingleOrDefaultAsync(cancellationToken);
+        return await _dbContext.Set<CarCategory>()
+            .Where(x => x.Id == id)
+            .SingleOrDefaultAsync(cancellationToken);
     }
 
-    public async Task Update(CarCategory carCategory, CancellationToken cancellationToken = default)
-    {
-        _dbContext.Set<CarCategory>().Update(carCategory);
-    }
 }

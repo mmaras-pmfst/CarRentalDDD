@@ -31,8 +31,10 @@ public sealed class CarCategory : AggregateRoot, IAuditableEntity
         return new CarCategory(id, name, shortName, description);
     }
 
-    public static CarCategory Update(Guid id, string name, string shortName, string description)
+    public void Update(string name, string shortName, string description)
     {
-        return new CarCategory(id, name, shortName, description);
+        Name = name;
+        ShortName = shortName;
+        Description = description;
     }
 }

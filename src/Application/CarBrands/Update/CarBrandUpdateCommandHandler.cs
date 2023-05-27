@@ -36,11 +36,9 @@ internal sealed class CarBrandUpdateCommandHandler : IRequestHandler<CarBrandUpd
                 _logger.LogWarning("CarBrandUpdateCommandHandler: CarBrand doesn't exist!");
                 return Unit.Value;
             }
-            dbCarBrand = CarBrand.Update(
-                request.id,
-                request.carBrandName);
 
-            await _carBrandRepository.Update(dbCarBrand, cancellationToken);
+            dbCarBrand.Update(request.carBrandName);
+
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             _logger.LogInformation("Finished CarBrandUpdateCommandHandler");
