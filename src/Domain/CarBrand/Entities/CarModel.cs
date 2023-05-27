@@ -28,9 +28,9 @@ public sealed class CarModel : Entity
     }
     private CarModel() { }
 
-    public ReservationContract AddReservation(CarModel carModel, DateTime pickUpDate, DateTime dropDownDate, Guid pickUpLocationId, Guid dropDownLocationId)
+    public ReservationContract AddReservation(CarModel carModel, string driverFristName, string driverLastName, DateTime pickUpDate, DateTime dropDownDate, Guid pickUpLocationId, Guid dropDownLocationId)
     {
-        var reservation = new ReservationContract(Guid.NewGuid(), pickUpDate, dropDownDate, carModel , pickUpLocationId, dropDownLocationId);
+        var reservation = new ReservationContract(Guid.NewGuid(), carModel, driverFristName, driverLastName, pickUpDate, dropDownDate , pickUpLocationId, dropDownLocationId);
         _reservationContracts.Add(reservation);
         return reservation;
     }

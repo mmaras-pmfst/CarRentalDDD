@@ -41,7 +41,7 @@ internal sealed class ReservationContractCreateCommandHandler : IRequestHandler<
             {
                 return Unit.Value;
             }
-            var reservation = carModel.AddReservation(carModel, request.PickUpDate, request.DropDownDate, request.PickupLocationId, request.DropDownLocationId);
+            var reservation = carModel.AddReservation(carModel, request.DriverFirstName, request.DriverLastName, request.PickUpDate, request.DropDownDate, request.PickupLocationId, request.DropDownLocationId);
 
             await _reservationRepository.AddAsync(reservation, cancellationToken);
 

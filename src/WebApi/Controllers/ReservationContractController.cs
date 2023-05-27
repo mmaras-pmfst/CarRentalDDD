@@ -28,7 +28,7 @@ namespace WebApi.Controllers
         public async Task Create(CreateReservationContractRequest request)
         {
             _logger.LogInformation("Started ReservationController.Create");
-            var command = new ReservationContractCreateCommand(request.PickUpDate, request.DropDownDate, request.CarModelId, request.PickupLocationId, request.DropDownLocationId);
+            var command = new ReservationContractCreateCommand( request.DriverFirstName, request.DriverLastName, request.PickUpDate, request.DropDownDate, request.CarModelId, request.PickupLocationId, request.DropDownLocationId);
 
             var response = await _sender.Send(command);
 
@@ -85,7 +85,7 @@ namespace WebApi.Controllers
         [HttpPut]
         public async Task Update(UpdateReservationContractRequest request)
         {
-            var command = new ReservationContractUpdateCommand(request.id, request.Price);
+            var command = new ReservationContractUpdateCommand(request.ReservationContractId, request.DriverFirstName, request.DriverLastName, request.PickUpDate, request.DropDownDate, request.PickupLocationId, request.DropDownLocationId, request.DriverLicenceNumber, request.DriverIdentificationNumber, request.CardType, request.PaymentMethod, request.CardName, request.CardNumber, request.CVV, request.CardDateExpiration, request.CardYearExpiration);
 
             var response = await _sender.Send(command);
 

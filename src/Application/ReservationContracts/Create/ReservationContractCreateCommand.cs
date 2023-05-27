@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 namespace Application.ReservationContracts.Create;
 
 public sealed record ReservationContractCreateCommand(
+    string DriverFirstName,
+    string DriverLastName,
     DateTime PickUpDate,
     DateTime DropDownDate,
     Guid CarModelId,

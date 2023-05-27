@@ -49,11 +49,4 @@ public sealed class CarBrand : AggregateRoot
         return carModel;
     }
 
-    public ReservationContract CreateReservation(Guid carModelId, DateTime pickUpDate, DateTime dropDownDate, Guid pickUpLocationId, Guid dropDownLocationId)
-    {
-        var carModel = _carModels.Where(x => x.Id == carModelId).FirstOrDefault();
-        var reservation = carModel!.AddReservation(carModel, pickUpDate, dropDownDate, pickUpLocationId, dropDownLocationId);
-
-        return reservation;
-    }
 }
