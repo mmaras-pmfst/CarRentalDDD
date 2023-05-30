@@ -42,7 +42,7 @@ internal sealed class ReservationContractUpdateCommandHandler : IRequestHandler<
             }
 
             carModelWithReservationContract.ReservationContracts.First().Update(carModelWithReservationContract,
-                 request.DriverFirstName, request.DriverLastName, request.PickUpDate, request.DropDownDate, request.PickupLocationId, request.DropDownLocationId, request.DriverLicenceNumber, request.DriverIdentificationNumber, request.CardType, request.PaymentMethod, request.CardName, request.CardNumber, request.CVV, request.CardDateExpiration, request.CardYearExpiration);
+                 request.DriverFirstName, request.DriverLastName, request.PickUpDate, request.DropDownDate, request.PickupLocationId, request.DropDownLocationId, request.CarId, request.DriverLicenceNumber, request.DriverIdentificationNumber, request.CardType, request.PaymentMethod, request.CardName, request.CardNumber, request.CVV, request.CardDateExpiration, request.CardYearExpiration);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             _logger.LogInformation("Finished ReservationContractUpdateCommandHandler");

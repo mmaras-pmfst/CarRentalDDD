@@ -1,4 +1,7 @@
-﻿using MediatR.NotificationPublishers;
+﻿using Application.Behaviors;
+using FluentValidation;
+using MediatR;
+using MediatR.NotificationPublishers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;
@@ -23,7 +26,9 @@ public static class DependencyInjection
         });
 
         //services.AddValidatorsFromAssembly(assembly);
-
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
+        services.AddValidatorsFromAssembly(AssemblyReference.Assembly,
+            includeInternalTypes: true);
 
         return services;
     }

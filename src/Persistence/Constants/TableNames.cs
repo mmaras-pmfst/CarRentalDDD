@@ -14,5 +14,6 @@ namespace Persistence.Constants
         internal const string CarModels = nameof(CarModels);
         internal const string CarCategories = nameof(CarCategories);
         internal const string ReservationContracts = nameof(ReservationContracts);
+        internal const string Cars = nameof(Cars);
     }
 }

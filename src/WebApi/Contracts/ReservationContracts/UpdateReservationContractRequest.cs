@@ -18,4 +18,5 @@ public sealed record UpdateReservationContractRequest(
     string CardNumber,
     int CVV,
     string CardDateExpiration,
-    string CardYearExpiration);
+    string CardYearExpiration,
+    Guid CarId);

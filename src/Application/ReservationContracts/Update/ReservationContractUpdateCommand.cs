@@ -24,4 +24,5 @@ public sealed record ReservationContractUpdateCommand(
     string CardNumber,
     int CVV,
     string CardDateExpiration,
-    string CardYearExpiration) : IRequest<Unit>;
+    string CardYearExpiration,
+    Guid CarId) : IRequest<Unit>;

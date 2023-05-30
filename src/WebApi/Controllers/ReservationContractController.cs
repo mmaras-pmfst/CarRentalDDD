@@ -85,7 +85,7 @@ namespace WebApi.Controllers
         [HttpPut]
         public async Task Update(UpdateReservationContractRequest request)
         {
-            var command = new ReservationContractUpdateCommand(request.ReservationContractId, request.DriverFirstName, request.DriverLastName, request.PickUpDate, request.DropDownDate, request.PickupLocationId, request.DropDownLocationId, request.DriverLicenceNumber, request.DriverIdentificationNumber, request.CardType, request.PaymentMethod, request.CardName, request.CardNumber, request.CVV, request.CardDateExpiration, request.CardYearExpiration);
+            var command = new ReservationContractUpdateCommand(request.ReservationContractId, request.DriverFirstName, request.DriverLastName, request.PickUpDate, request.DropDownDate, request.PickupLocationId, request.DropDownLocationId, request.DriverLicenceNumber, request.DriverIdentificationNumber, request.CardType, request.PaymentMethod, request.CardName, request.CardNumber, request.CVV, request.CardDateExpiration, request.CardYearExpiration, request.CarId);
 
             var response = await _sender.Send(command);
 

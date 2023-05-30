@@ -20,7 +20,9 @@ public sealed class ReservationContract : Entity
     public Guid CarModelId { get; private set; }
     public Guid PickUpLocationId { get; private set; }
     public Guid DropDownLocationId { get; private set; }
+
     /// Below is for update = create contract
+    public Guid? CarId { get; private set; }
     public string? DriverLicenceNumber { get; private set; }
     public string? DriverIdentificationNumber { get; private set; }
     public CardType? CardType { get; private set; }
@@ -32,8 +34,8 @@ public sealed class ReservationContract : Entity
     public string? CardYearExpiration { get; private set; }
 
 
-    internal ReservationContract(Guid id, CarModel carModel, string driverFirstName, string driverLastName, DateTime pickUpDate, DateTime dropDownDate, Guid pickUpLocationId, Guid dropDownLocationId, string? driverLicenceNumber = null, string? driverIdentificationNumber = null, CardType? cardType = null, PaymentMethod? paymentMethod = null, string? cardName = null, string? cardNumber = null, int? cVV = null, string? cardDateExpiration = null, string? cardYearExpiration = null)
-        :base(id)
+    internal ReservationContract(Guid id, CarModel carModel, string driverFirstName, string driverLastName, DateTime pickUpDate, DateTime dropDownDate, Guid pickUpLocationId, Guid dropDownLocationId, string? driverLicenceNumber = null, string? driverIdentificationNumber = null, CardType? cardType = null, PaymentMethod? paymentMethod = null, string? cardName = null, string? cardNumber = null, int? cVV = null, string? cardDateExpiration = null, string? cardYearExpiration = null, Guid? carId = null)
+        : base(id)
     {
         var duration = (decimal)dropDownDate.Subtract(pickUpDate).TotalDays;
         DriverFirstName = driverFirstName;
@@ -53,28 +55,14 @@ public sealed class ReservationContract : Entity
         CVV = cVV;
         CardDateExpiration = cardDateExpiration;
         CardYearExpiration = cardYearExpiration;
+        CarId = carId;
     }
-
-//    internal ReservationContract(Guid id, DateTime pickUpDate, DateTime dropDownDate, CarModel carModel, Guid pickUpLocationId, Guid dropDownLocationId)
-//        :base(id)
-//    {
-//        {
-            
-//}
-//        var duration = (decimal)dropDownDate.Subtract(pickUpDate).TotalDays;
-//        PickUpDate = pickUpDate;
-//        DropDownDate = dropDownDate;
-//        TotalPrice = duration * carModel.BasePricePerDay;
-//        CarModelId = carModel.Id;
-//        PickUpLocationId = pickUpLocationId;
-//        DropDownLocationId = dropDownLocationId;
-//    }
 
     private ReservationContract()
     {
     }
 
-    public void Update(CarModel carModel, string driverFirstName, string driverLastName, DateTime pickUpDate, DateTime dropDownDate, Guid pickUpLocationId, Guid dropDownLocationId, string? driverLicenceNumber, string? driverIdentificationNumber, CardType? cardType, PaymentMethod? paymentMethod, string? cardName, string? cardNumber, int? cVV, string? cardDateExpiration, string? cardYearExpiration)
+    public void Update(CarModel carModel, string driverFirstName, string driverLastName, DateTime pickUpDate, DateTime dropDownDate, Guid pickUpLocationId, Guid dropDownLocationId, Guid carId, string? driverLicenceNumber, string? driverIdentificationNumber, CardType? cardType, PaymentMethod? paymentMethod, string? cardName, string? cardNumber, int? cVV, string? cardDateExpiration, string? cardYearExpiration)
     {
 
         var duration = (decimal)dropDownDate.Subtract(pickUpDate).TotalDays;
@@ -95,6 +83,7 @@ public sealed class ReservationContract : Entity
         CVV = cVV;
         CardDateExpiration = cardDateExpiration;
         CardYearExpiration = cardYearExpiration;
+        CarId = carId;
 
     }
 

@@ -1,5 +1,8 @@
-﻿using Domain.Color;
+﻿using Application.Abstractions;
+using Domain.Color;
+using Domain.Errors;
 using Domain.Repositories;
+using Domain.Shared;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Application.Colors.Create
 {
-    internal sealed class ColorCreateCommandHandler : IRequestHandler<ColorCreateCommand, Unit>
+    internal sealed class ColorCreateCommandHandler : ICommandHandler<ColorCreateCommand, Guid>
     {
         private ILogger<ColorCreateCommandHandler> _logger;
         private readonly IUnitOfWork _unitOfWork;
@@ -23,7 +26,7 @@ namespace Application.Colors.Create
             _colorRepository = colorRepository;
         }
 
-        public async Task<Unit> Handle(ColorCreateCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Guid>> Handle(ColorCreateCommand request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Started ColorCreateCommandHandler");
 
@@ -32,8 +35,9 @@ namespace Application.Colors.Create
                 var exists = await _colorRepository.AlreadyExists(request.colorName, cancellationToken);
                 if (exists)
                 {
-                    _logger.LogWarning("ColorCreateCommandHandler: Color already exists!"); 
-                    return Unit.Value;
+                    _logger.LogWarning("ColorCreateCommandHandler: Color already exists!");
+                    return Result.Failure<Guid>(DomainErrors.Color.ColorAlreadyExists);
+
                 }
                 var newColor = Color.Create(
                     Guid.NewGuid(),
@@ -43,7 +47,7 @@ namespace Application.Colors.Create
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
 
                 _logger.LogInformation("Finished ColorCreateCommandHandler");
-                return Unit.Value;
+                return newColor.Id;
             }
             catch (Exception ex)
             {

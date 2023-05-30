@@ -1,5 +1,8 @@
 using Application;
+using Application.Behaviors;
+using FluentValidation;
 using Infrastructure;
+using MediatR;
 using Persistence;
 using Serilog;
 
@@ -16,6 +19,7 @@ builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration)
     .AddPersistence(builder.Configuration);
+
 
 builder.Host.UseSerilog((context, configuration) =>
 {

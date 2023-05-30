@@ -1,4 +1,5 @@
-﻿using Domain.Color;
+﻿using Application.Abstractions;
+using Domain.Color;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,5 +9,5 @@ using System.Threading.Tasks;
 
 namespace Application.Colors.GetById;
 
-public sealed record ColorGetByIdCommand(Guid id) : IRequest<Color?>;
+public sealed record ColorGetByIdQuery(Guid id) : IQuery<Color?>;
 

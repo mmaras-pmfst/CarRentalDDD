@@ -1,5 +1,7 @@
-﻿using Domain.Color;
+﻿using Application.Abstractions;
+using Domain.Color;
 using Domain.Repositories;
+using Domain.Shared;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,20 +12,20 @@ using System.Threading.Tasks;
 
 namespace Application.Colors.GetAll
 {
-    internal sealed class ColorGetAllCommandHandler : IRequestHandler<ColorGetAllCommand, List<Color>>
+    internal sealed class ColorGetAllQueryHandler : IQueryHandler<ColorGetAllQuery, List<Color>>
     {
-        private ILogger<ColorGetAllCommandHandler> _logger;
+        private ILogger<ColorGetAllQueryHandler> _logger;
         private readonly IColorRepository _colorRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public ColorGetAllCommandHandler(ILogger<ColorGetAllCommandHandler> logger, IColorRepository colorRepository, IUnitOfWork unitOfWork)
+        public ColorGetAllQueryHandler(ILogger<ColorGetAllQueryHandler> logger, IColorRepository colorRepository, IUnitOfWork unitOfWork)
         {
             _logger = logger;
             _colorRepository = colorRepository;
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<Color>> Handle(ColorGetAllCommand request, CancellationToken cancellationToken)
+        public async Task<Result<List<Color>>> Handle(ColorGetAllQuery request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Started ColorGetAllCommandHandler");
 

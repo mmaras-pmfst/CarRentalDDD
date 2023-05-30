@@ -25,10 +25,10 @@ namespace Persistence.Repositories
         public async Task<bool> AlreadyExists(string colorName, CancellationToken cancellationToken = default)
         {
             var color = await _dbContext.Set<Color>()
-                .Where(x => x.ColorName == colorName)
+                .Where(x => x.ColorName.ToUpper() == colorName.ToUpper())
                 .SingleOrDefaultAsync(cancellationToken);
 
-            return color != null ? false : true;
+            return color is null ? false : true;
         }
 
         public async Task<List<Color>> GetAllAsync(CancellationToken cancellationToken = default)
