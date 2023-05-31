@@ -3,80 +3,101 @@ using Application.CarModels.GetAll;
 using Application.CarModels.GetById;
 using Application.CarModels.Update;
 using Domain.CarBrand.Entities;
+using Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Abstractions;
 using WebApi.Contracts.CarModels;
 
 namespace WebApi.Controllers
 {
     [Route("api/carmodel")]
     [ApiController]
-    public class CarModelController : ControllerBase
+    public class CarModelController : ApiController
     {
         private ILogger<CarModelController> _logger;
-        private ISender _sender;
 
         public CarModelController(ILogger<CarModelController> logger, ISender sender)
+            :base(sender)
         {
             _logger = logger;
-            _sender = sender;
         }
 
         [HttpPost]
-        public async Task Create(CreateCarModelRequest request)
+        public async Task<IActionResult> Create(CreateCarModelRequest request)
         {
             _logger.LogInformation("Started CarModelController.Create");
 
             var command = new CarModelCreateCommand(request.CarModelName, request.BasePricePerDay, request.CarBrandId,  request.CarCategoryId);
 
-            var response = await _sender.Send(command);
+            Result<Guid> response = await Sender.Send(command);
 
             _logger.LogInformation("Finished CarModelController.Create");
+
+            if (response.IsFailure)
+            {
+                return HandleFailure(response);
+            }
+            return CreatedAtAction(
+                nameof(Create),
+                new { id = response.Value },
+                response.Value);
 
         }
 
         [Route("GetAll")]
         [HttpGet]
-        public async Task<List<CarModel>> GetAll()
+        public async Task<IActionResult> GetAll()
         {
             _logger.LogInformation("Started CarModelController.GetAll");
 
-            var command = new CarModelGetAllCommand();
+            var command = new CarModelGetAllQuery();
 
-            var response = await _sender.Send(command); 
+            Result<List<CarModel>> response = await Sender.Send(command); 
 
             _logger.LogInformation("Finished CarModelController.GetAll");
 
-            return response;
+            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+
 
         }
 
         [Route("{carBrandId}/{carModelId}")]
         [HttpGet]
-        public async Task<CarModel> GetById(Guid carBrandId, Guid carModelId)
+        public async Task<IActionResult> GetById(Guid carBrandId, Guid carModelId)
         {
             _logger.LogInformation("Started CarModelController.GetById");
 
-            var command = new CarModelGetByIdCommand(carBrandId, carModelId);
+            var command = new CarModelGetByIdQuery(carBrandId, carModelId);
 
-            var response = await _sender.Send(command);
+            Result<CarModel?> response = await Sender.Send(command);
 
             _logger.LogInformation("Finished CarModelController.GetById");
 
-            return response;
+            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+
         }
 
         [HttpPut]
-        public async Task Update(UpdateCarModelRequest request)
+        public async Task<IActionResult> Update(UpdateCarModelRequest request)
         {
             _logger.LogInformation("Started CarModelController.Update");
 
             var command = new CarModelUpdateCommand(request.CarModelId, request.BasePricePerDay, request.CarModelName,  request.CarBrandId, request.CarCategoryId);
 
-            var response = await _sender.Send(command);
+            Result<bool> response = await Sender.Send(command);
 
             _logger.LogInformation("Finished CarModelController.Update");
+
+            if (response.IsFailure)
+            {
+                return HandleFailure(response);
+            }
+            return CreatedAtAction(
+                nameof(Update),
+                new { id = response.Value },
+                response.Value);
         }
     }
 }

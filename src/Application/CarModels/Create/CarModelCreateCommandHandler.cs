@@ -1,4 +1,7 @@
-﻿using Domain.Repositories;
+﻿using Application.Abstractions;
+using Domain.Errors;
+using Domain.Repositories;
+using Domain.Shared;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Application.CarModels.Create;
 
-internal sealed class CarModelCreateCommandHandler : IRequestHandler<CarModelCreateCommand, Unit>
+internal sealed class CarModelCreateCommandHandler : ICommandHandler<CarModelCreateCommand, Guid>
 {
     private ILogger<CarModelCreateCommandHandler> _logger;
     private ICarModelRepository _carModelRepository;
@@ -31,7 +34,7 @@ internal sealed class CarModelCreateCommandHandler : IRequestHandler<CarModelCre
         _carBrandRepository = carBrandRepository;
     }
 
-    public async Task<Unit> Handle(CarModelCreateCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Guid>> Handle(CarModelCreateCommand request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Started CarModelCreateCommandHandler");
 
@@ -44,14 +47,27 @@ internal sealed class CarModelCreateCommandHandler : IRequestHandler<CarModelCre
                 .GetByIdAsync(request.CarBrandId, cancellationToken);
 
 
-            if (carCategory is null || carBrand is null)
+            if (carCategory is null)
             {
-                return Unit.Value;
+                _logger.LogWarning("CarModelCreateCommandHandler: CarCategory doesn't exist!");
+                return Result.Failure<Guid>(new Error(
+                    "CarCategory.NotFound",
+                    $"The CarCategory with Id {request.CarCategoryId} was not found"));
             }
+
+            if(carBrand is null)
+            {
+                _logger.LogWarning("CarModelCreateCommandHandler: CarBrand doesn't exist!");
+                return Result.Failure<Guid>(new Error(
+                    "CarBrand.NotFound",
+                    $"The CarBrand with Id {request.CarBrandId} was not found"));
+            }
+
             var carModelExist = carBrand.CarModels.Where(x => x.CarModelName == request.CarModelName).Any();
             if (carModelExist)
             {
-                return Unit.Value;
+                return Result.Failure<Guid>(DomainErrors.CarModel.CarModelAlreadyExists);
+
             }
 
             var carModel = carBrand.CreateCarModel(request.CarModelName, request.BasePricePerDay, carCategory);
@@ -60,14 +76,16 @@ internal sealed class CarModelCreateCommandHandler : IRequestHandler<CarModelCre
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             _logger.LogInformation("Finished CarModelCreateCommandHandler");
-            return Unit.Value;
+            return carModel.Id;
 
         }
         catch (Exception ex)
         {
 
             _logger.LogError("CarModelCreateCommandHandler error: {0}", ex.Message);
-            throw;
+            return Result.Failure<Guid>(new Error(
+                    "Error",
+                    ex.Message));
         }
 
     }

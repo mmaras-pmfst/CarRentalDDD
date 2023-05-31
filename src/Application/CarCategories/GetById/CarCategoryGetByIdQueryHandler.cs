@@ -1,5 +1,7 @@
-﻿using Domain.CarCategory;
+﻿using Application.Abstractions;
+using Domain.CarCategory;
 using Domain.Repositories;
+using Domain.Shared;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,31 +12,33 @@ using System.Threading.Tasks;
 
 namespace Application.CarCategories.GetById;
 
-internal sealed class CarCategoryGetByIdCommandHandler : IRequestHandler<CarCategoryGetByIdCommand, CarCategory?>
+internal sealed class CarCategoryGetByIdQueryHandler : IQueryHandler<CarCategoryGetByIdQuery, CarCategory?>
 {
-    private ILogger<CarCategoryGetByIdCommandHandler> _logger;
+    private ILogger<CarCategoryGetByIdQueryHandler> _logger;
     private readonly ICarCategoryRepository _carCategoryRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public CarCategoryGetByIdCommandHandler(ILogger<CarCategoryGetByIdCommandHandler> logger, ICarCategoryRepository carCategoryRepository, IUnitOfWork unitOfWork)
+    public CarCategoryGetByIdQueryHandler(ILogger<CarCategoryGetByIdQueryHandler> logger, ICarCategoryRepository carCategoryRepository, IUnitOfWork unitOfWork)
     {
         _logger = logger;
         _carCategoryRepository = carCategoryRepository;
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<CarCategory?> Handle(CarCategoryGetByIdCommand request, CancellationToken cancellationToken)
+    public async Task<Result<CarCategory?>> Handle(CarCategoryGetByIdQuery request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Started CarCategoryGetByIdCommandHandler");
 
         try
         {
-            var dbCarCategory = await _carCategoryRepository.GetByIdAsync(request.id, cancellationToken);
+            var dbCarCategory = await _carCategoryRepository.GetByIdAsync(request.CarCategoryId, cancellationToken);
 
             if (dbCarCategory == null)
             {
                 _logger.LogWarning("CarCategoryGetByIdCommandHandler: CarCategory doesn't exist!");
-                return null;
+                return Result.Failure<CarCategory?>(new Error(
+                    "CarCategory.NotFound",
+                    $"The CarCategory with Id {request.CarCategoryId} was not found"));
 
             }
 
@@ -48,7 +52,9 @@ internal sealed class CarCategoryGetByIdCommandHandler : IRequestHandler<CarCate
         {
 
             _logger.LogError("CarCategoryGetByIdCommandHandler error: {0}", ex.Message);
-            throw;
+            return Result.Failure<CarCategory?>(new Error(
+                    "Error",
+                    ex.Message));
         }
 
     }

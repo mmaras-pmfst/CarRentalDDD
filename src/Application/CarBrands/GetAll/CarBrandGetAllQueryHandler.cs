@@ -1,5 +1,7 @@
-﻿using Domain.CarBrand;
+﻿using Application.Abstractions;
+using Domain.CarBrand;
 using Domain.Repositories;
+using Domain.Shared;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,26 +12,34 @@ using System.Threading.Tasks;
 
 namespace Application.CarBrands.GetAll;
 
-internal sealed class CarBrandGetAllCommandHandler : IRequestHandler<CarBrandGetAllCommand, List<CarBrand>>
+internal sealed class CarBrandGetAllQueryHandler : IQueryHandler<CarBrandGetAllQuery, List<CarBrand>>
 {
-    private ILogger<CarBrandGetAllCommandHandler> _logger;
+    private ILogger<CarBrandGetAllQueryHandler> _logger;
     private readonly ICarBrandRepository _carBrandRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public CarBrandGetAllCommandHandler(ILogger<CarBrandGetAllCommandHandler> logger, ICarBrandRepository carBrandRepository, IUnitOfWork unitOfWork)
+    public CarBrandGetAllQueryHandler(ILogger<CarBrandGetAllQueryHandler> logger, ICarBrandRepository carBrandRepository, IUnitOfWork unitOfWork)
     {
         _logger = logger;
         _carBrandRepository = carBrandRepository;
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<List<CarBrand>> Handle(CarBrandGetAllCommand request, CancellationToken cancellationToken)
+    public async Task<Result<List<CarBrand>>> Handle(CarBrandGetAllQuery request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Started CarBrandGetAllCommandHandler");
 
         try
         {
             var dbCarBrands = await _carBrandRepository.GetAllAsync(cancellationToken);
+
+            if (!dbCarBrands.Any())
+            {
+                _logger.LogWarning("CarBrandGetAllCommandHandler: No CarBrands in database");
+                return Result.Failure<List<CarBrand>>(new Error(
+                        "CarBrand.NoData",
+                        "There are no CarBrands to fetch"));
+            }
 
             //TODO: make mapping if needed!!!
 
@@ -40,7 +50,9 @@ internal sealed class CarBrandGetAllCommandHandler : IRequestHandler<CarBrandGet
         {
 
             _logger.LogError("CarBrandGetAllCommandHandler error: {0}", ex.Message);
-            throw;
+            return Result.Failure<List<CarBrand>>(new Error(
+                    "Error",
+                    ex.Message));
         }
 
     }

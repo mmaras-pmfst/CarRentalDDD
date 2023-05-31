@@ -8,4 +8,4 @@ using System.Threading.Tasks;
 
 namespace Application.Colors.Create;
 
-public sealed record ColorCreateCommand(string colorName) : ICommand<Guid>;
+public sealed record ColorCreateCommand(string ColorName) : ICommand<Guid>;

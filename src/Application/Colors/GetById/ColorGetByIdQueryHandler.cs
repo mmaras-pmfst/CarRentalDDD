@@ -31,11 +31,13 @@ namespace Application.Colors.GetById
 
             try
             {
-                var dbColor = await _colorRepository.GetByIdAsync(request.id, cancellationToken);
+                var dbColor = await _colorRepository.GetByIdAsync(request.ColorId, cancellationToken);
                 if (dbColor == null)
                 {
                     _logger.LogWarning("ColorGetByIdCommandHandler: Color doesn't exist!");
-                    return null;
+                    return Result.Failure<Color?>(new Error(
+                    "Color.NotFound",
+                    $"The Color with Id {request.ColorId} was not found"));
                 }
 
                 //TODO: make mapping if needed!!!
@@ -46,9 +48,11 @@ namespace Application.Colors.GetById
             catch (Exception ex)
             {
                 _logger.LogError("ColorGetByIdCommandHandler error: {0}", ex.Message);
-
-                throw;
+                return Result.Failure<Color?>(new Error(
+                    "Error",
+                    ex.Message));
             }
+        
         }
     }
 }

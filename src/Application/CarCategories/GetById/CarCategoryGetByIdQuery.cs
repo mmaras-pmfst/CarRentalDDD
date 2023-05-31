@@ -1,4 +1,5 @@
-﻿using Domain.CarCategory;
+﻿using Application.Abstractions;
+using Domain.CarCategory;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,4 +9,4 @@ using System.Threading.Tasks;
 
 namespace Application.CarCategories.GetById;
 
-public sealed record CarCategoryGetByIdCommand(Guid id) : IRequest<CarCategory?>;
+public sealed record CarCategoryGetByIdQuery(Guid CarCategoryId) : IQuery<CarCategory?>;

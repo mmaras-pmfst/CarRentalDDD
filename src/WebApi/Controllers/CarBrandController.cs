@@ -4,81 +4,100 @@ using Application.CarBrands.GetById;
 using Application.CarBrands.Update;
 using Azure.Core;
 using Domain.CarBrand;
+using Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Abstractions;
 using WebApi.Contracts.CarBrands;
 
 namespace WebApi.Controllers
 {
     [Route("api/carbrand")]
     [ApiController]
-    public class CarBrandController : ControllerBase
+    public class CarBrandController : ApiController
     {
         private ILogger<CarBrandController> _logger;
-        private ISender _sender;
 
         public CarBrandController(ILogger<CarBrandController> logger, ISender sender)
+            :base(sender)
         {
             _logger = logger;
-            _sender = sender;
         }
 
         [HttpPost]
-        public async Task Create(CreateCarBrandRequest request)
+        public async Task<IActionResult> Create(CreateCarBrandRequest request)
         {
             _logger.LogInformation("Started CarBrandController.Create");
 
             var command = new CarBrandCreateCommand(request.carBrandName);
 
-            await _sender.Send(command);
+            Result<Guid> response = await Sender.Send(command);
 
             _logger.LogInformation("Finished CarBrandController.Create");
+
+            if (response.IsFailure)
+            {
+                return HandleFailure(response);
+            }
+            return CreatedAtAction(
+                nameof(Create),
+                new { id = response.Value },
+                response.Value);
 
         }
 
         [Route("getall")]
         [HttpGet]
-        public async Task<List<CarBrand>> GetAll()
+        public async Task<IActionResult> GetAll()
         {
             _logger.LogInformation("Started CarBrandController.GetAll");
 
-            var command = new CarBrandGetAllCommand();
+            var command = new CarBrandGetAllQuery();
 
-            var response = await _sender.Send(command);
+            Result<List<CarBrand>> response = await Sender.Send(command);
 
             _logger.LogInformation("Finished CarBrandController.GetAll");
 
+            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
 
-            return response;
         }
 
         [Route("{id}")]
         [HttpGet]
-        public async Task<CarBrand> GetById(Guid id)
+        public async Task<IActionResult> GetById(Guid id)
         {
             _logger.LogInformation("Started CarBrandController.GetById");
 
-            var command = new CarBrandGetByIdCommand(id);
+            var command = new CarBrandGetByIdQuery(id);
 
-            var response = await _sender.Send(command);
+            Result<CarBrand?> response = await Sender.Send(command);
 
             _logger.LogInformation("Finished CarBrandController.GetById");
 
+            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
 
-            return response;
         }
 
         [HttpPut]
-        public async Task Update(UpdateCarBrandRequest request)
+        public async Task<IActionResult> Update(UpdateCarBrandRequest request)
         {
             _logger.LogInformation("Started CarBrandController.Update");
 
             var command = new CarBrandUpdateCommand(request.id, request.carBrandName);
 
-            await _sender.Send(command);
+            Result<bool> response = await Sender.Send(command);
 
             _logger.LogInformation("Finished CarBrandController.Update");
+
+            if (response.IsFailure)
+            {
+                return HandleFailure(response);
+            }
+            return CreatedAtAction(
+                nameof(Update),
+                new { id = response.Value },
+                response.Value);
         }
     }
 }

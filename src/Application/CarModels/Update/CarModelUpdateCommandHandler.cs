@@ -1,5 +1,7 @@
-﻿using Domain.CarBrand;
+﻿using Application.Abstractions;
+using Domain.CarBrand;
 using Domain.Repositories;
+using Domain.Shared;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Application.CarModels.Update;
 
-internal sealed class CarModelUpdateCommandHandler : IRequestHandler<CarModelUpdateCommand, Unit>
+internal sealed class CarModelUpdateCommandHandler : ICommandHandler<CarModelUpdateCommand, bool>
 {
     private ILogger<CarModelUpdateCommandHandler> _logger;
     private ICarModelRepository _carModelRepository;
@@ -32,7 +34,7 @@ internal sealed class CarModelUpdateCommandHandler : IRequestHandler<CarModelUpd
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Unit> Handle(CarModelUpdateCommand request, CancellationToken cancellationToken)
+    public async Task<Result<bool>> Handle(CarModelUpdateCommand request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Started CarModelUpdateCommandHandler");
 
@@ -40,16 +42,29 @@ internal sealed class CarModelUpdateCommandHandler : IRequestHandler<CarModelUpd
         {
             var carBrand = await _carBrandRepository.GetByIdAsync(request.CarBrandId, cancellationToken);
             var carCategory = await _carCategoryRepository.GetByIdAsync(request.CarCategoryId, cancellationToken);
-            if (carBrand is null || carCategory is null)
+            if (carBrand is null)
             {
-                return Unit.Value;
+                _logger.LogWarning("CarModelUpdateCommandHandler: CarBrand doesn't exist!");
+                return Result.Failure<bool>(new Error(
+                    "CarBrand.NotFound",
+                    $"The CarBrand with Id {request.CarBrandId} was not found"));
+            }
+            if(carCategory is null)
+            {
+                _logger.LogWarning("CarModelUpdateCommandHandler: CarCategory doesn't exist!");
+                return Result.Failure<bool>(new Error(
+                    "CarCategory.NotFound",
+                    $"The CarCategory with Id {request.CarCategoryId} was not found"));
             }
 
             var carModel = carBrand.CarModels.FirstOrDefault(x => x.Id == request.CarModelId);
 
             if (carModel is null)
             {
-                return Unit.Value;
+                _logger.LogWarning("CarModelUpdateCommandHandler: CarModel doesn't exist!");
+                return Result.Failure<bool>(new Error(
+                    "CarModel.NotFound",
+                    $"The CarModel with Id {request.CarModelId} was not found"));
             }
 
 
@@ -57,14 +72,16 @@ internal sealed class CarModelUpdateCommandHandler : IRequestHandler<CarModelUpd
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             _logger.LogInformation("Finished CarModelUpdateCommandHandler");
-            return Unit.Value;
+            return true;
 
         }
         catch (Exception ex)
         {
 
             _logger.LogError("CarModelUpdateCommandHandler error: {0}", ex.Message);
-            throw;
+            return Result.Failure<bool>(new Error(
+                    "Error",
+                    ex.Message));
         }
 
     }

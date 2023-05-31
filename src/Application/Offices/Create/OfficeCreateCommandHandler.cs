@@ -1,5 +1,8 @@
-﻿using Domain.Office;
+﻿using Application.Abstractions;
+using Domain.Errors;
+using Domain.Office;
 using Domain.Repositories;
+using Domain.Shared;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Application.Offices.Create;
 
-internal sealed class OfficeCreateCommandHandler : IRequestHandler<OfficeCreateCommand, Unit>
+internal sealed class OfficeCreateCommandHandler : ICommandHandler<OfficeCreateCommand, Guid>
 {
     private readonly IOfficeRepository _officeRepository;
     private readonly IUnitOfWork _unitOfWork;
@@ -23,26 +26,28 @@ internal sealed class OfficeCreateCommandHandler : IRequestHandler<OfficeCreateC
         _logger = logger;
     }
 
-    public async Task<Unit> Handle(OfficeCreateCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Guid>> Handle(OfficeCreateCommand request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Started CreateOfficeCommandHandler");
 
         try
         {
-            var exists = await _officeRepository.AlreadyExists(request.city, request.streetName, request.streetNumber, cancellationToken);
+            var exists = await _officeRepository.AlreadyExists(request.City, request.StreetName, request.StreetNumber, cancellationToken);
             if (exists)
             {
-                return Unit.Value;
+                _logger.LogWarning("CreateOfficeCommandHandler: Office already exists!");
+                return Result.Failure<Guid>(DomainErrors.Office.OfficeAlreadyExists);
+
             }
             var newOffice = Domain.Office.Office.Create(
                     Guid.NewGuid(),
-                    request.country,
-                    request.city,
-                    request.streetName,
-                    request.streetNumber,
-                    request.openingTime,
-                    request.closingTime,
-                    request.phoneNumber
+                    request.Country,
+                    request.City,
+                    request.StreetName,
+                    request.StreetNumber,
+                    request.OpeningTime,
+                    request.ClosingTime,
+                    request.PhoneNumber
                     );
 
             await _officeRepository.AddAsync(newOffice);
@@ -50,15 +55,16 @@ internal sealed class OfficeCreateCommandHandler : IRequestHandler<OfficeCreateC
 
             _logger.LogInformation("Finished CreateOfficeCommandHandler");
 
-            return Unit.Value;
+            return newOffice.Id;
         }
         catch (Exception ex)
         {
-            _logger.LogError("CreateOfficeCommandHandler error: {0}",ex.Message);   
-
-            throw;
+            _logger.LogError("CreateOfficeCommandHandler error: {0}", ex.Message);
+            return Result.Failure<Guid>(new Error(
+                    "Error",
+                    ex.Message));
         }
-        
+
     }
 
 }

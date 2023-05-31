@@ -1,5 +1,7 @@
-﻿using Domain.CarCategory;
+﻿using Application.Abstractions;
+using Domain.CarCategory;
 using Domain.Repositories;
+using Domain.Shared;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Application.CarCategories.Update;
 
-internal sealed class CarCategoryUpdateCommandHandler : IRequestHandler<CarCategoryUpdateCommand, Unit>
+internal sealed class CarCategoryUpdateCommandHandler : ICommandHandler<CarCategoryUpdateCommand, bool>
 {
     private ILogger<CarCategoryUpdateCommandHandler> _logger;
     private readonly ICarCategoryRepository _carCategoryRepository;
@@ -23,32 +25,36 @@ internal sealed class CarCategoryUpdateCommandHandler : IRequestHandler<CarCateg
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Unit> Handle(CarCategoryUpdateCommand request, CancellationToken cancellationToken)
+    public async Task<Result<bool>> Handle(CarCategoryUpdateCommand request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Started CarCategoryUpdateCommandHandler");
 
         try
         {
-            var dbCarCategory = await _carCategoryRepository.GetByIdAsync(request.id, cancellationToken);
+            var dbCarCategory = await _carCategoryRepository.GetByIdAsync(request.CarCategoryId, cancellationToken);
             if (dbCarCategory == null)
             {
                 _logger.LogWarning("CarCategoryUpdateCommandHandler: CarCategory doesn't exist!");
-                return Unit.Value;
+                return Result.Failure<bool>(new Error(
+                    "CarCategory.NotFound",
+                    $"The CarCategory with Id {request.CarCategoryId} was not found"));
             }
 
-            dbCarCategory.Update(request.name, request.shortName, request.description);
+            dbCarCategory.Update(request.Name, request.ShortName, request.Description);
 
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             _logger.LogInformation("Finished CarCategoryUpdateCommandHandler");
-            return Unit.Value;
+            return true;
         }
         catch (Exception ex)
         {
 
             _logger.LogError("CarCategoryUpdateCommandHandler error: {0}", ex.Message);
-            throw;
+            return Result.Failure<bool>(new Error(
+                    "Error",
+                    ex.Message));
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using Domain.Office;
+﻿using Application.Abstractions;
+using Domain.Office;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,4 +9,4 @@ using System.Threading.Tasks;
 
 namespace Application.Offices.GetAll;
 
-public sealed record OfficeGetAllCommand() : IRequest<List<Office>>;
+public sealed record OfficeGetAllQuery() : IQuery<List<Office>>;

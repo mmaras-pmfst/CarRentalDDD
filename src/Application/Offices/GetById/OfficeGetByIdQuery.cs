@@ -1,4 +1,5 @@
-﻿using Domain.Office;
+﻿using Application.Abstractions;
+using Domain.Office;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,4 +9,4 @@ using System.Threading.Tasks;
 
 namespace Application.Offices.GetById;
 
-public sealed record OfficeGetByIdCommand(Guid id) : IRequest<Office?>;
+public sealed record OfficeGetByIdQuery(Guid OfficeId) : IQuery<Office?>;

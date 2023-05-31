@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Colors.GetAll
-{
-    public sealed record ColorGetAllQuery() : IQuery<List<Color>>;
-}
+namespace Application.Colors.GetAll;
+
+public sealed record ColorGetAllQuery() : IQuery<List<Color>>;

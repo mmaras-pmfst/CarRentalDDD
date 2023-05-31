@@ -1,4 +1,5 @@
-﻿using Domain.CarBrand.Entities;
+﻿using Application.Abstractions;
+using Domain.CarBrand.Entities;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,4 +9,6 @@ using System.Threading.Tasks;
 
 namespace Application.CarModels.GetById;
 
-public sealed record CarModelGetByIdCommand(Guid CarBrandId, Guid CarModelId) : IRequest<CarModel?>;
+public sealed record CarModelGetByIdQuery(
+    Guid CarBrandId, 
+    Guid CarModelId) : IQuery<CarModel?>;

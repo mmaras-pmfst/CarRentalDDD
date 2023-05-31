@@ -1,4 +1,5 @@
-﻿using Domain.CarBrand.Entities;
+﻿using Application.Abstractions;
+using Domain.CarBrand.Entities;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,4 +9,4 @@ using System.Threading.Tasks;
 
 namespace Application.CarModels.GetAll;
 
-public sealed record CarModelGetAllCommand() : IRequest<List<CarModel>>;
+public sealed record CarModelGetAllQuery() : IQuery<List<CarModel>>;

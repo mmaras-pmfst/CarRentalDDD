@@ -1,5 +1,8 @@
-﻿using Domain.CarCategory;
+﻿using Application.Abstractions;
+using Domain.CarCategory;
+using Domain.Errors;
 using Domain.Repositories;
+using Domain.Shared;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Application.CarCategories.Create;
 
-internal sealed class CarCategoryCreateCommandHandler : IRequestHandler<CarCategoryCreateCommand, Unit>
+internal sealed class CarCategoryCreateCommandHandler : ICommandHandler<CarCategoryCreateCommand, Guid>
 {
     private ILogger<CarCategoryCreateCommandHandler> _logger;
     private readonly ICarCategoryRepository _carCategoryRepository;
@@ -23,39 +26,40 @@ internal sealed class CarCategoryCreateCommandHandler : IRequestHandler<CarCateg
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Unit> Handle(CarCategoryCreateCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Guid>> Handle(CarCategoryCreateCommand request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Started CarCategoryCreateCommandHandler");
 
         try
         {
-            var exists = await _carCategoryRepository.AlreadyExists(request.shortName, cancellationToken);
+            var exists = await _carCategoryRepository.AlreadyExists(request.ShortName, cancellationToken);
             if (exists)
             {
                 _logger.LogWarning("CarCategoryCreateCommandHandler: CarCategory already exists!");
+                return Result.Failure<Guid>(DomainErrors.CarCategory.CarCategoryAlreadyExists);
 
-                return Unit.Value;
             }
 
             var newCarCategory = CarCategory.Create(
                 Guid.NewGuid(),
-                request.name,
-                request.shortName,
-                request.description);
+                request.Name,
+                request.ShortName,
+                request.Description);
 
             await _carCategoryRepository.AddAsync(newCarCategory,cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             _logger.LogInformation("Finished CarCategoryCreateCommandHandler");
 
-            return Unit.Value;
+            return newCarCategory.Id;
 
         }
         catch (Exception ex)
         {
             _logger.LogError("CarCategoryCreateCommandHandler error: {0}", ex.Message);
-
-            throw;
+            return Result.Failure<Guid>(new Error(
+                    "Error",
+                    ex.Message));
         }
 
     }

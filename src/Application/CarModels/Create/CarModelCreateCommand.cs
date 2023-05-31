@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Application.Abstractions;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,4 +12,4 @@ public sealed record CarModelCreateCommand(
     string CarModelName, 
     decimal BasePricePerDay,
     Guid CarBrandId, 
-    Guid CarCategoryId) : IRequest<Unit>;
+    Guid CarCategoryId) : ICommand<Guid>;

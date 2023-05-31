@@ -1,5 +1,7 @@
-﻿using Domain.CarBrand.Entities;
+﻿using Application.Abstractions;
+using Domain.CarBrand.Entities;
 using Domain.Repositories;
+using Domain.Shared;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,14 +12,14 @@ using System.Threading.Tasks;
 
 namespace Application.CarModels.GetAll;
 
-internal sealed class CarModelGetAllCommandHandler : IRequestHandler<CarModelGetAllCommand, List<CarModel>>
+internal sealed class CarModelGetAllQueryHandler : IQueryHandler<CarModelGetAllQuery, List<CarModel>>
 {
-    private ILogger<CarModelGetAllCommandHandler> _logger;
+    private ILogger<CarModelGetAllQueryHandler> _logger;
     private ICarBrandRepository _carBrandRepository;
     private IUnitOfWork _unitOfWork;
 
-    public CarModelGetAllCommandHandler(
-        ILogger<CarModelGetAllCommandHandler> logger,
+    public CarModelGetAllQueryHandler(
+        ILogger<CarModelGetAllQueryHandler> logger,
         ICarBrandRepository carBrandRepository,
         IUnitOfWork unitOfWork)
     {
@@ -25,7 +27,7 @@ internal sealed class CarModelGetAllCommandHandler : IRequestHandler<CarModelGet
         _carBrandRepository = carBrandRepository;
         _unitOfWork = unitOfWork;
     }
-    public async Task<List<CarModel>> Handle(CarModelGetAllCommand request, CancellationToken cancellationToken)
+    public async Task<Result<List<CarModel>>> Handle(CarModelGetAllQuery request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Started CarModelGetAllCommandHandler");
 
@@ -35,6 +37,14 @@ internal sealed class CarModelGetAllCommandHandler : IRequestHandler<CarModelGet
 
             var carModels = carBrands.SelectMany(x => x.CarModels).ToList();
 
+            if (!carModels.Any())
+            {
+                _logger.LogWarning("CarBrandGetAllCommandHandler: No CarModels in database");
+                return Result.Failure<List<CarModel>>(new Error(
+                        "CarModel.NoData",
+                        "There are no CarModels to fetch"));
+            }
+
             _logger.LogInformation("Finished CarModelGetAllCommandHandler");
 
             return carModels;
@@ -43,7 +53,9 @@ internal sealed class CarModelGetAllCommandHandler : IRequestHandler<CarModelGet
         {
 
             _logger.LogError("CarModelCreateCommandHandler error: {0}", ex.Message);
-            throw;
+            return Result.Failure<List<CarModel>>(new Error(
+                    "Error",
+                    ex.Message));
         }
 
     }

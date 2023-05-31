@@ -52,7 +52,9 @@ namespace Application.Colors.Update
             {
 
                 _logger.LogError("ColorUpdateCommandHandler error: {0}", ex.Message);
-                throw;
+                return Result.Failure<bool>(new Error(
+                    "Error",
+                    ex.Message));
             }
 
         }

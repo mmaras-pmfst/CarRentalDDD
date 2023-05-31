@@ -4,78 +4,99 @@ using Application.CarCategories.GetById;
 using Application.CarCategories.Update;
 using Azure.Core;
 using Domain.CarCategory;
+using Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Abstractions;
 using WebApi.Contracts.CarCategories;
 
 namespace WebApi.Controllers
 {
     [Route("api/carcategory")]
     [ApiController]
-    public class CarCategoryController : ControllerBase
+    public class CarCategoryController : ApiController
     {
         private ILogger<CarCategoryController> _logger;
-        private ISender _sender;
 
         public CarCategoryController(ILogger<CarCategoryController> logger, ISender sender)
+            :base(sender)
         {
             _logger = logger;
-            _sender = sender;
         }
 
         [HttpPost]
-        public async Task Create(CreateCarCategoryRequest request)
+        public async Task<IActionResult> Create(CreateCarCategoryRequest request)
         {
             _logger.LogInformation("Started CarCategoryController.Create");
 
             var command = new CarCategoryCreateCommand(request.name, request.shortName, request.description);
 
-            await _sender.Send(command);
+            Result<Guid> response = await Sender.Send(command);
 
             _logger.LogInformation("Finished CarCategoryController.Create");
+
+            if (response.IsFailure)
+            {
+                return HandleFailure(response);
+            }
+            return CreatedAtAction(
+                nameof(Create),
+                new { id = response.Value },
+                response.Value);
         }
 
         [Route("getall")]
         [HttpGet]
-        public async Task<List<CarCategory>> GetAll()
+        public async Task<IActionResult> GetAll()
         {
             _logger.LogInformation("Started CarCategoryController.GetAll");
 
-            var command = new CarCategoryGetAllCommand();
+            var command = new CarCategoryGetAllQuery();
 
-            var response = await _sender.Send(command);
+            Result<List<CarCategory>> response = await Sender.Send(command);
 
             _logger.LogInformation("Finished CarCategoryController.GetAll");
 
-            return response;
+            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+
         }
 
         [Route("{id}")]
         [HttpGet]
-        public async Task<CarCategory?> GetById(Guid id)
+        public async Task<IActionResult> GetById(Guid id)
         {
             _logger.LogInformation("Started CarCategoryController.GetById");
 
-            var command = new CarCategoryGetByIdCommand(id);
+            var command = new CarCategoryGetByIdQuery(id);
 
-            var response = await _sender.Send(command);
+            Result<CarCategory?> response = await Sender.Send(command);
 
             _logger.LogInformation("Finished CarCategoryController.GetById");
 
-            return response;
+            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+
         }
 
         [HttpPut]
-        public async Task Update(UpdateCarCategoryRequest request)
+        public async Task<IActionResult> Update(UpdateCarCategoryRequest request)
         {
             _logger.LogInformation("Started CarCategoryController.Update");
 
             var command = new CarCategoryUpdateCommand(request.id, request.name, request.shortName, request.description);
 
-            var response = await _sender.Send(command);
+            Result<bool> response = await Sender.Send(command);
 
             _logger.LogInformation("Finished CarCategoryController.Update");
+
+            if (response.IsFailure)
+            {
+                return HandleFailure(response);
+            }
+            return CreatedAtAction(
+                nameof(Update),
+                new { id = response.Value },
+                response.Value);
         }
     }
 }

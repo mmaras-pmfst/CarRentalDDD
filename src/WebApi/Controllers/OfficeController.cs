@@ -3,78 +3,98 @@ using Application.Offices.GetAll;
 using Application.Offices.GetById;
 using Application.Offices.Update;
 using Domain.Office;
+using Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Abstractions;
 using WebApi.Contracts.Offices;
 
 namespace WebApi.Controllers
 {
     [Route("api/office")]
     [ApiController]
-    public class OfficeController : ControllerBase
+    public class OfficeController : ApiController
     {
         private ILogger<OfficeController> _logger;
-        private ISender _sender;
 
         public OfficeController(ISender sender, ILogger<OfficeController> logger)
+            :base(sender)
         {
-            _sender = sender;
             _logger = logger;
         }
 
         [HttpPost]
-        public async Task Create(CreateOfficeRequest request)
+        public async Task<IActionResult> Create(CreateOfficeRequest request)
         {
             _logger.LogInformation("Started OfficeController.Create");
             var command = new OfficeCreateCommand(request.country, request.city, request.streetName, request.streetNumber, request.openingTime, request.closingTime, request.phoneNumber);
 
-            await _sender.Send(command);
+            Result<Guid> response = await Sender.Send(command);
 
             _logger.LogInformation("Finished OfficeController.Create");
 
+            if (response.IsFailure)
+            {
+                return HandleFailure(response);
+            }
+            return CreatedAtAction(
+                nameof(Create),
+                new { id = response.Value },
+                response.Value);
         }
 
         [HttpGet]
-        public async Task<List<Office>> GetAll()
+        public async Task<IActionResult> GetAll()
         {
             _logger.LogInformation("Started OfficeController.GetAll");
 
-            var command = new OfficeGetAllCommand();
+            var command = new OfficeGetAllQuery();
 
-            var result = await _sender.Send(command);
+            Result<List<Office>> response = await Sender.Send(command);
 
             _logger.LogInformation("Finished OfficeController.GetAll");
 
-            return result;
+            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+
 
         }
 
         [Route("{id}")]
         [HttpGet]
-        public async Task<Office?> GetById(Guid id)
+        public async Task<IActionResult> GetById(Guid id)
         {
             _logger.LogInformation("Started OfficeController.GetById");
 
-            var command = new OfficeGetByIdCommand(id);
+            var command = new OfficeGetByIdQuery(id);
 
-            var response = await _sender.Send(command);
+            Result<Office?> response = await Sender.Send(command);
 
             _logger.LogInformation("Finished OfficeController.GetById");
 
-            return response;
+            return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+
         }
 
         [HttpPut]
-        public async Task Update(UpdateOfficeRequest request)
+        public async Task<IActionResult> Update(UpdateOfficeRequest request)
         {
             _logger.LogInformation("Started OfficeController.Update");
 
             var command = new OfficeUpdateCommand(request.id, request.country, request.city, request.streetName, request.streetNumber, request.openingTime, request.closingTime, request.phoneNumber);
 
-            await _sender.Send(command);
+            Result<bool> response = await Sender.Send(command);
 
             _logger.LogInformation("Finished OfficeController.Update");
+
+            if (response.IsFailure)
+            {
+                return HandleFailure(response);
+            }
+            return CreatedAtAction(
+                nameof(Update),
+                new { id = response.Value },
+                response.Value);
 
         }
     }

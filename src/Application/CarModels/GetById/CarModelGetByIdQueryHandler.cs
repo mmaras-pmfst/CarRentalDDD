@@ -1,5 +1,7 @@
-﻿using Domain.CarBrand.Entities;
+﻿using Application.Abstractions;
+using Domain.CarBrand.Entities;
 using Domain.Repositories;
+using Domain.Shared;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,14 +12,14 @@ using System.Threading.Tasks;
 
 namespace Application.CarModels.GetById;
 
-internal sealed class CarModelGetByIdCommandHandler : IRequestHandler<CarModelGetByIdCommand, CarModel?>
+internal sealed class CarModelGetByIdQueryHandler : IQueryHandler<CarModelGetByIdQuery, CarModel?>
 {
-    private ILogger<CarModelGetByIdCommandHandler> _logger;
+    private ILogger<CarModelGetByIdQueryHandler> _logger;
     private ICarBrandRepository _carBrandRepository;
     private IUnitOfWork _unitOfWork;
 
-    public CarModelGetByIdCommandHandler(
-        ILogger<CarModelGetByIdCommandHandler> logger,
+    public CarModelGetByIdQueryHandler(
+        ILogger<CarModelGetByIdQueryHandler> logger,
         ICarBrandRepository carBrandRepository,
         IUnitOfWork unitOfWork)
     {
@@ -26,7 +28,7 @@ internal sealed class CarModelGetByIdCommandHandler : IRequestHandler<CarModelGe
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<CarModel?> Handle(CarModelGetByIdCommand request, CancellationToken cancellationToken)
+    public async Task<Result<CarModel?>> Handle(CarModelGetByIdQuery request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Started CarModelGetByIdCommandHandler");
 
@@ -35,14 +37,20 @@ internal sealed class CarModelGetByIdCommandHandler : IRequestHandler<CarModelGe
             var carBrand = await _carBrandRepository.GetByIdAsync(request.CarBrandId, cancellationToken);
             if(carBrand is null)
             {
-                return null;
+                _logger.LogWarning("CarModelGetByIdCommandHandler: CarBrand doesn't exist!");
+                return Result.Failure<CarModel?>(new Error(
+                    "CarBrand.NotFound",
+                    $"The CarBrand with Id {request.CarBrandId} was not found"));
             }
 
             var carModel = carBrand.CarModels.FirstOrDefault(x => x.Id == request.CarModelId);
 
             if(carModel is null)
             {
-                return null;
+                _logger.LogWarning("CarModelGetByIdCommandHandler: CarModel doesn't exist!");
+                return Result.Failure<CarModel?>(new Error(
+                    "CarModel.NotFound",
+                    $"The CarModel with Id {request.CarModelId} was not found"));
             }
 
             _logger.LogInformation("Finished CarModelGetByIdCommandHandler");
@@ -53,7 +61,9 @@ internal sealed class CarModelGetByIdCommandHandler : IRequestHandler<CarModelGe
         {
 
             _logger.LogError("CarModelGetByIdCommandHandler error: {0}", ex.Message);
-            throw;
+            return Result.Failure<CarModel?>(new Error(
+                    "Error",
+                    ex.Message));
         }
 
     }

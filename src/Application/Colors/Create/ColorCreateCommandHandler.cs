@@ -32,7 +32,7 @@ namespace Application.Colors.Create
 
             try
             {
-                var exists = await _colorRepository.AlreadyExists(request.colorName, cancellationToken);
+                var exists = await _colorRepository.AlreadyExists(request.ColorName, cancellationToken);
                 if (exists)
                 {
                     _logger.LogWarning("ColorCreateCommandHandler: Color already exists!");
@@ -41,7 +41,7 @@ namespace Application.Colors.Create
                 }
                 var newColor = Color.Create(
                     Guid.NewGuid(),
-                    request.colorName);
+                    request.ColorName);
 
                 await _colorRepository.AddAsync(newColor, cancellationToken);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -52,8 +52,9 @@ namespace Application.Colors.Create
             catch (Exception ex)
             {
                 _logger.LogError("ColorCreateCommandHandler error: {0}", ex.Message);
-
-                throw;
+                return Result.Failure<Guid>(new Error(
+                    "Error",
+                    ex.Message));
             }
         }
     }

@@ -1,5 +1,7 @@
-﻿using Domain.CarBrand;
+﻿using Application.Abstractions;
+using Domain.CarBrand;
 using Domain.Repositories;
+using Domain.Shared;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,31 +12,33 @@ using System.Threading.Tasks;
 
 namespace Application.CarBrands.GetById;
 
-internal sealed class CarBrandGetByIdCommandHandler : IRequestHandler<CarBrandGetByIdCommand, CarBrand?>
+internal sealed class CarBrandGetByIdQueryHandler : IQueryHandler<CarBrandGetByIdQuery, CarBrand?>
 {
-    private ILogger<CarBrandGetByIdCommandHandler> _logger;
+    private ILogger<CarBrandGetByIdQueryHandler> _logger;
     private readonly ICarBrandRepository _carBrandRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public CarBrandGetByIdCommandHandler(ILogger<CarBrandGetByIdCommandHandler> logger, ICarBrandRepository carBrandRepository, IUnitOfWork unitOfWork)
+    public CarBrandGetByIdQueryHandler(ILogger<CarBrandGetByIdQueryHandler> logger, ICarBrandRepository carBrandRepository, IUnitOfWork unitOfWork)
     {
         _logger = logger;
         _carBrandRepository = carBrandRepository;
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<CarBrand?> Handle(CarBrandGetByIdCommand request, CancellationToken cancellationToken)
+    public async Task<Result<CarBrand?>> Handle(CarBrandGetByIdQuery request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Started CarBrandGetByIdCommandHandler");
 
         try
         {
-            var dbCarBrand = await _carBrandRepository.GetByIdAsync(request.id, cancellationToken);
+            var dbCarBrand = await _carBrandRepository.GetByIdAsync(request.CarBrandId, cancellationToken);
             if (dbCarBrand == null)
             {
 
                 _logger.LogWarning("CarBrandGetByIdCommandHandler: CarBrand doesn't exist!");
-                return null;
+                return Result.Failure<CarBrand?>(new Error(
+                    "CarBrand.NotFound",
+                    $"The CarBrand with Id {request.CarBrandId} was not found"));
             }
 
             //TODO: make mapping if needed!!!
@@ -46,7 +50,9 @@ internal sealed class CarBrandGetByIdCommandHandler : IRequestHandler<CarBrandGe
         {
 
             _logger.LogError("CarBrandGetByIdCommandHandler error: {0}", ex.Message);
-            throw;
+            return Result.Failure<CarBrand?>(new Error(
+                    "Error",
+                    ex.Message));
         }
     }
 }

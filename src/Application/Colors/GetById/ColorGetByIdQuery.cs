@@ -9,5 +9,5 @@ using System.Threading.Tasks;
 
 namespace Application.Colors.GetById;
 
-public sealed record ColorGetByIdQuery(Guid id) : IQuery<Color?>;
+public sealed record ColorGetByIdQuery(Guid ColorId) : IQuery<Color?>;
 

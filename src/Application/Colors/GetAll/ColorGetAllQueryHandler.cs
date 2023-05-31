@@ -33,6 +33,14 @@ namespace Application.Colors.GetAll
             {
                 var dbColors = await _colorRepository.GetAllAsync(cancellationToken);
 
+                if (!dbColors.Any())
+                {
+                    _logger.LogWarning("ColorGetAllCommandHandler: No Colors in database");
+                    return Result.Failure<List<Color>>(new Error(
+                            "Color.NoData",
+                            "There are no Colors to fetch"));
+                }
+
                 //TODO: make mapping if needed!!!
 
                 _logger.LogInformation("Finished ColorGetAllCommandHandler");
@@ -41,8 +49,9 @@ namespace Application.Colors.GetAll
             catch (Exception ex)
             {
                 _logger.LogError("ColorGetAllCommandHandler error: {0}", ex.Message);
-
-                throw;
+                return Result.Failure<List<Color>>(new Error(
+                    "Error",
+                    ex.Message));
             }
         }
     }

@@ -1,5 +1,7 @@
-﻿using Domain.CarBrand;
+﻿using Application.Abstractions;
+using Domain.CarBrand;
 using Domain.Repositories;
+using Domain.Shared;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Application.CarBrands.Update;
 
-internal sealed class CarBrandUpdateCommandHandler : IRequestHandler<CarBrandUpdateCommand, Unit>
+internal sealed class CarBrandUpdateCommandHandler : IQueryHandler<CarBrandUpdateCommand, bool>
 {
     private ILogger<CarBrandUpdateCommandHandler> _logger;
     private readonly ICarBrandRepository _carBrandRepository;
@@ -23,32 +25,36 @@ internal sealed class CarBrandUpdateCommandHandler : IRequestHandler<CarBrandUpd
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Unit> Handle(CarBrandUpdateCommand request, CancellationToken cancellationToken)
+    public async Task<Result<bool>> Handle(CarBrandUpdateCommand request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Started CarBrandUpdateCommandHandler");
 
         try
         {
-            var dbCarBrand = await _carBrandRepository.GetByIdAsync(request.id, cancellationToken);
+            var dbCarBrand = await _carBrandRepository.GetByIdAsync(request.CarBrandId, cancellationToken);
             if (dbCarBrand == null)
             {
 
                 _logger.LogWarning("CarBrandUpdateCommandHandler: CarBrand doesn't exist!");
-                return Unit.Value;
+                return Result.Failure<bool>(new Error(
+                    "CarBrand.NotFound",
+                    $"The CarBrand with Id {request.CarBrandId} was not found"));
             }
 
-            dbCarBrand.Update(request.carBrandName);
+            dbCarBrand.Update(request.CarBrandName);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             _logger.LogInformation("Finished CarBrandUpdateCommandHandler");
-            return Unit.Value;
+            return true;
         }
         catch (Exception ex)
         {
 
             _logger.LogError("CarBrandUpdateCommandHandler error: {0}", ex.Message);
-            throw;
+            return Result.Failure<bool>(new Error(
+                    "Error",
+                    ex.Message));
         }
     }
 }
