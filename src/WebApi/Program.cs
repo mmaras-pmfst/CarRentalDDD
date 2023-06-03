@@ -5,8 +5,10 @@ using Infrastructure;
 using MediatR;
 using Persistence;
 using Serilog;
+using WebApi.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Host.AddConfigurations();
 
 // Add services to the container.
 
