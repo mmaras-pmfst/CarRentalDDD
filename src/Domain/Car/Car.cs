@@ -43,8 +43,20 @@ public sealed class Car : AggregateRoot
 
     }
 
-    public static Car Create(Guid id, string numberPlate, string name, string kilometers, byte[] image, decimal pricePerDay, CarStatus status, FuelType fuelType, Guid colorId, Guid carModelId, Guid officeId)
+    public static Car Create(Guid id, string numberPlate, string name, string kilometers, byte[] image, CarStatus status, FuelType fuelType, Guid colorId, Guid carModelId, Guid officeId)
     {
         return new Car(id, numberPlate, name, kilometers, image, status, fuelType, colorId, carModelId, officeId);
+    }
+
+    public void Update(string numberPlate, string name, string kilometers, byte[] image, CarStatus status, FuelType fuelType, Guid colorId, Guid officeId)
+    {
+        NumberPlate = numberPlate;
+        Name = name;
+        Kilometers = kilometers;
+        Image = image; 
+        Status = status; 
+        FuelType = fuelType; 
+        ColorId = colorId;
+        OfficeId = officeId;
     }
 }

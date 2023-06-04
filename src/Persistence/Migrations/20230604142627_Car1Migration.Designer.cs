@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
@@ -11,9 +12,11 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230604142627_Car1Migration")]
+    partial class Car1Migration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,10 +65,6 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CarModelId");
-
-                    b.HasIndex("ColorId");
-
-                    b.HasIndex("OfficeId");
 
                     b.ToTable("Cars", "Catalog");
                 });
@@ -296,18 +295,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.CarBrand.Entities.CarModel", null)
                         .WithMany()
                         .HasForeignKey("CarModelId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Color.Color", null)
-                        .WithMany()
-                        .HasForeignKey("ColorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Office.Office", null)
-                        .WithMany()
-                        .HasForeignKey("OfficeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
