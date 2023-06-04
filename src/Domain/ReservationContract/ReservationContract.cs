@@ -21,7 +21,7 @@ public sealed class ReservationContract : AggregateRoot
     public Guid PickUpLocationId { get; private set; }
     public Guid DropDownLocationId { get; private set; }
     public Guid CarId { get; private set; }
-
+    public bool ContractMade { get; private set; }
     /// Below is for update = create contract
     public string? DriverLicenceNumber { get; private set; }
     public string? DriverIdentificationNumber { get; private set; }
@@ -37,7 +37,7 @@ public sealed class ReservationContract : AggregateRoot
     {
     }
 
-    internal ReservationContract(Guid id, CarModel carModel, string driverFirstName, string driverLastName, string email, DateTime pickUpDate, DateTime dropDownDate, Guid pickUpLocationId, Guid dropDownLocationId, Guid carId, string? driverLicenceNumber = null, string? driverIdentificationNumber = null, CardType? cardType = null, PaymentMethod? paymentMethod = null, string? cardName = null, string? cardNumber = null, int? cVV = null, string? cardDateExpiration = null, string? cardYearExpiration = null)
+    internal ReservationContract(Guid id, CarModel carModel, string driverFirstName, string driverLastName, string email, DateTime pickUpDate, DateTime dropDownDate, Guid pickUpLocationId, Guid dropDownLocationId, Guid carId, bool contractMade, string? driverLicenceNumber = null, string? driverIdentificationNumber = null, CardType? cardType = null, PaymentMethod? paymentMethod = null, string? cardName = null, string? cardNumber = null, int? cVV = null, string? cardDateExpiration = null, string? cardYearExpiration = null)
         :base(id)
     {
         var duration = (decimal)dropDownDate.Subtract(pickUpDate).TotalDays;
@@ -51,6 +51,7 @@ public sealed class ReservationContract : AggregateRoot
         PickUpLocationId = pickUpLocationId;
         DropDownLocationId = dropDownLocationId;
         CarId = carId;
+        ContractMade= contractMade;
         DriverLicenceNumber = driverLicenceNumber;
         DriverIdentificationNumber = driverIdentificationNumber;
         CardType = cardType;
@@ -64,7 +65,7 @@ public sealed class ReservationContract : AggregateRoot
 
     public static ReservationContract CreateReservation(CarModel carModel, string driverFirstName, string driverLastName, string email, DateTime pickUpDate, DateTime dropDownDate, Guid pickUpLocationId, Guid dropDownLocationId, Guid carId)
     {
-        return new ReservationContract(Guid.NewGuid(), carModel, driverFirstName, driverLastName, email, pickUpDate, dropDownDate, pickUpLocationId, dropDownLocationId,carId);
+        return new ReservationContract(Guid.NewGuid(), carModel, driverFirstName, driverLastName, email, pickUpDate, dropDownDate, pickUpLocationId, dropDownLocationId,carId, false);
     }
 
     public void CreateContract(CarModel carModel, string driverFirstName, string driverLastName, string email, DateTime pickUpDate, DateTime dropDownDate, Guid pickUpLocationId, Guid dropDownLocationId, Guid carId, string driverLicenceNumber, string driverIdentificationNumber, PaymentMethod? paymentMethod, CardType? cardType = null, string? cardName = null, string? cardNumber = null, int? cVV = null, string? cardDateExpiration = null, string? cardYearExpiration = null)
@@ -80,6 +81,7 @@ public sealed class ReservationContract : AggregateRoot
         PickUpLocationId = pickUpLocationId;
         DropDownLocationId = dropDownLocationId;
         CarId = carId;
+        ContractMade= true;
         DriverLicenceNumber= driverLicenceNumber;
         DriverIdentificationNumber= driverIdentificationNumber;
         PaymentMethod= paymentMethod;

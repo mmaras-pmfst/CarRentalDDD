@@ -1,5 +1,6 @@
-﻿using Domain.CarBrand.Entities;
+﻿using Domain.Car;
 using Domain.Office;
+using Domain.ReservationContract;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Persistence.Constants;
@@ -17,61 +18,29 @@ internal class ReservationContractConfiguration : IEntityTypeConfiguration<Reser
     {
         builder.ToTable(TableNames.ReservationContracts, SchemaNames.Data);
 
-        builder.HasKey(r => r.Id);
+        builder.HasKey(x => x.Id);
 
-        builder.Property(r => r.DriverFirstName)
+        builder.Property(x => x.DriverFirstName)
             .HasMaxLength(30)
             .IsRequired(true);
 
-        builder.Property(r => r.DriverLastName)
+        builder.Property(x => x.DriverLastName)
             .HasMaxLength(30)
             .IsRequired(true);
 
-        builder.Property(r => r.DriverLicenceNumber)
-            .HasMaxLength(30)
-            .IsRequired(false);
-
-        builder.Property(r => r.DriverIdentificationNumber)
-            .HasMaxLength(30)
-            .IsRequired(false);
-
-        builder.Property(r => r.CardType)
-            .HasConversion<string>()
-            .IsRequired(false);
-
-        builder.Property(r => r.PaymentMethod)
-            .HasConversion<string>()
-            .IsRequired(false);
-
-        builder.Property(r => r.CardName)
+        builder.Property(x => x.Email)
             .HasMaxLength(40)
-            .IsRequired(false);
+            .IsRequired(true);
 
-        builder.Property(r => r.CardNumber)
-            .HasMaxLength(16)
-            .IsRequired(false);
-
-        builder.Property(r => r.CVV)
-            .HasMaxLength(3)
-            .IsRequired(false);
-
-        builder.Property(r => r.CardDateExpiration)
-            .HasMaxLength(2)
-            .IsRequired(false);
-
-        builder.Property(r => r.CardYearExpiration)
-            .HasMaxLength(4)
-            .IsRequired(false);
-
-        builder.Property(r => r.PickUpDate)
+        builder.Property(x => x.PickUpDate)
             .HasColumnType("datetime2")
             .IsRequired(true);
 
-        builder.Property(r => r.DropDownDate)
+        builder.Property(x => x.DropDownDate)
             .HasColumnType("datetime2")
             .IsRequired(true);
 
-        builder.Property(r => r.TotalPrice)
+        builder.Property(x => x.TotalPrice)
             .HasColumnType("decimal(18,2)")
             .IsRequired(true);
 
@@ -84,6 +53,46 @@ internal class ReservationContractConfiguration : IEntityTypeConfiguration<Reser
             .WithMany()
             .HasForeignKey(x => x.DropDownLocationId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne<Car>()
+            .WithMany()
+            .HasForeignKey(x => x.CarId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Property(x => x.ContractMade)
+            .IsRequired(true);
+
+        builder.Property(x => x.DriverLicenceNumber)
+            .IsRequired(false);
+
+        builder.Property(x => x.DriverIdentificationNumber)
+            .IsRequired(false);
+
+        builder.Property(r => r.CardType)
+            .HasConversion<string>()
+            .IsRequired(false);
+
+        builder.Property(r => r.PaymentMethod)
+            .HasConversion<string>()
+            .IsRequired(false);
+
+        builder.Property(x => x.CardName)
+            .IsRequired(false);
+
+        builder.Property(x => x.CardNumber)
+            .IsRequired(false);
+
+        builder.Property(x => x.CVV)
+            .IsRequired(false);
+
+        builder.Property(x => x.CardDateExpiration)
+            .IsRequired(false);
+
+        builder.Property(x => x.CardYearExpiration)
+            .IsRequired(false);
+
+
+
 
     }
 }

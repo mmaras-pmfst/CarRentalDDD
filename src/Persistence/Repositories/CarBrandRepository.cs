@@ -34,7 +34,6 @@ internal sealed class CarBrandRepository : ICarBrandRepository
     {
         return await _dbContext.Set<CarBrand>()
             .Include(x => x.CarModels)
-                //.ThenInclude(x => x.ReservationContracts)
             .ToListAsync(cancellationToken);
 
     }
@@ -43,7 +42,6 @@ internal sealed class CarBrandRepository : ICarBrandRepository
     {
         return await _dbContext.Set<CarBrand>()
             .Include(x => x.CarModels)
-                .ThenInclude(x => x.ReservationContracts)
             .Where(x => x.Id == id)
             .SingleOrDefaultAsync(cancellationToken);
 
