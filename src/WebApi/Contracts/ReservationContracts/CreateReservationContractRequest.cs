@@ -3,6 +3,7 @@
 public sealed record CreateReservationContractRequest(
     string DriverFirstName,
     string DriverLastName, 
+    string Email,
     DateTime PickUpDate,
     DateTime DropDownDate,
     Guid CarModelId,

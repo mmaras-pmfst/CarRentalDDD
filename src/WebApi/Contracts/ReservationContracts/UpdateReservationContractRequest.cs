@@ -6,6 +6,7 @@ public sealed record UpdateReservationContractRequest(
     Guid ReservationContractId,
     string DriverFirstName,
     string DriverLastName,
+    string Email,
     DateTime PickUpDate,
     DateTime DropDownDate,
     Guid PickupLocationId,
