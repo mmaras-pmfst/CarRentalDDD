@@ -51,5 +51,12 @@ public static class DomainErrors
             "The specified Extra Name is already in use");
     }
 
-    
+    public static class Worker
+    {
+        public static readonly Error WorkerAlreadyExists = new Error(
+            "Worker.WorkerAlreadyExists",
+            "The Worker with PersonalIdentificationNumber is already in use");
+    }
+
+
 }

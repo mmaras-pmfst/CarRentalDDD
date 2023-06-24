@@ -34,12 +34,18 @@ namespace Persistence.Repositories
 
         public async Task<List<Office>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            return await _dbContext.Set<Office>().ToListAsync(cancellationToken);
+            var offices = await _dbContext.Set<Office>()
+                .Include(x => x.Workers)
+                .ToListAsync(cancellationToken);
+
+            return offices;
         }
+
 
         public async Task<Office?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await _dbContext.Set<Office>()
+                .Include(x => x.Workers)
                 .Where(x => x.Id == id)
                 .SingleOrDefaultAsync();
         }

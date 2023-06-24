@@ -59,4 +59,20 @@ public sealed class Office : AggregateRoot, IAuditableEntity
         ClosingTime = closingTime;
         PhoneNumber = phoneNumber;
     }
+
+    public Worker AddWorker(string personalIdentificationNumber, string firstName, string lastName, string email, string phoneNumber)
+    {
+        var newWorker = Worker.Create(Guid.NewGuid(), firstName, lastName, email, phoneNumber, this, personalIdentificationNumber);
+
+        _workers.Add(newWorker);
+
+        return newWorker;
+    }
+
+    public void UpdateWorker(Guid workerId,string email, string phoneNumber)
+    {
+        var worker = _workers.Where(x => x.Id == workerId).SingleOrDefault();
+        
+        worker!.Update(email, phoneNumber, this);
+    }
 }
