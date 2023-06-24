@@ -1,5 +1,5 @@
-﻿using Domain.Color;
-using Domain.Office;
+﻿using Domain.Management.Color;
+using Domain.Management.Office;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -25,7 +25,7 @@ namespace Persistence.Repositories
         public async Task<bool> AlreadyExists(string colorName, CancellationToken cancellationToken = default)
         {
             var color = await _dbContext.Set<Color>()
-                .Where(x => x.ColorName.ToUpper() == colorName.ToUpper())
+                .Where(x => x.Name.ToUpper() == colorName.ToUpper())
                 .SingleOrDefaultAsync(cancellationToken);
 
             return color is null ? false : true;

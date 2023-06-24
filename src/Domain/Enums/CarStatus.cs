@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Enums
+namespace Domain.Enums;
+public enum CarStatus
 {
-    public enum CarStatus
-    {
-        Rented = 0,
-        Available = 1,
-        Repairing = 2,
-    }
+    Rented = 1,
+    Available = 2,
+    Repairing = 3,
 }

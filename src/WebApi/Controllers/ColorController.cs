@@ -2,7 +2,7 @@
 using Application.Colors.GetAll;
 using Application.Colors.GetById;
 using Application.Colors.Update;
-using Domain.Color;
+using Domain.Management.Color;
 using Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Http;

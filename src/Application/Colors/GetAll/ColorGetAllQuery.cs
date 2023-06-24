@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions;
-using Domain.Color;
+using Domain.Management.Color;
 using MediatR;
 using System;
 using System.Collections.Generic;

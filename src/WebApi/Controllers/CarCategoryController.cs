@@ -3,7 +3,7 @@ using Application.CarCategories.GetAll;
 using Application.CarCategories.GetById;
 using Application.CarCategories.Update;
 using Azure.Core;
-using Domain.CarCategory;
+using Domain.Management.CarCategory;
 using Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Http;

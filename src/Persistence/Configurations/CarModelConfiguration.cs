@@ -1,5 +1,5 @@
-﻿using Domain.CarBrand.Entities;
-using Domain.CarCategory;
+﻿using Domain.Management.CarBrand.Entities;
+using Domain.Management.CarCategory;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Persistence.Constants;
@@ -19,13 +19,14 @@ internal class CarModelConfiguration : IEntityTypeConfiguration<CarModel>
 
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.CarModelName)
+        builder.Property(x => x.Name)
             .HasMaxLength(50)
             .IsRequired(true);
 
-        builder.Property(x => x.BasePricePerDay)
-            .HasColumnType("decimal(18,2)")
-            .IsRequired();
+
+        builder.HasMany(x => x.CarModelRents)
+            .WithOne()
+            .HasForeignKey(x => x.CarModelId);
 
 
         builder.HasOne<CarCategory>() // CarModel belongs to one CarCategory

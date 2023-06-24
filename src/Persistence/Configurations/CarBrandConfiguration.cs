@@ -1,4 +1,4 @@
-﻿using Domain.CarBrand;
+﻿using Domain.Management.CarBrand;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Persistence.Constants;
@@ -18,7 +18,7 @@ internal class CarBrandConfiguration : IEntityTypeConfiguration<CarBrand>
 
         builder.HasKey(c => c.Id);
 
-        builder.Property(x => x.CarBrandName)
+        builder.Property(x => x.Name)
             .HasMaxLength(15)
             .IsRequired(true);
 

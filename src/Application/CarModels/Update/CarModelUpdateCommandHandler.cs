@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions;
-using Domain.CarBrand;
+using Domain.Management.CarBrand;
 using Domain.Repositories;
 using Domain.Shared;
 using MediatR;
@@ -68,7 +68,7 @@ internal sealed class CarModelUpdateCommandHandler : ICommandHandler<CarModelUpd
             }
 
 
-            carModel.Update(request.CarModelName, request.BasePricePerDay, carCategory);
+            carModel.Update(request.CarModelName, carCategory);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             _logger.LogInformation("Finished CarModelUpdateCommandHandler");

@@ -1,5 +1,5 @@
-﻿using Domain.CarBrand;
-using Domain.CarCategory;
+﻿using Domain.Management.CarBrand;
+using Domain.Management.CarCategory;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -24,7 +24,9 @@ internal sealed class CarBrandRepository : ICarBrandRepository
 
     public async Task<bool> AlreadyExists(string carBrandName, CancellationToken cancellationToken = default)
     {
-        var carBrand = await _dbContext.Set<CarBrand>().Where(x => x.CarBrandName.ToUpper() == carBrandName.ToUpper()).SingleOrDefaultAsync(cancellationToken);
+        var carBrand = await _dbContext.Set<CarBrand>()
+            .Where(x => x.Name.ToUpper() == carBrandName.ToUpper())
+            .SingleOrDefaultAsync(cancellationToken);
 
         return carBrand != null ? false : true;
 

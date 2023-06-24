@@ -1,4 +1,4 @@
-﻿using Domain.CarCategory;
+﻿using Domain.Management.CarCategory;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Persistence.Constants;

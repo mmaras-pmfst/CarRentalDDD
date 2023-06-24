@@ -1,4 +1,4 @@
-﻿using Domain.Office;
+﻿using Domain.Management.Office;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;

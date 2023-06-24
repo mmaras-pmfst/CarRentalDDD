@@ -1,4 +1,4 @@
-﻿using Domain.Office;
+﻿using Domain.Management.Office;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Persistence.Constants;
@@ -44,5 +44,9 @@ internal class OfficeConfiguration : IEntityTypeConfiguration<Office>
         builder.Property(x => x.ClosingTime)
             .HasColumnType("datetime2")
             .IsRequired(false);
+
+        builder.HasMany(x => x.Workers)
+            .WithOne()
+            .HasForeignKey(x => x.OfficeId);
     }
 }

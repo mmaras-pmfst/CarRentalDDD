@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions;
-using Domain.CarCategory;
+using Domain.Management.CarCategory;
 using Domain.Repositories;
 using Domain.Shared;
 using MediatR;

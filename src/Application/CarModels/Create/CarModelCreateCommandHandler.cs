@@ -63,14 +63,14 @@ internal sealed class CarModelCreateCommandHandler : ICommandHandler<CarModelCre
                     $"The CarBrand with Id {request.CarBrandId} was not found"));
             }
 
-            var carModelExist = carBrand.CarModels.Where(x => x.CarModelName == request.CarModelName).Any();
+            var carModelExist = carBrand.CarModels.Where(x => x.Name == request.CarModelName).Any();
             if (carModelExist)
             {
                 return Result.Failure<Guid>(DomainErrors.CarModel.CarModelAlreadyExists);
 
             }
 
-            var carModel = carBrand.CreateCarModel(request.CarModelName, request.BasePricePerDay, carCategory);
+            var carModel = carBrand.CreateCarModel(request.CarModelName, carCategory);
 
             await _carModelRepository.AddAsync(carModel, cancellationToken);
 

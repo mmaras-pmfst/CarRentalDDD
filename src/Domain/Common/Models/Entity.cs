@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.Common.Models;
-
 public abstract class Entity : IEquatable<Entity>
 {
     protected Entity(Guid id) => Id = id;

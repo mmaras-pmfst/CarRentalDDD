@@ -1,6 +1,6 @@
 ﻿using Application.Abstractions;
 using Application.Common.Mailing;
-using Domain.Color;
+using Domain.Management.Color;
 using Domain.Errors;
 using Domain.Repositories;
 using Domain.Shared;

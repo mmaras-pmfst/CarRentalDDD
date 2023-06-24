@@ -10,5 +10,6 @@ namespace Persistence.Constants
     {
         internal const string Catalog = nameof(Catalog);
         internal const string Data = nameof(Data);
+        internal const string Sales = nameof(Sales);
     }
 }
