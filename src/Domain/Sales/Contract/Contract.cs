@@ -93,7 +93,7 @@ public sealed class Contract : AggregateRoot
 
     }
 
-    public void AddContractDetail(decimal quantity, Extras.Extras extras)
+    public void AddContractDetail(decimal quantity, Extras.Extra extras)
     {
         var detailElement = _contractDetails.Where(x => x.ExtrasId == extras.Id).SingleOrDefault();
         if(detailElement != null)
@@ -106,7 +106,7 @@ public sealed class Contract : AggregateRoot
         _contractDetails.Add(contracDetail);
     }
 
-    public void RemoveContractDetail(decimal quantity, Extras.Extras extras)
+    public void RemoveContractDetail(decimal quantity, Extras.Extra extras)
     {
         var contractDetail = _contractDetails.Where(x => x.ExtrasId == extras.Id).SingleOrDefault();
         if(contractDetail != null)

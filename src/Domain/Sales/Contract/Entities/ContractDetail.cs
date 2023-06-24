@@ -27,7 +27,7 @@ public sealed class ContractDetail : Entity
         ContractId = contractId;
     }
 
-    public static ContractDetail Create(Guid id, decimal quantity, Extras.Extras extras, Contract contract)
+    public static ContractDetail Create(Guid id, decimal quantity, Extras.Extra extras, Contract contract)
     {
         var duration = (decimal)contract.DropDownDate.Subtract(contract.PickUpDate).TotalDays;
 

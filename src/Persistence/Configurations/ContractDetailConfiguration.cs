@@ -26,7 +26,7 @@ internal class ContractDetailConfiguration : IEntityTypeConfiguration<ContractDe
             .HasColumnType("decimal(18,2)")
             .IsRequired(true);
 
-        builder.HasOne<Extras>()
+        builder.HasOne<Extra>()
             .WithMany()
             .HasForeignKey(x => x.ExtrasId);
     }

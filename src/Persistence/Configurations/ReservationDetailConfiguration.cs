@@ -27,7 +27,7 @@ internal class ReservationDetailConfiguration : IEntityTypeConfiguration<Reserva
             .HasColumnType("decimal(18,2)")
             .IsRequired(true);
 
-        builder.HasOne<Extras>()
+        builder.HasOne<Extra>()
             .WithMany()
             .HasForeignKey(x => x.ExtrasId);
 

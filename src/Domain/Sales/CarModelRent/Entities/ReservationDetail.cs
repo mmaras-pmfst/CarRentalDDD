@@ -28,7 +28,7 @@ public sealed class ReservationDetail : Entity
         ReservationId = reservationId;
     }
 
-    public static ReservationDetail Create(Guid id, decimal quantity, Extras.Extras extras, Reservation reservation)
+    public static ReservationDetail Create(Guid id, decimal quantity, Extras.Extra extras, Reservation reservation)
     {
         var duration = (decimal)reservation.DropDownDate.Subtract(reservation.PickUpDate).TotalDays;
 

@@ -44,5 +44,12 @@ public static class DomainErrors
             "The specified Office with CityName, StreetName and StreetNumber is already in use");
     }
 
+    public static class Extra
+    {
+        public static readonly Error ExtraAlreadyExists = new Error(
+            "Extra.ExtraAlreadyExists",
+            "The specified Extra Name is already in use");
+    }
+
     
 }

@@ -9,9 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Persistence.Configurations;
-internal class ExtrasConfiguration : IEntityTypeConfiguration<Extras>
+internal class ExtrasConfiguration : IEntityTypeConfiguration<Extra>
 {
-    public void Configure(EntityTypeBuilder<Extras> builder)
+    public void Configure(EntityTypeBuilder<Extra> builder)
     {
         builder.ToTable(TableNames.Extras, SchemaNames.Sales);
 

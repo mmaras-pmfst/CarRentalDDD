@@ -54,7 +54,7 @@ public sealed class Reservation : Entity
         return new Reservation(driverFirstName, driverLastName, email, pickUpDate, dropDownDate, totalPrice, pickUpLocationId, dropDownLocationId, carModelRent.Id, rentalPrice);
     }
 
-    public void AddReservationDetail(decimal quantity, Extras.Extras extras)
+    public void AddReservationDetail(decimal quantity, Extras.Extra extras)
     {
         var detailElement = _reservationDetails.Where(x => x.ExtrasId == extras.Id).SingleOrDefault();
         if (detailElement != null)
