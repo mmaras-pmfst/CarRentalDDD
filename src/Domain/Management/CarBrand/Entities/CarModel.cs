@@ -1,6 +1,7 @@
 ﻿using Domain.Common.Models;
 using Domain.Management.CarCategory;
 using Domain.Sales.CarModelRent;
+using Domain.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ public sealed class CarModel : Entity
 {
 
     private readonly List<Guid> _carIds = new();
-    private readonly List<CarModelRent> _carModelRents= new();
+    private readonly List<CarModelRent> _carModelRents = new();
     public string Name { get; private set; }
     public Guid CarBrandId { get; private set; }
     public Guid CarCategoryId { get; private set; }
@@ -39,5 +40,26 @@ public sealed class CarModel : Entity
     public static CarModel Create(Guid id, string name, CarBrand carBrand, CarCategory.CarCategory carCategory)
     {
         return new CarModel(id, name, carBrand.Id, carCategory.Id);
+    }
+
+    public CarModelRent AddCarModelRent(Guid id, DateTime validFrom, DateTime validUntil, decimal pricePerDay, decimal discount, bool isVisible)
+    {
+        var carModelRent = CarModelRent.Create(id, validFrom, validUntil, pricePerDay, isVisible, this, discount);
+
+        _carModelRents.Add(carModelRent);
+        return carModelRent;
+    }
+
+    public Result<bool> UpdateCarModelRent(Guid id, DateTime validFrom, DateTime validUntil, decimal pricePerDay, decimal discount, bool isVisible)
+    {
+        var carModelRent = _carModelRents.Where(x => x.Id == id).SingleOrDefault();
+        if (carModelRent == null)
+        {
+            return Result.Failure<bool>(new Error(
+                    "CarModelRents.NotFound",
+                    $"The CarModelRent with Id: {id} doesn't exist"));
+        }
+        carModelRent.Update(validFrom, validUntil, pricePerDay, isVisible, discount);
+        return true;
     }
 }

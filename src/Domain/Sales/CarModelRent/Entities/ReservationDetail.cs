@@ -1,5 +1,4 @@
 ﻿using Domain.Common.Models;
-using Domain.Sales.Contract.Entities;
 using Domain.Sales.Extras;
 using System;
 using System.Collections.Generic;

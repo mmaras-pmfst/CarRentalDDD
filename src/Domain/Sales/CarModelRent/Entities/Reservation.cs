@@ -1,5 +1,4 @@
 ﻿using Domain.Common.Models;
-using Domain.Sales.Contract.Entities;
 using Domain.Sales.Extras;
 using System;
 using System.Collections.Generic;
@@ -47,14 +46,14 @@ public sealed class Reservation : Entity
     {
         var duration = (decimal)dropDownDate.Subtract(pickUpDate).TotalDays;
 
-        var rentalPrice = duration * carModelRent.PricePerDay - ((duration * carModelRent.PricePerDay) * carModelRent.Discount);
+        var rentalPrice = duration * carModelRent.PricePerDay - duration * carModelRent.PricePerDay * carModelRent.Discount;
 
         var totalPrice = rentalPrice;
 
         return new Reservation(driverFirstName, driverLastName, email, pickUpDate, dropDownDate, totalPrice, pickUpLocationId, dropDownLocationId, carModelRent.Id, rentalPrice);
     }
 
-    public void AddReservationDetail(decimal quantity, Extras.Extra extras)
+    public void AddReservationDetail(decimal quantity, Extra extras)
     {
         var detailElement = _reservationDetails.Where(x => x.ExtrasId == extras.Id).SingleOrDefault();
         if (detailElement != null)

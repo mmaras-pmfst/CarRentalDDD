@@ -36,6 +36,7 @@ internal sealed class CarBrandRepository : ICarBrandRepository
     {
         return await _dbContext.Set<CarBrand>()
             .Include(x => x.CarModels)
+                .ThenInclude(x => x.CarModelRents)
             .ToListAsync(cancellationToken);
 
     }
