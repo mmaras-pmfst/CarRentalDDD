@@ -7,4 +7,5 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Reservations.GetById;
-public sealed record ReservationGetByIdQuery() : IQuery<Reservation>;
+public sealed record ReservationGetByIdQuery(
+    Guid ReservationId) : IQuery<Reservation>;

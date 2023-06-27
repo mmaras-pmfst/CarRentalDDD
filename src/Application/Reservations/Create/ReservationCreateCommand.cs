@@ -6,4 +6,18 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Reservations.Create;
-public sealed record ReservationCreateCommand() : ICommand<Guid>;
+public sealed record ReservationCreateCommand(
+    string DriverFirstName,
+    string DriverLastName,
+    string Email,
+    DateTime PickUpDate,
+    DateTime DropDownDate,
+    Guid PickUpLocationId,
+    Guid DropDownLocationId,
+    Guid CarModelRentId,
+    List<ExtrasModel> Extras) : ICommand<Guid>;
+
+
+public sealed record ExtrasModel(
+    Guid ExtraId,
+    int Quantity);

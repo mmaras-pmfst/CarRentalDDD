@@ -7,4 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Reservations.GetAll;
-public sealed record ReservationGetAllQuery() : IQuery<List<Reservation>>;
+public sealed record ReservationGetAllQuery(
+    DateTime DateFrom,
+    DateTime DateTo) : IQuery<List<Reservation>>;

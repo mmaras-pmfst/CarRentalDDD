@@ -53,10 +53,10 @@ public sealed class Reservation : Entity
         return new Reservation(driverFirstName, driverLastName, email, pickUpDate, dropDownDate, totalPrice, pickUpLocationId, dropDownLocationId, carModelRent.Id, rentalPrice);
     }
 
-    public void AddReservationDetail(decimal quantity, Extra extras)
+    public ReservationDetail AddReservationDetail(decimal quantity, Extra extras)
     {
         var detailElement = _reservationDetails.Where(x => x.ExtrasId == extras.Id).SingleOrDefault();
-        if (detailElement != null)
+        if (detailElement is not null)
         {
             _reservationDetails.RemoveAll(x => x.ExtrasId == extras.Id);
             TotalPrice -= detailElement.Price;
@@ -64,5 +64,6 @@ public sealed class Reservation : Entity
         var reservationDetail = ReservationDetail.Create(Guid.NewGuid(), quantity, extras, this);
         TotalPrice += reservationDetail.Price;
         _reservationDetails.Add(reservationDetail);
+        return reservationDetail;   
     }
 }
