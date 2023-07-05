@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Management.Car;
@@ -43,7 +44,8 @@ public class ApplicationDataSeed
             var _workerRepository = serviceScope.ServiceProvider.GetService<IWorkerRepository>();
 
             _dbContext!.Database.EnsureCreated();
-            var rootPath = Directory.GetParent(Directory.GetCurrentDirectory())!.FullName + "/Softly.ERP.Infrastructure";
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var jsonRootPath = Path.Combine(path, "DataSeed\\JsonFiles");
             var jsonSettings = new JsonSerializerSettings
             {
                 ContractResolver = new PrivateSetterContractResolver()
@@ -54,7 +56,7 @@ public class ApplicationDataSeed
             if (!_dbContext.Set<Office>().ToListAsync().Result.Any())
             {
                 List<Office> data = new List<Office>();
-                using (StreamReader r = new StreamReader(rootPath + "/JsonFiles/Office.json"))
+                using (StreamReader r = new StreamReader(jsonRootPath + "/Office.json"))
                 {
                     var json = r.ReadToEnd();
                     data = JsonConvert.DeserializeObject<List<Office>>(json, jsonSettings)!;
@@ -70,7 +72,7 @@ public class ApplicationDataSeed
             if (!_dbContext.Set<Worker>().ToListAsync().Result.Any())
             {
                 List<Worker> data = new List<Worker>();
-                using (StreamReader r = new StreamReader(rootPath + "/JsonFiles/Worker.json"))
+                using (StreamReader r = new StreamReader(jsonRootPath + "/Worker.json"))
                 {
                     var json = r.ReadToEnd();
                     data = JsonConvert.DeserializeObject<List<Worker>>(json, jsonSettings)!;
@@ -85,7 +87,7 @@ public class ApplicationDataSeed
             if (!_dbContext.Set<Color>().ToListAsync().Result.Any())
             {
                 List<Color> data = new List<Color>();
-                using (StreamReader r = new StreamReader(rootPath + "/JsonFiles/Color.json"))
+                using (StreamReader r = new StreamReader(jsonRootPath + "/Color.json"))
                 {
                     var json = r.ReadToEnd();
                     data = JsonConvert.DeserializeObject<List<Color>>(json, jsonSettings)!;
@@ -100,7 +102,7 @@ public class ApplicationDataSeed
             if (!_dbContext.Set<CarBrand>().ToListAsync().Result.Any())
             {
                 List<CarBrand> data = new List<CarBrand>();
-                using (StreamReader r = new StreamReader(rootPath + "/JsonFiles/CarBrand.json"))
+                using (StreamReader r = new StreamReader(jsonRootPath + "/CarBrand.json"))
                 {
                     var json = r.ReadToEnd();
                     data = JsonConvert.DeserializeObject<List<CarBrand>>(json, jsonSettings)!;
@@ -115,7 +117,7 @@ public class ApplicationDataSeed
             if (!_dbContext.Set<CarCategory>().ToListAsync().Result.Any())
             {
                 List<CarCategory> data = new List<CarCategory>();
-                using (StreamReader r = new StreamReader(rootPath + "/JsonFiles/CarCategory.json"))
+                using (StreamReader r = new StreamReader(jsonRootPath + "/CarCategory.json"))
                 {
                     var json = r.ReadToEnd();
                     data = JsonConvert.DeserializeObject<List<CarCategory>>(json, jsonSettings)!;
@@ -130,7 +132,7 @@ public class ApplicationDataSeed
             if (!_dbContext.Set<CarModel>().ToListAsync().Result.Any())
             {
                 List<CarModel> data = new List<CarModel>();
-                using (StreamReader r = new StreamReader(rootPath + "/JsonFiles/CarModel.json"))
+                using (StreamReader r = new StreamReader(jsonRootPath + "/CarModel.json"))
                 {
                     var json = r.ReadToEnd();
                     data = JsonConvert.DeserializeObject<List<CarModel>>(json, jsonSettings)!;
@@ -142,32 +144,32 @@ public class ApplicationDataSeed
 
             #region Car
 
-            if (!_dbContext.Set<Car>().ToListAsync().Result.Any())
-            {
-                List<Car> data = new List<Car>();
-                using (StreamReader r = new StreamReader(rootPath + "/JsonFiles/Car.json"))
-                {
-                    var json = r.ReadToEnd();
-                    data = JsonConvert.DeserializeObject<List<Car>>(json, jsonSettings)!;
-                }
-                data.ForEach(x => _carRepository.AddAsync(x));
-            }
+            //if (!_dbContext.Set<Car>().ToListAsync().Result.Any())
+            //{
+            //    List<Car> data = new List<Car>();
+            //    using (StreamReader r = new StreamReader(rootPath + "/JsonFiles/Car.json"))
+            //    {
+            //        var json = r.ReadToEnd();
+            //        data = JsonConvert.DeserializeObject<List<Car>>(json, jsonSettings)!;
+            //    }
+            //    data.ForEach(x => _carRepository.AddAsync(x));
+            //}
 
             #endregion
 
 
             #region CarModelRent
 
-            if (!_dbContext.Set<CarModelRent>().ToListAsync().Result.Any())
-            {
-                List<CarModelRent> data = new List<CarModelRent>();
-                using (StreamReader r = new StreamReader(rootPath + "/JsonFiles/CarModelRent.json"))
-                {
-                    var json = r.ReadToEnd();
-                    data = JsonConvert.DeserializeObject<List<CarModelRent>>(json, jsonSettings)!;
-                }
-                data.ForEach(x => _carModelRentRepository.AddAsync(x));
-            }
+            //if (!_dbContext.Set<CarModelRent>().ToListAsync().Result.Any())
+            //{
+            //    List<CarModelRent> data = new List<CarModelRent>();
+            //    using (StreamReader r = new StreamReader(rootPath + "/JsonFiles/CarModelRent.json"))
+            //    {
+            //        var json = r.ReadToEnd();
+            //        data = JsonConvert.DeserializeObject<List<CarModelRent>>(json, jsonSettings)!;
+            //    }
+            //    data.ForEach(x => _carModelRentRepository.AddAsync(x));
+            //}
 
             #endregion
 
@@ -178,7 +180,7 @@ public class ApplicationDataSeed
             if (!_dbContext.Set<Extra>().ToListAsync().Result.Any())
             {
                 List<Extra> data = new List<Extra>();
-                using (StreamReader r = new StreamReader(rootPath + "/JsonFiles/Extra.json"))
+                using (StreamReader r = new StreamReader(jsonRootPath + "/Extra.json"))
                 {
                     var json = r.ReadToEnd();
                     data = JsonConvert.DeserializeObject<List<Extra>>(json, jsonSettings)!;
@@ -192,31 +194,31 @@ public class ApplicationDataSeed
 
             #region Reservation
 
-            if (!_dbContext.Set<Reservation>().ToListAsync().Result.Any())
-            {
-                List<Reservation> data = new List<Reservation>();
-                using (StreamReader r = new StreamReader(rootPath + "/JsonFiles/Reservation.json"))
-                {
-                    var json = r.ReadToEnd();
-                    data = JsonConvert.DeserializeObject<List<Reservation>>(json, jsonSettings)!;
-                }
-                data.ForEach(x => _reservationRepository.AddAsync(x));
-            }
+            //if (!_dbContext.Set<Reservation>().ToListAsync().Result.Any())
+            //{
+            //    List<Reservation> data = new List<Reservation>();
+            //    using (StreamReader r = new StreamReader(rootPath + "/JsonFiles/Reservation.json"))
+            //    {
+            //        var json = r.ReadToEnd();
+            //        data = JsonConvert.DeserializeObject<List<Reservation>>(json, jsonSettings)!;
+            //    }
+            //    data.ForEach(x => _reservationRepository.AddAsync(x));
+            //}
 
             #endregion
 
             #region ReservationDetail
 
-            if (!_dbContext.Set<ReservationDetail>().ToListAsync().Result.Any())
-            {
-                List<ReservationDetail> data = new List<ReservationDetail>();
-                using (StreamReader r = new StreamReader(rootPath + "/JsonFiles/ReservationDetail.json"))
-                {
-                    var json = r.ReadToEnd();
-                    data = JsonConvert.DeserializeObject<List<ReservationDetail>>(json, jsonSettings)!;
-                }
-                data.ForEach(x => _reservationDetailRepository.AddAsync(x));
-            }
+            //if (!_dbContext.Set<ReservationDetail>().ToListAsync().Result.Any())
+            //{
+            //    List<ReservationDetail> data = new List<ReservationDetail>();
+            //    using (StreamReader r = new StreamReader(rootPath + "/JsonFiles/ReservationDetail.json"))
+            //    {
+            //        var json = r.ReadToEnd();
+            //        data = JsonConvert.DeserializeObject<List<ReservationDetail>>(json, jsonSettings)!;
+            //    }
+            //    data.ForEach(x => _reservationDetailRepository.AddAsync(x));
+            //}
 
             #endregion
 

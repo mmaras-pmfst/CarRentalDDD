@@ -2,6 +2,7 @@ using Application;
 using Application.Behaviors;
 using FluentValidation;
 using Infrastructure;
+using Infrastructure.DataSeed;
 using MediatR;
 using Persistence;
 using Serilog;
@@ -42,5 +43,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+ApplicationDataSeed.Seed(app);
 
 app.Run();

@@ -36,6 +36,9 @@
     <None Update="DataSeed\JsonFiles\CarModelRent.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="DataSeed\JsonFiles\Color.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="DataSeed\JsonFiles\Extra.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
