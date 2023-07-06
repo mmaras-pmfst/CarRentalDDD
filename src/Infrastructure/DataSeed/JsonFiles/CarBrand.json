@@ -1,26 +1,38 @@
 [
   {
     "Id": "311e4dab-62ab-489a-8501-d770f88627fd",
-    "Name": "Audi"
+    "Name": {
+      "Value": "Audi"
+    }
   },
   {
     "Id": "df25a1bf-ff01-4912-88ee-936e6de51fa6",
-    "Name": "Seat"
+    "Name": {
+      "Value": "Seat"
+    }
   },
   {
     "Id": "ef48100a-cb31-42fa-b3b5-064acef28f5a",
-    "Name": "VW"
+    "Name": {
+      "Value": "VW"
+    }
   },
   {
     "Id": "296ea139-ef55-46cc-a3fa-9b1e561d52da",
-    "Name": "Renault"
+    "Name": {
+      "Value": "Renault"
+    }
   },
   {
     "Id": "d45d42cd-5a58-4fe5-b576-c4bb487e7606",
-    "Name": "BMW"
+    "Name": {
+      "Value": "BMW"
+    }
   },
   {
     "Id": "14a9d668-01d3-4934-85c2-350fb462dcfb",
-    "Name": "Mercedes"
+    "Name": {
+      "Value": "Mercedes"
+    }
   }
 ]

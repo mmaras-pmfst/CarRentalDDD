@@ -1,4 +1,5 @@
 ﻿using Domain.Management.CarBrand;
+using Domain.Management.CarBrand.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Persistence.Constants;
@@ -19,7 +20,8 @@ internal class CarBrandConfiguration : IEntityTypeConfiguration<CarBrand>
         builder.HasKey(c => c.Id);
 
         builder.Property(x => x.Name)
-            .HasMaxLength(15)
+            .HasConversion(x => x.Value, v => CarBrandName.Create(v).Value)
+            .HasMaxLength(CarBrandName.MaxLength)
             .IsRequired(true);
 
         builder.HasMany(x => x.CarModels)

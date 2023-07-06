@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Management.CarBrand.ValueObjects;
+using System.Xml.Linq;
 
 namespace Application.CarBrands.Create;
 
@@ -41,9 +43,15 @@ internal sealed class CarBrandCreateCommandHandler : ICommandHandler<CarBrandCre
 
             }
 
+            var carBrandNameResult = CarBrandName.Create(request.CarBrandName);
+            if (carBrandNameResult.IsFailure)
+            {
+                return Result.Failure<Guid>(carBrandNameResult.Error);
+            }
+
             var newCarBrand = CarBrand.Create(
                 Guid.NewGuid(),
-                request.CarBrandName);
+                carBrandNameResult.Value);
 
             await _carBrandRepository.AddAsync(newCarBrand, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

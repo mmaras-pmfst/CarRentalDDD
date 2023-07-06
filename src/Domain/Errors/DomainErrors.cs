@@ -1,4 +1,5 @@
-﻿using Domain.Shared;
+﻿using Domain.Management.CarBrand;
+using Domain.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,14 @@ public static class DomainErrors
         public static readonly Error CarBrandAlreadyExists = new Error(
             "CarBrand.CarBrandAlreadyExists",
             "The specified CarBrand Name is already in use");
+
+        public static readonly Error CarBrandNameTooLong = new Error(
+            "CarBrand.CarBrandNameTooLong",
+            $"The specified CarBrand Name is longer than {Management.CarBrand.CarBrand.NameMaxLength}");
+
+        public static readonly Error CarBrandNameTooShort = new Error(
+            "CarBrand.CarBrandNameTooShort",
+            $"The specified CarBrand Name is shorter than {Management.CarBrand.CarBrand.NameMinLength} ");
     }
 
     public static class CarCategory

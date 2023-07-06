@@ -1,5 +1,8 @@
 ﻿using Domain.Common.Models;
+using Domain.Errors;
 using Domain.Management.CarBrand.Entities;
+using Domain.Management.CarBrand.ValueObjects;
+using Domain.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,24 +15,28 @@ public sealed class CarBrand : AggregateRoot
 {
     private readonly List<CarModel> _carModels = new();
 
-    public string Name { get; private set; }
+    public CarBrandName Name { get; private set; }
     public IReadOnlyCollection<CarModel> CarModels => _carModels;
 
-    private CarBrand(Guid id, string name)
+    private CarBrand(Guid id, CarBrandName name)
         : base(id)
     {
         Name = name;
     }
     private CarBrand() { }
 
-    public static CarBrand Create(Guid id, string name)
+    public static CarBrand Create(Guid id, CarBrandName name)
     {
+        
         return new CarBrand(id, name);
     }
 
-    public void Update(string name)
+    public Result Update(CarBrandName name)
     {
+        
         Name = name;
+
+        return Result.Success();
     }
 
     public CarModel CreateCarModel(string carModelName, CarCategory.CarCategory carCategory)
@@ -49,4 +56,11 @@ public sealed class CarBrand : AggregateRoot
         carModel.Update(carModelName, carCategory);
         return carModel;
     }
+
+    #region Rules
+
+    public const int NameMaxLength = 30;
+    public const int NameMinLength = 2;
+
+    #endregion
 }
