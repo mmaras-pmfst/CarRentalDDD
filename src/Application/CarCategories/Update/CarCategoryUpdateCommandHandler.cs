@@ -1,5 +1,7 @@
 ﻿using Application.Abstractions;
+using Domain.Common.ValueObjects;
 using Domain.Management.CarCategory;
+using Domain.Management.CarCategory.ValueObjects;
 using Domain.Repositories;
 using Domain.Shared;
 using MediatR;
@@ -40,7 +42,28 @@ internal sealed class CarCategoryUpdateCommandHandler : ICommandHandler<CarCateg
                     $"The CarCategory with Id {request.CarCategoryId} was not found"));
             }
 
-            dbCarCategory.Update(request.Name, request.ShortName, request.Description);
+            var carCategoryNameResult = CarCategoryName.Create(request.Name);
+            if (carCategoryNameResult.IsFailure)
+            {
+                return Result.Failure<bool>(carCategoryNameResult.Error);
+            }
+            var carCategoryShortNameResult = CarCategoryShortName.Create(request.ShortName);
+            if (carCategoryShortNameResult.IsFailure)
+            {
+                return Result.Failure<bool>(carCategoryShortNameResult.Error);
+
+            }
+            var descriptionResult = Description.Create(request.Description);
+            if (descriptionResult.IsFailure)
+            {
+                return Result.Failure<bool>(descriptionResult.Error);
+
+            }
+
+            dbCarCategory.Update(
+                carCategoryNameResult.Value,
+                carCategoryShortNameResult.Value,
+                descriptionResult.Value);
 
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);

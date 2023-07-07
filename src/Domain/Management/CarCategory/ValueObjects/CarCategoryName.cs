@@ -11,9 +11,10 @@ using System.Threading.Tasks;
 namespace Domain.Management.CarCategory.ValueObjects;
 public sealed class CarCategoryName : ValueObject
 {
-    public const int MaxLength = 15;
-    public const int MinLength = 4;
+    public const int MaxLength = 30;
+    public const int MinLength = 3;
     public string Value { get; }
+    
     public CarCategoryName(string value)
     {
         Value = value;

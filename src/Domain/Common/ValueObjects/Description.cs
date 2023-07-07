@@ -10,16 +10,22 @@ namespace Domain.Common.ValueObjects;
 public sealed class Description : ValueObject
 {
     public const int MaxLength = 250;
-    public string? Value { get; }
+    public string Value { get; }
 
-    public Description(string? value)
+    public Description(string value)
     {
         Value = value;
     }
 
-    public static Result<Description> Create(string? description)
+    public static Result<Description> Create(string description)
     {
-        if(description != null && description.Length> MaxLength)
+        if(description == null)
+        {
+            return Result.Failure<Description>(new Error(
+                "DescriptionIsNull",
+                $"The Description field cannot be null"));
+        }
+        else if(description.Length> MaxLength)
         {
             return Result.Failure<Description>(new Error(
                 "DescriptionTooLong",
@@ -30,6 +36,6 @@ public sealed class Description : ValueObject
 
     public override IEnumerable<object> GetAtomicValues()
     {
-        throw new NotImplementedException();
+        yield return Value;
     }
 }

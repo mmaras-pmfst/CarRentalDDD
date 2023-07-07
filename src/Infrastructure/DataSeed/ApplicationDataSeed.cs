@@ -114,6 +114,7 @@ public class ApplicationDataSeed
 
             #region CarCategory
 
+
             if (!_dbContext.Set<CarCategory>().ToListAsync().Result.Any())
             {
                 List<CarCategory> data = new List<CarCategory>();

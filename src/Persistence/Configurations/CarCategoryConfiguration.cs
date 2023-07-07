@@ -1,4 +1,7 @@
-﻿using Domain.Management.CarCategory;
+﻿using Domain.Common.ValueObjects;
+using Domain.Management.CarBrand.ValueObjects;
+using Domain.Management.CarCategory;
+using Domain.Management.CarCategory.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Persistence.Constants;
@@ -19,15 +22,18 @@ internal class CarCategoryConfiguration : IEntityTypeConfiguration<CarCategory>
         builder.HasKey(c => c.Id);
 
         builder.Property(x => x.Name)
-            .HasMaxLength(15)
+            .HasConversion(x => x.Value, v => CarCategoryName.Create(v).Value)
+            .HasMaxLength(CarCategoryName.MaxLength)
             .IsRequired(true);
 
         builder.Property(x => x.ShortName)
-            .HasMaxLength(6)
+            .HasConversion(x => x.Value, v => CarCategoryShortName.Create(v).Value)
+            .HasMaxLength(CarCategoryShortName.MaxLength)
             .IsRequired(true);
 
         builder.Property(x => x.Description)
-            .HasMaxLength(60)
+            .HasConversion(x => x.Value, v => Description.Create(v).Value)
+            .HasMaxLength(Description.MaxLength)
             .IsRequired(true);
     }
 }

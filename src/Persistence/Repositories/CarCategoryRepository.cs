@@ -19,19 +19,21 @@ internal sealed class CarCategoryRepository : ICarCategoryRepository
 
     public async Task AddAsync(CarCategory carCategory, CancellationToken cancellationToken = default)
     {
-        await _dbContext.Set<CarCategory>().AddAsync(carCategory,cancellationToken);
+        await _dbContext.Set<CarCategory>().AddAsync(carCategory, cancellationToken);
     }
 
     public async Task<bool> AlreadyExists(string shortName, CancellationToken cancellationToken = default)
     {
-        var carCategory = await _dbContext.Set<CarCategory>().Where(x => x.ShortName.ToUpper() == shortName.ToUpper()).SingleOrDefaultAsync(cancellationToken);
+        var carCategory = await _dbContext.Set<CarCategory>().Where(x => x.ShortName.Value.ToUpper() == shortName.ToUpper()).SingleOrDefaultAsync(cancellationToken);
 
         return carCategory != null ? false : true;
     }
 
     public async Task<List<CarCategory>> GetAllAsync(CancellationToken cancellationToken = default)
     {
+
         return await _dbContext.Set<CarCategory>().ToListAsync(cancellationToken);
+
     }
 
     public async Task<CarCategory?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
