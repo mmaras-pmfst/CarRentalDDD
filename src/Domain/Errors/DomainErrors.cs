@@ -37,6 +37,22 @@ public static class DomainErrors
         public static readonly Error CarCategoryAlreadyExists = new Error(
             "CarCategory.CarCategoryAlreadyExists",
             "The specified CarCategory ShortName is already in use");
+
+        public static readonly Error CarCategoryNameTooLong = new Error(
+            "CarBrand.CarCategoryNameTooLong",
+            $"The specified CarCategory Name is longer than {Management.CarCategory.ValueObjects.CarCategoryName.MaxLength}");
+
+        public static readonly Error CarCategoryNameTooShort = new Error(
+            "CarBrand.CarCategoryNameTooShort",
+            $"The specified CarCategory Name is shorter than {Management.CarCategory.ValueObjects.CarCategoryName.MinLength} ");
+
+        public static readonly Error CarCategoryShortNameTooLong = new Error(
+            "CarBrand.CarCategoryShortNameTooLong",
+            $"The specified CarCategory ShortName is longer than {Management.CarCategory.ValueObjects.CarCategoryShortName.MaxLength}");
+
+        public static readonly Error CarCategoryShortNameTooShort = new Error(
+            "CarBrand.CarCategoryShortNameTooShort",
+            $"The specified CarCategory ShortName is shorter than {Management.CarCategory.ValueObjects.CarCategoryShortName.MinLength} ");
     }
 
     public static class CarModel

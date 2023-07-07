@@ -36,6 +36,7 @@ public sealed class CarModelName : ValueObject
 
     public override IEnumerable<object> GetAtomicValues()
     {
-        throw new NotImplementedException();
+        yield return Value;
+
     }
 }
