@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Enums
+namespace Domain.Enums;
+public enum FuelType
 {
-    public enum FuelType
-    {
-        Diesel = 0,
-        Petrol = 1,
-        Electric = 2,
-    }
+    Diesel = 1,
+    Petrol = 2,
+    Electric = 3,
 }

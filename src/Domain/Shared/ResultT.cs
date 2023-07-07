@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.Shared;
-
 public class Result<TValue> : Result
 {
     private readonly TValue? _value;

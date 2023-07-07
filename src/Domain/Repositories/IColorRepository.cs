@@ -1,17 +1,15 @@
-﻿using Domain.Color;
+﻿using Domain.Management.Color;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Repositories
+namespace Domain.Repositories;
+public interface IColorRepository
 {
-    public interface IColorRepository
-    {
-        Task AddAsync(Color.Color color, CancellationToken cancellationToken = default);
-        Task<List<Color.Color>> GetAllAsync(CancellationToken cancellationToken = default);
-        Task<Color.Color?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
-        Task<bool> AlreadyExists(string colorName, CancellationToken cancellationToken = default);
-    }
+    Task AddAsync(Color color, CancellationToken cancellationToken = default);
+    Task<List<Color>> GetAllAsync(CancellationToken cancellationToken = default);
+    Task<Color?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<bool> AlreadyExists(string colorName, CancellationToken cancellationToken = default);
 }

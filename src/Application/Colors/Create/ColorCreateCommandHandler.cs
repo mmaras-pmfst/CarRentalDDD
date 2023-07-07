@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions;
-using Domain.Color;
+using Application.Common.Mailing;
+using Domain.Management.Color;
 using Domain.Errors;
 using Domain.Repositories;
 using Domain.Shared;
@@ -18,12 +19,16 @@ namespace Application.Colors.Create
         private ILogger<ColorCreateCommandHandler> _logger;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IColorRepository _colorRepository;
+        private readonly IEmailTemplateService _emailTemplateService;
+        private readonly IMailService _mailService;
 
-        public ColorCreateCommandHandler(ILogger<ColorCreateCommandHandler> logger, IUnitOfWork unitOfWork, IColorRepository colorRepository)
+        public ColorCreateCommandHandler(ILogger<ColorCreateCommandHandler> logger, IUnitOfWork unitOfWork, IColorRepository colorRepository, IEmailTemplateService emailTemplateService, IMailService mailService)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
             _colorRepository = colorRepository;
+            _emailTemplateService = emailTemplateService;
+            _mailService = mailService;
         }
 
         public async Task<Result<Guid>> Handle(ColorCreateCommand request, CancellationToken cancellationToken)
@@ -45,6 +50,21 @@ namespace Application.Colors.Create
 
                 await _colorRepository.AddAsync(newColor, cancellationToken);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+
+                RegisterUserEmailModel eMailModel = new RegisterUserEmailModel()
+                {
+                    Email = "marko.maki.maras@gmail.com",
+                    UserName = "mmaras",
+                    Url = ""
+                };
+
+                var mailRequest = new MailRequest(
+                new List<string> { "marko.maki.maras@gmail.com" },
+                    "Reservation confirmation",
+                    _emailTemplateService.GenerateEmailTemplate("email-confirmation", eMailModel));
+
+                await _mailService.SendAsync(mailRequest);
 
                 _logger.LogInformation("Finished ColorCreateCommandHandler");
                 return newColor.Id;

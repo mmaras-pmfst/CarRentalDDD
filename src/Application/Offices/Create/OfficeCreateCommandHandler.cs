@@ -1,6 +1,6 @@
 ﻿using Application.Abstractions;
 using Domain.Errors;
-using Domain.Office;
+using Domain.Management.Office;
 using Domain.Repositories;
 using Domain.Shared;
 using MediatR;
@@ -39,7 +39,7 @@ internal sealed class OfficeCreateCommandHandler : ICommandHandler<OfficeCreateC
                 return Result.Failure<Guid>(DomainErrors.Office.OfficeAlreadyExists);
 
             }
-            var newOffice = Domain.Office.Office.Create(
+            var newOffice = Office.Create(
                     Guid.NewGuid(),
                     request.Country,
                     request.City,

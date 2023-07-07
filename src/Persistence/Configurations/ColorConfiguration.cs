@@ -1,4 +1,4 @@
-﻿using Domain.Color;
+﻿using Domain.Management.Color;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Persistence.Constants;
@@ -18,7 +18,7 @@ internal class ColorConfiguration : IEntityTypeConfiguration<Color>
 
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.ColorName)
+        builder.Property(x => x.Name)
             .HasMaxLength(50)
             .IsRequired(true);
     }

@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions;
-using Domain.CarCategory;
+using Domain.Management.CarCategory;
 using Domain.Repositories;
 using Domain.Shared;
 using MediatR;
@@ -16,13 +16,11 @@ internal sealed class CarCategoryGetByIdQueryHandler : IQueryHandler<CarCategory
 {
     private ILogger<CarCategoryGetByIdQueryHandler> _logger;
     private readonly ICarCategoryRepository _carCategoryRepository;
-    private readonly IUnitOfWork _unitOfWork;
 
-    public CarCategoryGetByIdQueryHandler(ILogger<CarCategoryGetByIdQueryHandler> logger, ICarCategoryRepository carCategoryRepository, IUnitOfWork unitOfWork)
+    public CarCategoryGetByIdQueryHandler(ILogger<CarCategoryGetByIdQueryHandler> logger, ICarCategoryRepository carCategoryRepository)
     {
         _logger = logger;
         _carCategoryRepository = carCategoryRepository;
-        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<CarCategory?>> Handle(CarCategoryGetByIdQuery request, CancellationToken cancellationToken)

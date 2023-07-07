@@ -1,0 +1,26 @@
+[
+  {
+    "Id": "7e35482d-e8f2-44cf-b629-0882aab9d6a9",
+    "Name": {"Value": "Small"},
+    "ShortName": {"Value": "S"},
+    "Description": { "Value": "Category for small cars" }
+  },
+  {
+    "Id": "9aa97f53-6008-45d2-ae54-e90bbd9c2396",
+    "Name": { "Value": "Compact" },
+    "ShortName": { "Value": "C" },
+    "Description": { "Value": "Category for medium size cars" }
+  },
+  {
+    "Id": "0464d506-deea-4a1c-8074-43bf93edacf7",
+    "Name": { "Value": "Large size" },
+    "ShortName": { "Value": "L" },
+    "Description": { "Value": "Category for large size cars" }
+  },
+  {
+    "Id": "b3d96483-8525-41cc-be9f-5d0aadc25d47",
+    "Name": { "Value": "Van" },
+    "ShortName": { "Value": "V" },
+    "Description": { "Value": "Category for van size cars" }
+  }
+]

@@ -2,7 +2,7 @@
 using Application.CarModels.GetAll;
 using Application.CarModels.GetById;
 using Application.CarModels.Update;
-using Domain.CarBrand.Entities;
+using Domain.Management.CarBrand.Entities;
 using Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -29,7 +29,7 @@ namespace WebApi.Controllers
         {
             _logger.LogInformation("Started CarModelController.Create");
 
-            var command = new CarModelCreateCommand(request.CarModelName, request.BasePricePerDay, request.CarBrandId,  request.CarCategoryId);
+            var command = new CarModelCreateCommand(request.CarModelName, request.CarBrandId,  request.CarCategoryId);
 
             Result<Guid> response = await Sender.Send(command);
 

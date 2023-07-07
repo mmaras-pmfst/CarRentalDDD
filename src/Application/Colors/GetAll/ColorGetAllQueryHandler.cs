@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions;
-using Domain.Color;
+using Domain.Management.Color;
 using Domain.Repositories;
 using Domain.Shared;
 using MediatR;

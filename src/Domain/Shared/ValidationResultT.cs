@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.Shared;
-
 public sealed class ValidationResult<TValue> : Result<TValue>, IValidationResult
 {
     private ValidationResult(Error[] errors)

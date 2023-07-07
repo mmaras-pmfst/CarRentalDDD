@@ -1,0 +1,22 @@
+[
+  {
+    "Id": "1035c845-c5ac-42ae-8d89-420559172421",
+    "Name": "Blue"
+  },
+  {
+    "Id": "3cf28854-a3bc-4fef-b5ef-daf81ed84931",
+    "Name": "Black"
+  },
+  {
+    "Id": "c4d27488-3513-4839-88b5-27a1b0861e58",
+    "Name": "White"
+  },
+  {
+    "Id": "fdc05416-98d3-45ab-9f68-fe7e5a65c0d7",
+    "Name": "Grey"
+  },
+  {
+    "Id": "818aa8c1-b002-4fd0-803e-f4e02b642793",
+    "Name": "Red"
+  }
+]

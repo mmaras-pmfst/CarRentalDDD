@@ -1,5 +1,5 @@
-﻿using Domain.CarBrand;
-using Domain.CarCategory;
+﻿using Domain.Management.CarBrand;
+using Domain.Management.CarCategory;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -24,7 +24,9 @@ internal sealed class CarBrandRepository : ICarBrandRepository
 
     public async Task<bool> AlreadyExists(string carBrandName, CancellationToken cancellationToken = default)
     {
-        var carBrand = await _dbContext.Set<CarBrand>().Where(x => x.CarBrandName.ToUpper() == carBrandName.ToUpper()).SingleOrDefaultAsync(cancellationToken);
+        var carBrand = await _dbContext.Set<CarBrand>()
+            .Where(x => x.Name.Value.ToUpper() == carBrandName.ToUpper())
+            .SingleOrDefaultAsync(cancellationToken);
 
         return carBrand != null ? false : true;
 
@@ -34,7 +36,9 @@ internal sealed class CarBrandRepository : ICarBrandRepository
     {
         return await _dbContext.Set<CarBrand>()
             .Include(x => x.CarModels)
-                .ThenInclude(x => x.ReservationContracts)
+                .ThenInclude(x => x.CarModelRents)
+                    .ThenInclude(x => x.Reservations)
+                        .ThenInclude(x => x.ReservationDetails)
             .ToListAsync(cancellationToken);
 
     }
@@ -43,7 +47,6 @@ internal sealed class CarBrandRepository : ICarBrandRepository
     {
         return await _dbContext.Set<CarBrand>()
             .Include(x => x.CarModels)
-                .ThenInclude(x => x.ReservationContracts)
             .Where(x => x.Id == id)
             .SingleOrDefaultAsync(cancellationToken);
 

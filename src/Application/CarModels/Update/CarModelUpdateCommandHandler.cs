@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions;
-using Domain.CarBrand;
+using Domain.Management.CarBrand;
+using Domain.Management.CarBrand.ValueObjects;
 using Domain.Repositories;
 using Domain.Shared;
 using MediatR;
@@ -67,8 +68,12 @@ internal sealed class CarModelUpdateCommandHandler : ICommandHandler<CarModelUpd
                     $"The CarModel with Id {request.CarModelId} was not found"));
             }
 
-
-            carModel.Update(request.CarModelName, request.BasePricePerDay, carCategory);
+            var carModelNameResult = CarModelName.Create(request.CarModelName);
+            if (carModelNameResult.IsFailure)
+            {
+                return Result.Failure<bool>(carModelNameResult.Error);
+            }
+            carModel.Update(carModelNameResult.Value, carCategory);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             _logger.LogInformation("Finished CarModelUpdateCommandHandler");

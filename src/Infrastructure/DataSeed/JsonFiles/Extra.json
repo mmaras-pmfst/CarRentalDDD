@@ -1,0 +1,32 @@
+[
+  {
+    "Id": "a1e23308-fb47-4b9f-abce-fe36817d201c",
+    "Name": "Child seat",
+    "Description": "Child seat for 3 to 6 year olds",
+    "PricePerDay": "5"
+  },
+  {
+    "Id": "eb168d4c-80b0-48d1-aa15-e85481c17a39",
+    "Name": "Internet 2 go",
+    "Description": "Unlimited internet",
+    "PricePerDay": "6"
+  },
+  {
+    "Id": "1003cb8d-d4be-4829-9ebf-5f36ecde1a08",
+    "Name": "Booster",
+    "Description": "Child seat for 6 to 9 year olds",
+    "PricePerDay": "3"
+  },
+  {
+    "Id": "400f430f-fd35-4001-b7c7-98cb78fa6226",
+    "Name": "Green card",
+    "Description": "Out of country pass",
+    "PricePerDay": "1"
+  },
+  {
+    "Id": "e1a03df5-256f-4da7-b412-51eadd47f0b9",
+    "Name": "Full insurance",
+    "Description": "All car damages covered",
+    "PricePerDay": "25"
+  }
+]

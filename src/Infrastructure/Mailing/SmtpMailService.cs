@@ -72,7 +72,7 @@ public class SmtpMailService : IMailService
             email.Body = builder.ToMessageBody();
 
             using var smtp = new SmtpClient();
-            await smtp.ConnectAsync(_settings.Host, _settings.Port, SecureSocketOptions.StartTls);
+            await smtp.ConnectAsync(_settings.Host, _settings.Port, SecureSocketOptions.SslOnConnect);
             await smtp.AuthenticateAsync(_settings.UserName, _settings.Password);
             await smtp.SendAsync(email);
             await smtp.DisconnectAsync(true);

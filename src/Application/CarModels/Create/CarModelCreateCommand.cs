@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 namespace Application.CarModels.Create;
 
 public sealed record CarModelCreateCommand(
-    string CarModelName, 
-    decimal BasePricePerDay,
+    string CarModelName,
     Guid CarBrandId, 
     Guid CarCategoryId) : ICommand<Guid>;

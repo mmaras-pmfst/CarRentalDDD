@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Enums
+namespace Domain.Enums;
+public enum PaymentMethod
 {
-    public enum PaymentMethod
-    {
-        Card,
-        Cash
-    }
+    Card = 1,
+    Cash = 2
 }

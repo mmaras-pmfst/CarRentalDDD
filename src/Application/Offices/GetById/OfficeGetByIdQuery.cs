@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions;
-using Domain.Office;
+using Domain.Management.Office;
 using MediatR;
 using System;
 using System.Collections.Generic;

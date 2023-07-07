@@ -22,7 +22,12 @@ public static class DependencyInjection
         services.AddScoped<ICarCategoryRepository, CarCategoryRepository>();
         services.AddScoped<ICarBrandRepository, CarBrandRepository>();
         services.AddScoped<ICarModelRepository, CarModelRepository>();
-        services.AddScoped<IReservationContractRepository, ReservationContractRepository>();
+        services.AddScoped<ICarRepository, CarRepository>();
+        services.AddScoped<IExtrasRepository, ExtrasRepository>();
+        services.AddScoped<IWorkerRepository, WorkerRepository>();
+        services.AddScoped<ICarModelRentRepository, CarModelRentRepository>();
+        services.AddScoped<IReservationRepository, ReservationRepository>();
+        services.AddScoped<IReservationDetailRepository, ReservationDetailRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 

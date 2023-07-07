@@ -1,0 +1,10 @@
+{
+  "MailSettings": {
+    "DisplayName": "Marko Maras",
+    "From": "mmmcar.rental1@gmail.com",
+    "Host": "smtp.gmail.com",
+    "Password": "lboeklwlvnkirqgk",
+    "Port": 465,
+    "UserName": "mmmcar.rental1@gmail.com"
+  }
+}

@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions;
-using Domain.CarBrand.Entities;
+using Domain.Management.CarBrand.Entities;
 using Domain.Repositories;
 using Domain.Shared;
 using MediatR;

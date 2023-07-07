@@ -2,11 +2,14 @@ using Application;
 using Application.Behaviors;
 using FluentValidation;
 using Infrastructure;
+using Infrastructure.DataSeed;
 using MediatR;
 using Persistence;
 using Serilog;
+using WebApi.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Host.AddConfigurations();
 
 // Add services to the container.
 
@@ -40,5 +43,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+ApplicationDataSeed.Seed(app);
 
 app.Run();

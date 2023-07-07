@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions;
-using Domain.CarBrand;
+using Domain.Management.CarBrand;
+using Domain.Management.CarBrand.ValueObjects;
 using Domain.Repositories;
 using Domain.Shared;
 using MediatR;
@@ -40,8 +41,12 @@ internal sealed class CarBrandUpdateCommandHandler : IQueryHandler<CarBrandUpdat
                     "CarBrand.NotFound",
                     $"The CarBrand with Id {request.CarBrandId} was not found"));
             }
-
-            dbCarBrand.Update(request.CarBrandName);
+            var carBrandNameResult = CarBrandName.Create(request.CarBrandName);
+            if (carBrandNameResult.IsFailure)
+            {
+                return Result.Failure<bool>(carBrandNameResult.Error);
+            }
+            dbCarBrand.Update(carBrandNameResult.Value);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

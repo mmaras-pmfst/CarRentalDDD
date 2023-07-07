@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions;
-using Domain.CarCategory;
+using Domain.Management.CarCategory;
 using Domain.Errors;
 using Domain.Repositories;
 using Domain.Shared;
@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Management.CarCategory.ValueObjects;
+using Domain.Common.ValueObjects;
 
 namespace Application.CarCategories.Create;
 
@@ -40,11 +42,29 @@ internal sealed class CarCategoryCreateCommandHandler : ICommandHandler<CarCateg
 
             }
 
+            var carCategoryNameResult = CarCategoryName.Create(request.Name);
+            if (carCategoryNameResult.IsFailure)
+            {
+                return Result.Failure<Guid>(carCategoryNameResult.Error);
+            }
+            var carCategoryShortNameResult = CarCategoryShortName.Create(request.ShortName);
+            if (carCategoryShortNameResult.IsFailure)
+            {
+                return Result.Failure<Guid>(carCategoryShortNameResult.Error);
+
+            }
+            var descriptionResult = Description.Create(request.Description);
+            if (descriptionResult.IsFailure)
+            {
+                return Result.Failure<Guid>(descriptionResult.Error);
+
+            }
+
             var newCarCategory = CarCategory.Create(
                 Guid.NewGuid(),
-                request.Name,
-                request.ShortName,
-                request.Description);
+                carCategoryNameResult.Value,
+                carCategoryShortNameResult.Value,
+                descriptionResult.Value);
 
             await _carCategoryRepository.AddAsync(newCarCategory,cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
