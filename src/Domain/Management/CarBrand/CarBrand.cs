@@ -39,14 +39,14 @@ public sealed class CarBrand : AggregateRoot
         return Result.Success();
     }
 
-    public CarModel CreateCarModel(string carModelName, CarCategory.CarCategory carCategory)
+    public CarModel CreateCarModel(CarModelName carModelName, CarCategory.CarCategory carCategory)
     {
         var carModel = CarModel.Create(Guid.NewGuid(), carModelName, this, carCategory);
         _carModels.Add(carModel);
         return carModel;
     }
 
-    public CarModel UpdateCarModel(Guid carModelId, string carModelName, CarCategory.CarCategory carCategory)
+    public CarModel UpdateCarModel(Guid carModelId, CarModelName carModelName, CarCategory.CarCategory carCategory)
     {
         var carModel = _carModels.FirstOrDefault(x => x.Id == carModelId);
         if(carModel == null)
@@ -57,10 +57,4 @@ public sealed class CarBrand : AggregateRoot
         return carModel;
     }
 
-    #region Rules
-
-    public const int NameMaxLength = 30;
-    public const int NameMinLength = 2;
-
-    #endregion
 }

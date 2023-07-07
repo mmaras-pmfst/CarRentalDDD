@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions;
 using Domain.Errors;
+using Domain.Management.CarBrand.ValueObjects;
 using Domain.Repositories;
 using Domain.Shared;
 using MediatR;
@@ -63,14 +64,18 @@ internal sealed class CarModelCreateCommandHandler : ICommandHandler<CarModelCre
                     $"The CarBrand with Id {request.CarBrandId} was not found"));
             }
 
-            var carModelExist = carBrand.CarModels.Where(x => x.Name == request.CarModelName).Any();
+            var carModelExist = carBrand.CarModels.Where(x => x.Name.Value == request.CarModelName).Any();
             if (carModelExist)
             {
                 return Result.Failure<Guid>(DomainErrors.CarModel.CarModelAlreadyExists);
 
             }
-
-            var carModel = carBrand.CreateCarModel(request.CarModelName, carCategory);
+            var carModelNameResult = CarModelName.Create(request.CarModelName);
+            if (carModelNameResult.IsFailure)
+            {
+                return Result.Failure<Guid>(carModelNameResult.Error);
+            }
+            var carModel = carBrand.CreateCarModel(carModelNameResult.Value, carCategory);
 
             await _carModelRepository.AddAsync(carModel, cancellationToken);
 

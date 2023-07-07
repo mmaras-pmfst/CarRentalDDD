@@ -1,4 +1,5 @@
 ﻿using Domain.Management.CarBrand.Entities;
+using Domain.Management.CarBrand.ValueObjects;
 using Domain.Management.CarCategory;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -20,7 +21,8 @@ internal class CarModelConfiguration : IEntityTypeConfiguration<CarModel>
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Name)
-            .HasMaxLength(50)
+            .HasConversion(x => x.Value, v => CarModelName.Create(v).Value)
+            .HasMaxLength(CarModelName.MaxLength)
             .IsRequired(true);
 
 

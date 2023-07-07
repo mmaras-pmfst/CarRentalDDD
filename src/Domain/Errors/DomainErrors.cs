@@ -25,11 +25,11 @@ public static class DomainErrors
 
         public static readonly Error CarBrandNameTooLong = new Error(
             "CarBrand.CarBrandNameTooLong",
-            $"The specified CarBrand Name is longer than {Management.CarBrand.CarBrand.NameMaxLength}");
+            $"The specified CarBrand Name is longer than {Management.CarBrand.ValueObjects.CarBrandName.MaxLength}");
 
         public static readonly Error CarBrandNameTooShort = new Error(
             "CarBrand.CarBrandNameTooShort",
-            $"The specified CarBrand Name is shorter than {Management.CarBrand.CarBrand.NameMinLength} ");
+            $"The specified CarBrand Name is shorter than {Management.CarBrand.ValueObjects.CarBrandName.MinLength} ");
     }
 
     public static class CarCategory
@@ -44,6 +44,14 @@ public static class DomainErrors
         public static readonly Error CarModelAlreadyExists = new Error(
             "CarModel.CarModelAlreadyExists",
             "The specified CarModel Name is already in use");
+
+        public static readonly Error CarModelNameTooLong = new Error(
+            "CarBrand.CarModelNameTooLong",
+            $"The specified CarModel Name is longer than {Management.CarBrand.ValueObjects.CarModelName.MaxLength}");
+
+        public static readonly Error CarModelNameTooShort = new Error(
+            "CarBrand.CarModelNameTooShort",
+            $"The specified CarName Name is shorter than {Management.CarBrand.ValueObjects.CarModelName.MinLength} ");
     }
 
     public static class Office
