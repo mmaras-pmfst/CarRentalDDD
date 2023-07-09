@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions;
+using Domain.Common.ValueObjects;
 using Domain.Errors;
 using Domain.Management.Office;
 using Domain.Repositories;
@@ -39,6 +40,12 @@ internal sealed class OfficeCreateCommandHandler : ICommandHandler<OfficeCreateC
                 return Result.Failure<Guid>(DomainErrors.Office.OfficeAlreadyExists);
 
             }
+            var phoneNumberResult = PhoneNumber.Create(request.PhoneNumber);
+            if (phoneNumberResult.IsFailure)
+            {
+                return Result.Failure<Guid>(phoneNumberResult.Error);
+
+            }
             var newOffice = Office.Create(
                     Guid.NewGuid(),
                     request.Country,
@@ -47,7 +54,7 @@ internal sealed class OfficeCreateCommandHandler : ICommandHandler<OfficeCreateC
                     request.StreetNumber,
                     request.OpeningTime,
                     request.ClosingTime,
-                    request.PhoneNumber
+                    phoneNumberResult.Value
                     );
 
             await _officeRepository.AddAsync(newOffice);

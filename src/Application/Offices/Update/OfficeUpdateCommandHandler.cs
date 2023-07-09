@@ -41,9 +41,21 @@ namespace Application.Offices.Update
                             "Office.NotFound",
                             $"The Office with Id {request.OfficeId} was not found"));
                 }
+                var phoneNumberResult = PhoneNumber.Create(request.PhoneNumber);
+                if (phoneNumberResult.IsFailure)
+                {
+                    return Result.Failure<bool>(phoneNumberResult.Error);
 
+                }
 
-                dbOffice.Update(request.Country, request.City, request.StreetName, request.StreetNumber, request.OpeningTime, request.ClosingTime, request.PhoneNumber);
+                dbOffice.Update(
+                    request.Country, 
+                    request.City, 
+                    request.StreetName, 
+                    request.StreetNumber, 
+                    request.OpeningTime, 
+                    request.ClosingTime,
+                    phoneNumberResult.Value);
 
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
 

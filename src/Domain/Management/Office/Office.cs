@@ -19,7 +19,7 @@ public sealed class Office : AggregateRoot, IAuditableEntity
     public string Country { get; private set; }
     public DateTime? OpeningTime { get; private set; }
     public DateTime? ClosingTime { get; private set; }
-    public string PhoneNumber { get; private set; }
+    public PhoneNumber PhoneNumber { get; private set; }
     public DateTime CreatedOnUtc { get; set; }
     public DateTime? ModifiedOnUtc { get; set; }
 
@@ -27,7 +27,7 @@ public sealed class Office : AggregateRoot, IAuditableEntity
     public IReadOnlyCollection<Worker> Workers => _workers;
 
 
-    private Office(Guid id, string country, string city, string streetName, string streetNumber, DateTime? openingTime, DateTime? closingTime, string phoneNumber)
+    private Office(Guid id, string country, string city, string streetName, string streetNumber, DateTime? openingTime, DateTime? closingTime, PhoneNumber phoneNumber)
         : base(id)
     {
         Country = country;
@@ -45,12 +45,12 @@ public sealed class Office : AggregateRoot, IAuditableEntity
 
     }
 
-    public static Office Create(Guid id, string country, string city, string streetName, string streetNumber, DateTime? openingTime, DateTime? closingTime, string phoneNumber)
+    public static Office Create(Guid id, string country, string city, string streetName, string streetNumber, DateTime? openingTime, DateTime? closingTime, PhoneNumber phoneNumber)
     {
         return new Office(id, country, city, streetName, streetNumber, openingTime, closingTime, phoneNumber);
     }
 
-    public void Update(string country, string city, string streetName, string streetNumber, DateTime? openingTime, DateTime? closingTime, string phoneNumber)
+    public void Update(string country, string city, string streetName, string streetNumber, DateTime? openingTime, DateTime? closingTime, PhoneNumber phoneNumber)
     {
         Country = country;
         City = city;
