@@ -1,4 +1,6 @@
-﻿using Domain.Management.Office;
+﻿using Domain.Common.ValueObjects;
+using Domain.Management.CarBrand.ValueObjects;
+using Domain.Management.Office;
 using Domain.Management.Office.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -30,7 +32,7 @@ internal class WorkerConfiguration : IEntityTypeConfiguration<Worker>
             .IsRequired(true);
 
         builder.Property(x => x.Email)
-            .HasMaxLength(50)
+            .HasConversion(x => x.Value, v => Email.Create(v).Value)
             .IsRequired(true);
 
         builder.Property(x => x.PersonalIdentificationNumber)

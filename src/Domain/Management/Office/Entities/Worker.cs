@@ -1,4 +1,5 @@
 ﻿using Domain.Common.Models;
+using Domain.Common.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ public sealed class Worker : Entity
     public string PersonalIdentificationNumber { get; private set; }
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
-    public string Email { get; private set; }
+    public Email Email { get; private set; }
     public string PhoneNumber { get; private set; }
     public Guid OfficeId { get; private set; }
 
@@ -24,7 +25,7 @@ public sealed class Worker : Entity
 
     }
 
-    private Worker(Guid id, string firstName, string lastName, string email, string phoneNumber, Office office, string personalIdentificationNumber)
+    private Worker(Guid id, string firstName, string lastName, Email email, string phoneNumber, Office office, string personalIdentificationNumber)
         : base(id)
     {
         FirstName = firstName;
@@ -35,12 +36,12 @@ public sealed class Worker : Entity
         PersonalIdentificationNumber = personalIdentificationNumber;
     }
 
-    public static Worker Create(Guid id, string firstName, string lastName, string email, string phoneNumber, Office office, string personalIdentificationNumber)
+    public static Worker Create(Guid id, string firstName, string lastName, Email email, string phoneNumber, Office office, string personalIdentificationNumber)
     {
         return new Worker(id, firstName, lastName, email, phoneNumber, office, personalIdentificationNumber);
     }
 
-    public void Update(string email, string phoneNumber, Office office)
+    public void Update(Email email, string phoneNumber, Office office)
     {
         Email = email;
         PhoneNumber = phoneNumber;

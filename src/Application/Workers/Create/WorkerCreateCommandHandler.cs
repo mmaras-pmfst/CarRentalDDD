@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions;
+using Domain.Common.ValueObjects;
 using Domain.Errors;
 using Domain.Management.Office;
 using Domain.Repositories;
@@ -51,7 +52,18 @@ internal class WorkerCreateCommandHandler : ICommandHandler<WorkerCreateCommand,
 
             }
 
-            var newWorker = office.AddWorker(request.PersonalIdentificationNumber, request.FirstName, request.LastName, request.Email, request.PhoneNumber);
+            var emailResult = Email.Create(request.Email);
+            if (emailResult.IsFailure)
+            {
+                return Result.Failure<Guid>(emailResult.Error);
+            }
+
+            var newWorker = office.AddWorker(
+                request.PersonalIdentificationNumber, 
+                request.FirstName, 
+                request.LastName, 
+                emailResult.Value,
+                request.PhoneNumber);
 
             await _workerRepository.AddAsync(newWorker, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

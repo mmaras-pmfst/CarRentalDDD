@@ -1,4 +1,5 @@
 ﻿using Domain.Common.Models;
+using Domain.Common.ValueObjects;
 using Domain.Management.CarBrand.Entities;
 using Domain.Management.Office.Entities;
 using System;
@@ -60,7 +61,7 @@ public sealed class Office : AggregateRoot, IAuditableEntity
         PhoneNumber = phoneNumber;
     }
 
-    public Worker AddWorker(string personalIdentificationNumber, string firstName, string lastName, string email, string phoneNumber)
+    public Worker AddWorker(string personalIdentificationNumber, string firstName, string lastName, Email email, string phoneNumber)
     {
         var newWorker = Worker.Create(Guid.NewGuid(), firstName, lastName, email, phoneNumber, this, personalIdentificationNumber);
 
@@ -69,7 +70,7 @@ public sealed class Office : AggregateRoot, IAuditableEntity
         return newWorker;
     }
 
-    public void UpdateWorker(Guid workerId,string email, string phoneNumber)
+    public void UpdateWorker(Guid workerId, Email email, string phoneNumber)
     {
         var worker = _workers.Where(x => x.Id == workerId).SingleOrDefault();
         

@@ -4,7 +4,7 @@
     "PersonalIdentificationNumber": "123456789",
     "FirstName": "Mate",
     "LastName": "Matić",
-    "Email": "mmatic@gmail.com",
+    "Email": { "Value": "mmatic@gmail.com" },
     "PhoneNumber": "0957896654",
     "OfficeId": "28d5d144-32e7-4ecc-889f-160091349f0b"
   },
@@ -13,7 +13,7 @@
     "PersonalIdentificationNumber": "987654321",
     "FirstName": "Ante",
     "LastName": "Antić",
-    "Email": "aantic@gmail.com",
+    "Email": { "Value": "aantic@gmail.com" },
     "PhoneNumber": "0958742256",
     "OfficeId": "28d5d144-32e7-4ecc-889f-160091349f0b"
   },
@@ -22,7 +22,7 @@
     "PersonalIdentificationNumber": "654321987",
     "FirstName": "Jure",
     "LastName": "Jurić",
-    "Email": "jjuric@gmail.com",
+    "Email": { "Value": "jjuric@gmail.com" },
     "PhoneNumber": "0958647787",
     "OfficeId": "b1931c34-90c5-450f-871a-37c886d326ce"
   },
@@ -31,7 +31,7 @@
     "PersonalIdentificationNumber": "789456123",
     "FirstName": "Stipe",
     "LastName": "Stipanović",
-    "Email": "sstipanovic@gmail.com",
+    "Email": { "Value": "sstipanovic@gmail.com" },
     "PhoneNumber": "0958865578",
     "OfficeId": "b1931c34-90c5-450f-871a-37c886d326ce"
   },
@@ -40,7 +40,7 @@
     "PersonalIdentificationNumber": "741852963",
     "FirstName": "Marin",
     "LastName": "Marić",
-    "Email": "mmaric@gmail.com",
+    "Email": { "Value": "mmaric@gmail.com" },
     "PhoneNumber": "0958633362",
     "OfficeId": "9229a4fc-24cd-4e04-a513-aac620620876"
   },
@@ -49,7 +49,7 @@
     "PersonalIdentificationNumber": "963852741",
     "FirstName": "Petar",
     "LastName": "Perić",
-    "Email": "pperic@gmail.com",
+    "Email": { "Value": "pperic@gmail.com" },
     "PhoneNumber": "0958996654",
     "OfficeId": "9229a4fc-24cd-4e04-a513-aac620620876"
   }

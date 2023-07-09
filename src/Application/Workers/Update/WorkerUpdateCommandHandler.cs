@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions;
 using Application.Workers.Create;
+using Domain.Common.ValueObjects;
 using Domain.Management.Office;
 using Domain.Repositories;
 using Domain.Shared;
@@ -49,8 +50,14 @@ internal class WorkerUpdateCommandHandler : ICommandHandler<WorkerUpdateCommand,
                 "Worker.NotFound",
                 $"The Worker with Id {request.WorkerId} was not found"));
             }
+            var emailResult = Email.Create(request.Email);
+            if (emailResult.IsFailure)
+            {
+                return Result.Failure<bool>(emailResult.Error);
+            }
 
-            officeWorker.UpdateWorker(request.WorkerId, request.Email, request.PhoneNumber);
+
+            officeWorker.UpdateWorker(request.WorkerId, emailResult.Value, request.PhoneNumber);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
