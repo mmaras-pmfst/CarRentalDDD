@@ -102,5 +102,20 @@ public static class DomainErrors
             "Email format is invalid");
     }
 
+    public static class FirstName
+    {
+        public static readonly Error Empty = new(
+            "FirstName.Empty",
+            "FirstName field cannot be empty");
+
+        public static readonly Func<Tuple<string,int>, Error> TooLong = parameters => new Error(
+            "FirstName.TooLong",
+            $"FirstName {parameters.Item1} is longer then {parameters.Item2}");
+
+        public static readonly Func<(string, int), Error> TooShort = parameters => new Error(
+            "FirstName.TooShort",
+            $"FirstName {parameters.Item1} is shorter then {parameters.Item2}");
+    }
+
 
 }

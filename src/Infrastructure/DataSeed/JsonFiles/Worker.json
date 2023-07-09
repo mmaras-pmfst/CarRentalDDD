@@ -2,7 +2,7 @@
   {
     "Id": "f3c0f906-281d-47bb-b1c2-1d08e8ee7be4",
     "PersonalIdentificationNumber": "123456789",
-    "FirstName": "Mate",
+    "FirstName": { "Value": "Mate" },
     "LastName": "Matić",
     "Email": { "Value": "mmatic@gmail.com" },
     "PhoneNumber": { "Value": "0957896654" },
@@ -11,7 +11,7 @@
   {
     "Id": "a6dc6590-c84b-4d50-85f1-b27bc99ab6bd",
     "PersonalIdentificationNumber": "987654321",
-    "FirstName": "Ante",
+    "FirstName": { "Value": "Ante" },
     "LastName": "Antić",
     "Email": { "Value": "aantic@gmail.com" },
     "PhoneNumber": { "Value": "0958742256" },
@@ -20,7 +20,7 @@
   {
     "Id": "72965353-7bbd-4c79-a533-72d389ca9071",
     "PersonalIdentificationNumber": "654321987",
-    "FirstName": "Jure",
+    "FirstName": { "Value": "Jure" },
     "LastName": "Jurić",
     "Email": { "Value": "jjuric@gmail.com" },
     "PhoneNumber": { "Value": "0958647787" },
@@ -29,7 +29,7 @@
   {
     "Id": "a6e52839-d379-44e5-b12f-4c53c5b4cfff",
     "PersonalIdentificationNumber": "789456123",
-    "FirstName": "Stipe",
+    "FirstName": { "Value": "Stipe" },
     "LastName": "Stipanović",
     "Email": { "Value": "sstipanovic@gmail.com" },
     "PhoneNumber": { "Value": "0958865578" },
@@ -38,7 +38,7 @@
   {
     "Id": "6bcfd0ad-8248-4a8f-881c-333313b914b5",
     "PersonalIdentificationNumber": "741852963",
-    "FirstName": "Marin",
+    "FirstName": { "Value": "Marin" },
     "LastName": "Marić",
     "Email": { "Value": "mmaric@gmail.com" },
     "PhoneNumber": { "Value": "0958633362" },
@@ -47,7 +47,7 @@
   {
     "Id": "fbd47fb5-e009-448d-ba52-b07925207038",
     "PersonalIdentificationNumber": "963852741",
-    "FirstName": "Petar",
+    "FirstName": { "Value": "Petar" },
     "LastName": "Perić",
     "Email": { "Value": "pperic@gmail.com" },
     "PhoneNumber": { "Value": "0958996654" },

@@ -20,7 +20,8 @@ internal class WorkerConfiguration : IEntityTypeConfiguration<Worker>
 
         builder.HasKey(t => t.Id);
         builder.Property(x => x.FirstName)
-            .HasMaxLength(50)
+            .HasConversion(x => x.Value, v => FirstName.Create(v).Value)
+            .HasMaxLength(FirstName.MaxLength)
             .IsRequired(true);
 
         builder.Property(x => x.LastName)
