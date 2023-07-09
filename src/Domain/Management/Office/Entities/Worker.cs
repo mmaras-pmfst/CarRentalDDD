@@ -13,7 +13,7 @@ public sealed class Worker : Entity
 
     public string PersonalIdentificationNumber { get; private set; }
     public FirstName FirstName { get; private set; }
-    public string LastName { get; private set; }
+    public LastName LastName { get; private set; }
     public Email Email { get; private set; }
     public PhoneNumber PhoneNumber { get; private set; }
     public Guid OfficeId { get; private set; }
@@ -25,7 +25,7 @@ public sealed class Worker : Entity
 
     }
 
-    private Worker(Guid id, FirstName firstName, string lastName, Email email, PhoneNumber phoneNumber, Office office, string personalIdentificationNumber)
+    private Worker(Guid id, FirstName firstName, LastName lastName, Email email, PhoneNumber phoneNumber, Office office, string personalIdentificationNumber)
         : base(id)
     {
         FirstName = firstName;
@@ -36,7 +36,7 @@ public sealed class Worker : Entity
         PersonalIdentificationNumber = personalIdentificationNumber;
     }
 
-    public static Worker Create(Guid id, FirstName firstName, string lastName, Email email, PhoneNumber phoneNumber, Office office, string personalIdentificationNumber)
+    public static Worker Create(Guid id, FirstName firstName, LastName lastName, Email email, PhoneNumber phoneNumber, Office office, string personalIdentificationNumber)
     {
         return new Worker(id, firstName, lastName, email, phoneNumber, office, personalIdentificationNumber);
     }

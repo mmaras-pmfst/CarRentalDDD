@@ -68,10 +68,16 @@ internal class WorkerCreateCommandHandler : ICommandHandler<WorkerCreateCommand,
                 return Result.Failure<Guid>(firstNameResult.Error);
 
             }
+            var lastNameResult = LastName.Create(request.LastName);
+            if (lastNameResult.IsFailure)
+            {
+                return Result.Failure<Guid>(lastNameResult.Error);
+
+            }
             var newWorker = office.AddWorker(
                 request.PersonalIdentificationNumber,
-                firstNameResult.Value, 
-                request.LastName, 
+                firstNameResult.Value,
+                lastNameResult.Value, 
                 emailResult.Value,
                 phoneNumberResult.Value);
 

@@ -3,7 +3,7 @@
     "Id": "f3c0f906-281d-47bb-b1c2-1d08e8ee7be4",
     "PersonalIdentificationNumber": "123456789",
     "FirstName": { "Value": "Mate" },
-    "LastName": "Matić",
+    "LastName": { "Value": "Matić" },
     "Email": { "Value": "mmatic@gmail.com" },
     "PhoneNumber": { "Value": "0957896654" },
     "OfficeId": "28d5d144-32e7-4ecc-889f-160091349f0b"
@@ -12,7 +12,7 @@
     "Id": "a6dc6590-c84b-4d50-85f1-b27bc99ab6bd",
     "PersonalIdentificationNumber": "987654321",
     "FirstName": { "Value": "Ante" },
-    "LastName": "Antić",
+    "LastName": { "Value": "Antić" },
     "Email": { "Value": "aantic@gmail.com" },
     "PhoneNumber": { "Value": "0958742256" },
     "OfficeId": "28d5d144-32e7-4ecc-889f-160091349f0b"
@@ -21,7 +21,7 @@
     "Id": "72965353-7bbd-4c79-a533-72d389ca9071",
     "PersonalIdentificationNumber": "654321987",
     "FirstName": { "Value": "Jure" },
-    "LastName": "Jurić",
+    "LastName": { "Value": "Jurić" },
     "Email": { "Value": "jjuric@gmail.com" },
     "PhoneNumber": { "Value": "0958647787" },
     "OfficeId": "b1931c34-90c5-450f-871a-37c886d326ce"
@@ -30,7 +30,7 @@
     "Id": "a6e52839-d379-44e5-b12f-4c53c5b4cfff",
     "PersonalIdentificationNumber": "789456123",
     "FirstName": { "Value": "Stipe" },
-    "LastName": "Stipanović",
+    "LastName": { "Value": "Stipanović" },
     "Email": { "Value": "sstipanovic@gmail.com" },
     "PhoneNumber": { "Value": "0958865578" },
     "OfficeId": "b1931c34-90c5-450f-871a-37c886d326ce"
@@ -39,7 +39,7 @@
     "Id": "6bcfd0ad-8248-4a8f-881c-333313b914b5",
     "PersonalIdentificationNumber": "741852963",
     "FirstName": { "Value": "Marin" },
-    "LastName": "Marić",
+    "LastName": { "Value": "Marić" },
     "Email": { "Value": "mmaric@gmail.com" },
     "PhoneNumber": { "Value": "0958633362" },
     "OfficeId": "9229a4fc-24cd-4e04-a513-aac620620876"
@@ -48,7 +48,7 @@
     "Id": "fbd47fb5-e009-448d-ba52-b07925207038",
     "PersonalIdentificationNumber": "963852741",
     "FirstName": { "Value": "Petar" },
-    "LastName": "Perić",
+    "LastName": { "Value": "Perić" },
     "Email": { "Value": "pperic@gmail.com" },
     "PhoneNumber": { "Value": "0958996654" },
     "OfficeId": "9229a4fc-24cd-4e04-a513-aac620620876"

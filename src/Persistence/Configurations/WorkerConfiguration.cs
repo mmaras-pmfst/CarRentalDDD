@@ -25,8 +25,9 @@ internal class WorkerConfiguration : IEntityTypeConfiguration<Worker>
             .IsRequired(true);
 
         builder.Property(x => x.LastName)
+            .HasConversion(x => x.Value, v => LastName.Create(v).Value)
             .IsRequired(true)
-            .HasMaxLength(50);
+            .HasMaxLength(LastName.MaxLength);
 
         builder.Property(x => x.PhoneNumber)
             .HasConversion(x => x.Value, v => PhoneNumber.Create(v).Value)

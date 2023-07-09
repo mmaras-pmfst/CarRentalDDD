@@ -108,13 +108,28 @@ public static class DomainErrors
             "FirstName.Empty",
             "FirstName field cannot be empty");
 
-        public static readonly Func<Tuple<string,int>, Error> TooLong = parameters => new Error(
+        public static readonly Func<(string,int), Error> TooLong = parameters => new Error(
             "FirstName.TooLong",
             $"FirstName {parameters.Item1} is longer then {parameters.Item2}");
 
         public static readonly Func<(string, int), Error> TooShort = parameters => new Error(
             "FirstName.TooShort",
             $"FirstName {parameters.Item1} is shorter then {parameters.Item2}");
+    }
+
+    public static class LastName
+    {
+        public static readonly Error Empty = new(
+            "LastName.Empty",
+            "LastName field cannot be empty");
+
+        public static readonly Func<(string, int), Error> TooLong = parameters => new Error(
+            "LastName.TooLong",
+            $"LastName {parameters.Item1} is longer then {parameters.Item2}");
+
+        public static readonly Func<(string, int), Error> TooShort = parameters => new Error(
+            "LastName.TooShort",
+            $"LastName {parameters.Item1} is shorter then {parameters.Item2}");
     }
 
 

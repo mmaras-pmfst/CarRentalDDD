@@ -61,7 +61,7 @@ public sealed class Office : AggregateRoot, IAuditableEntity
         PhoneNumber = phoneNumber;
     }
 
-    public Worker AddWorker(string personalIdentificationNumber, FirstName firstName, string lastName, Email email, PhoneNumber phoneNumber)
+    public Worker AddWorker(string personalIdentificationNumber, FirstName firstName, LastName lastName, Email email, PhoneNumber phoneNumber)
     {
         var newWorker = Worker.Create(Guid.NewGuid(), firstName, lastName, email, phoneNumber, this, personalIdentificationNumber);
 

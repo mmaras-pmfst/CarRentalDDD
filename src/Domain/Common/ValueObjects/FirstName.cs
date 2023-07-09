@@ -38,7 +38,7 @@ public sealed class FirstName : ValueObject
         }
         else if (firstName.Length > MaxLength)
         {
-            return Result.Failure<FirstName>(DomainErrors.FirstName.TooShort((firstName, MaxLength)));
+            return Result.Failure<FirstName>(DomainErrors.FirstName.TooLong((firstName, MaxLength)));
 
         }
         return new FirstName(firstName);
