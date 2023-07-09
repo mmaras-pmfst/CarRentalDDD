@@ -1,4 +1,5 @@
-﻿using Domain.Management.Office;
+﻿using Domain.Common.ValueObjects;
+using Domain.Management.Office;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Persistence.Constants;
@@ -34,7 +35,7 @@ internal class OfficeConfiguration : IEntityTypeConfiguration<Office>
             .IsRequired();
 
         builder.Property(x => x.PhoneNumber)
-            .HasMaxLength(15)
+            .HasConversion(x => x.Value, v => PhoneNumber.Create(v).Value)
             .IsRequired();
 
         builder.Property(x => x.OpeningTime)

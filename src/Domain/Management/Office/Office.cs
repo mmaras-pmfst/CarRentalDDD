@@ -1,4 +1,5 @@
 ﻿using Domain.Common.Models;
+using Domain.Common.ValueObjects;
 using Domain.Management.CarBrand.Entities;
 using Domain.Management.Office.Entities;
 using System;
@@ -18,7 +19,7 @@ public sealed class Office : AggregateRoot, IAuditableEntity
     public string Country { get; private set; }
     public DateTime? OpeningTime { get; private set; }
     public DateTime? ClosingTime { get; private set; }
-    public string PhoneNumber { get; private set; }
+    public PhoneNumber PhoneNumber { get; private set; }
     public DateTime CreatedOnUtc { get; set; }
     public DateTime? ModifiedOnUtc { get; set; }
 
@@ -26,7 +27,7 @@ public sealed class Office : AggregateRoot, IAuditableEntity
     public IReadOnlyCollection<Worker> Workers => _workers;
 
 
-    private Office(Guid id, string country, string city, string streetName, string streetNumber, DateTime? openingTime, DateTime? closingTime, string phoneNumber)
+    private Office(Guid id, string country, string city, string streetName, string streetNumber, DateTime? openingTime, DateTime? closingTime, PhoneNumber phoneNumber)
         : base(id)
     {
         Country = country;
@@ -44,12 +45,12 @@ public sealed class Office : AggregateRoot, IAuditableEntity
 
     }
 
-    public static Office Create(Guid id, string country, string city, string streetName, string streetNumber, DateTime? openingTime, DateTime? closingTime, string phoneNumber)
+    public static Office Create(Guid id, string country, string city, string streetName, string streetNumber, DateTime? openingTime, DateTime? closingTime, PhoneNumber phoneNumber)
     {
         return new Office(id, country, city, streetName, streetNumber, openingTime, closingTime, phoneNumber);
     }
 
-    public void Update(string country, string city, string streetName, string streetNumber, DateTime? openingTime, DateTime? closingTime, string phoneNumber)
+    public void Update(string country, string city, string streetName, string streetNumber, DateTime? openingTime, DateTime? closingTime, PhoneNumber phoneNumber)
     {
         Country = country;
         City = city;
@@ -60,7 +61,7 @@ public sealed class Office : AggregateRoot, IAuditableEntity
         PhoneNumber = phoneNumber;
     }
 
-    public Worker AddWorker(string personalIdentificationNumber, string firstName, string lastName, string email, string phoneNumber)
+    public Worker AddWorker(string personalIdentificationNumber, FirstName firstName, LastName lastName, Email email, PhoneNumber phoneNumber)
     {
         var newWorker = Worker.Create(Guid.NewGuid(), firstName, lastName, email, phoneNumber, this, personalIdentificationNumber);
 
@@ -69,7 +70,7 @@ public sealed class Office : AggregateRoot, IAuditableEntity
         return newWorker;
     }
 
-    public void UpdateWorker(Guid workerId,string email, string phoneNumber)
+    public void UpdateWorker(Guid workerId, Email email, PhoneNumber phoneNumber)
     {
         var worker = _workers.Where(x => x.Id == workerId).SingleOrDefault();
         

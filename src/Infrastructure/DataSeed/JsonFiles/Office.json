@@ -7,7 +7,7 @@
     "Country": "Hrvatska",
     "OpeningTime": "",
     "ClosingTime": "",
-    "PhoneNumber": "0919854453"
+    "PhoneNumber": { "Value": "0919854453" }
   },
   {
     "Id": "b1931c34-90c5-450f-871a-37c886d326ce",
@@ -17,7 +17,7 @@
     "Country": "Hrvatska",
     "OpeningTime": "",
     "ClosingTime": "",
-    "PhoneNumber": "0917453325"
+    "PhoneNumber": { "Value": "0917453325" }
   },
   {
     "Id": "9229a4fc-24cd-4e04-a513-aac620620876",
@@ -27,6 +27,6 @@
     "Country": "Hrvatska",
     "OpeningTime": "",
     "ClosingTime": "",
-    "PhoneNumber": "0914523365"
+    "PhoneNumber": { "Value": "0914523365" }
   }
 ]

@@ -91,5 +91,46 @@ public static class DomainErrors
             "The Worker with PersonalIdentificationNumber is already in use");
     }
 
+    public static class Email
+    {
+        public static readonly Error Empty = new(
+            "Email.Empty",
+            "Email is empty");
+
+        public static readonly Error InvalidFormat = new(
+            "Email.InvalidFormat",
+            "Email format is invalid");
+    }
+
+    public static class FirstName
+    {
+        public static readonly Error Empty = new(
+            "FirstName.Empty",
+            "FirstName field cannot be empty");
+
+        public static readonly Func<(string,int), Error> TooLong = parameters => new Error(
+            "FirstName.TooLong",
+            $"FirstName {parameters.Item1} is longer then {parameters.Item2}");
+
+        public static readonly Func<(string, int), Error> TooShort = parameters => new Error(
+            "FirstName.TooShort",
+            $"FirstName {parameters.Item1} is shorter then {parameters.Item2}");
+    }
+
+    public static class LastName
+    {
+        public static readonly Error Empty = new(
+            "LastName.Empty",
+            "LastName field cannot be empty");
+
+        public static readonly Func<(string, int), Error> TooLong = parameters => new Error(
+            "LastName.TooLong",
+            $"LastName {parameters.Item1} is longer then {parameters.Item2}");
+
+        public static readonly Func<(string, int), Error> TooShort = parameters => new Error(
+            "LastName.TooShort",
+            $"LastName {parameters.Item1} is shorter then {parameters.Item2}");
+    }
+
 
 }

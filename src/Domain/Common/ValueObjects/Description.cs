@@ -10,9 +10,13 @@ namespace Domain.Common.ValueObjects;
 public sealed class Description : ValueObject
 {
     public const int MaxLength = 250;
-    public string Value { get; }
+    public string Value { get; private set; }
 
-    public Description(string value)
+    private Description()
+    {
+
+    }
+    private Description(string value)
     {
         Value = value;
     }
