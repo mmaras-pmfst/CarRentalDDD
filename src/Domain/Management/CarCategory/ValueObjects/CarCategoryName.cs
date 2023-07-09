@@ -13,9 +13,13 @@ public sealed class CarCategoryName : ValueObject
 {
     public const int MaxLength = 30;
     public const int MinLength = 3;
-    public string Value { get; }
-    
-    public CarCategoryName(string value)
+    public string Value { get; private set; }
+
+    private CarCategoryName()
+    {
+
+    }
+    private CarCategoryName(string value)
     {
         Value = value;
     }
