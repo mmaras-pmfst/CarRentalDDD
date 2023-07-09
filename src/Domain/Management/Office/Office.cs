@@ -61,7 +61,7 @@ public sealed class Office : AggregateRoot, IAuditableEntity
         PhoneNumber = phoneNumber;
     }
 
-    public Worker AddWorker(string personalIdentificationNumber, string firstName, string lastName, Email email, string phoneNumber)
+    public Worker AddWorker(string personalIdentificationNumber, string firstName, string lastName, Email email, PhoneNumber phoneNumber)
     {
         var newWorker = Worker.Create(Guid.NewGuid(), firstName, lastName, email, phoneNumber, this, personalIdentificationNumber);
 
@@ -70,7 +70,7 @@ public sealed class Office : AggregateRoot, IAuditableEntity
         return newWorker;
     }
 
-    public void UpdateWorker(Guid workerId, Email email, string phoneNumber)
+    public void UpdateWorker(Guid workerId, Email email, PhoneNumber phoneNumber)
     {
         var worker = _workers.Where(x => x.Id == workerId).SingleOrDefault();
         

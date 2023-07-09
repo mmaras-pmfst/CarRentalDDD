@@ -55,9 +55,16 @@ internal class WorkerUpdateCommandHandler : ICommandHandler<WorkerUpdateCommand,
             {
                 return Result.Failure<bool>(emailResult.Error);
             }
+            var phoneNumberResult = PhoneNumber.Create(request.PhoneNumber);
+            if (phoneNumberResult.IsFailure)
+            {
+                return Result.Failure<bool>(phoneNumberResult.Error);
+            }
 
-
-            officeWorker.UpdateWorker(request.WorkerId, emailResult.Value, request.PhoneNumber);
+            officeWorker.UpdateWorker(
+                request.WorkerId,
+                emailResult.Value, 
+                phoneNumberResult.Value);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

@@ -57,13 +57,18 @@ internal class WorkerCreateCommandHandler : ICommandHandler<WorkerCreateCommand,
             {
                 return Result.Failure<Guid>(emailResult.Error);
             }
+            var phoneNumberResult = PhoneNumber.Create(request.PhoneNumber);
+            if (phoneNumberResult.IsFailure)
+            {
+                return Result.Failure<Guid>(phoneNumberResult.Error);
+            }
 
             var newWorker = office.AddWorker(
                 request.PersonalIdentificationNumber, 
                 request.FirstName, 
                 request.LastName, 
                 emailResult.Value,
-                request.PhoneNumber);
+                phoneNumberResult.Value);
 
             await _workerRepository.AddAsync(newWorker, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

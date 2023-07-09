@@ -28,7 +28,7 @@ internal class WorkerConfiguration : IEntityTypeConfiguration<Worker>
             .HasMaxLength(50);
 
         builder.Property(x => x.PhoneNumber)
-            .HasMaxLength(15)
+            .HasConversion(x => x.Value, v => PhoneNumber.Create(v).Value)
             .IsRequired(true);
 
         builder.Property(x => x.Email)
