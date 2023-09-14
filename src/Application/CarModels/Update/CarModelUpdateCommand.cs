@@ -10,7 +10,7 @@ namespace Application.CarModels.Update;
 
 public sealed record CarModelUpdateCommand(
     Guid CarModelId,
-    decimal BasePricePerDay,
+    decimal PricePerDay,
+    decimal Discount,
     string CarModelName, 
-    Guid CarBrandId, 
     Guid CarCategoryId) : ICommand<bool>;

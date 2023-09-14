@@ -29,12 +29,6 @@ internal class ExtrasUpdateCommandHandler : ICommandHandler<ExtrasUpdateCommand,
 
         try
         {
-            var exists = await _extrasRepository.AlreadyExists(request.Name, cancellationToken);
-            if (exists)
-            {
-                _logger.LogWarning("ExtrasUpdateCommandHandler: Extra already exists!");
-                return Result.Failure<bool>(DomainErrors.Extra.ExtraAlreadyExists);
-            }
             var dbExtra = await _extrasRepository.GetByIdAsync(request.ExtraId, cancellationToken);
             if(dbExtra == null)
             {
@@ -44,7 +38,9 @@ internal class ExtrasUpdateCommandHandler : ICommandHandler<ExtrasUpdateCommand,
                 $"The Extra with Id {request.ExtraId} was not found"));
             }
 
-            dbExtra.Update(request.Name, request.Description, request.PricePerDay);
+            dbExtra.Update(
+                request.Description,
+                request.PricePerDay);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             _logger.LogInformation("Finished ExtrasUpdateCommandHandler");

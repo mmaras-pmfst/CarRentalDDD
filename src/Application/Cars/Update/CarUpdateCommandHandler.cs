@@ -51,7 +51,11 @@ internal class CarUpdateCommandHandler : ICommandHandler<CarUpdateCommand, bool>
                     $"The Office with Id {request.OfficeId} was not found"));
             }
 
-            var result = car.Update(request.Kilometers, request.Image, request.CarStatus, office);
+            var result = car.Update(
+                request.Kilometers,
+                request.Image,
+                request.CarStatus,
+                office);
             if (result.IsFailure)
             {
                 _logger.LogWarning("CarUpdateCommandHandler: Wrong car kilometers");

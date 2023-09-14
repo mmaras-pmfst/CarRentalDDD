@@ -10,5 +10,4 @@ using System.Threading.Tasks;
 namespace Application.CarModels.GetById;
 
 public sealed record CarModelGetByIdQuery(
-    Guid CarBrandId, 
     Guid CarModelId) : IQuery<CarModel?>;

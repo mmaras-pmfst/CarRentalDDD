@@ -12,11 +12,11 @@ namespace Domain.Errors;
 
 public static class DomainErrors
 {
-    public static class Color
+    public static class Car
     {
-        public static readonly Error ColorAlreadyExists = new Error(
-        "Color.ColorAlreadyExists",
-        "The specified Color Name is already in use");
+        public static readonly Error CarAlreadyExists = new Error(
+            "Car.CarAlreadyExists",
+            "The specified Car NumberPlate is already in use");
     }
 
     public static class CarBrand

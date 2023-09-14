@@ -1,6 +1,7 @@
 ﻿using Domain.Common.Models;
 using Domain.Management.CarModels;
 using Domain.Management.Offices;
+using Domain.Sales.Contracts;
 using Domain.Sales.Extras;
 using Domain.Sales.Reservations.Entities;
 using Domain.Shared.ValueObjects;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Sales.Reservations;
 
-public sealed class Reservation : AggregateRoot
+public sealed class Reservation : AggregateRoot, IAuditableEntity
 {
     private readonly List<ReservationItem> _reservationItems = new();
 
@@ -26,13 +27,17 @@ public sealed class Reservation : AggregateRoot
     public Guid PickUpOfficeId { get; private set; }
     public Guid DropDownOfficeId { get; private set; }
     public Guid CarModelId { get; private set; }
-
+    public DateTime CreatedOnUtc { get; set; }
+    public DateTime? ModifiedOnUtc { get; set; }
 
     public CarModel CarModel { get; private set; }
     public Office PickUpOffice { get; private set; }
     public Office DropDownOffice { get; private set; }
+    public Contract Contract { get; private set; }
+
     public IReadOnlyCollection<ReservationItem> ReservationItems => _reservationItems;
 
+    
 
     private Reservation()
     {
@@ -75,5 +80,15 @@ public sealed class Reservation : AggregateRoot
         TotalPrice += reservationDetail.Price;
         _reservationItems.Add(reservationDetail);
         return reservationDetail;
+    }
+
+    public void RemoveItem(Extra extra)
+    {
+        var detailElement = _reservationItems.Where(x => x.ExtrasId == extra.Id).SingleOrDefault();
+        if (detailElement is not null)
+        {
+            _reservationItems.RemoveAll(x => x.ExtrasId == extra.Id);
+            TotalPrice -= detailElement.Price;
+        }
     }
 }

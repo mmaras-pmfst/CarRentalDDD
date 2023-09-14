@@ -48,9 +48,13 @@ public sealed class Contract : AggregateRoot, IAuditableEntity
     public Reservation? Reservation { get; private set; }
     public Worker Worker { get; private set; }
 
-    
 
-    public Contract(Guid id, FirstName driverFirstName, LastName driverLastName, Email email, DateTime pickUpDate, DateTime dropDownDate, decimal totalPrice, Guid pickUpOfficeId, Guid dropDownOfficeId, Guid carId, string driverLicenceNumber, string driverIdentificationNumber, CardType? cardType, PaymentMethod? paymentMethod, Card? card, Guid? reservationId, decimal rentalPrice, Guid workerId)
+    private Contract()
+    {
+
+    }
+
+    private Contract(Guid id, FirstName driverFirstName, LastName driverLastName, Email email, DateTime pickUpDate, DateTime dropDownDate, decimal totalPrice, Guid pickUpOfficeId, Guid dropDownOfficeId, Guid carId, string driverLicenceNumber, string driverIdentificationNumber, CardType? cardType, PaymentMethod? paymentMethod, Card? card, Guid? reservationId, decimal rentalPrice, Guid workerId)
         : base(id)
     {
         DriverFirstName = driverFirstName;
@@ -73,7 +77,7 @@ public sealed class Contract : AggregateRoot, IAuditableEntity
     }
 
 
-    public static Contract Create(Guid id, FirstName driverFirstName, LastName driverLastName, Email email, DateTime pickUpDate, DateTime dropDownDate, Office pickUpOffice, Office dropDownOffice, Car car, string driverLicenceNumber, string driverIdentificationNumber, CardType? cardType, PaymentMethod? paymentMethod, Card card, Reservation? reservation, CarModel carModel, Worker worker)
+    public static Contract Create(Guid id, FirstName driverFirstName, LastName driverLastName, Email email, DateTime pickUpDate, DateTime dropDownDate, Office pickUpOffice, Office dropDownOffice, Car car, string driverLicenceNumber, string driverIdentificationNumber, CardType? cardType, PaymentMethod? paymentMethod, Card? card, Reservation? reservation, CarModel carModel, Worker worker)
     {
         var duration = (decimal)dropDownDate.Subtract(pickUpDate).TotalDays;
 

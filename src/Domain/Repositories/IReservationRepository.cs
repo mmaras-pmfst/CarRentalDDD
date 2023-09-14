@@ -10,6 +10,6 @@ namespace Domain.Repositories;
 public interface IReservationRepository
 {
     Task AddAsync(Reservation reservation, CancellationToken cancellationToken = default);
-    Task<List<Reservation>> GetAllAsync(CancellationToken cancellationToken = default);
+    Task<List<Reservation>> GetAllAsync(DateTime? dateFrom, DateTime? dateTo,CancellationToken cancellationToken = default);
     Task<Reservation?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 }

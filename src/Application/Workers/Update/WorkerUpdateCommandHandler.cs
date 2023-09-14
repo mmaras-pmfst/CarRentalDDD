@@ -15,14 +15,20 @@ namespace Application.Workers.Update;
 internal class WorkerUpdateCommandHandler : ICommandHandler<WorkerUpdateCommand, bool>
 {
     private ILogger<WorkerUpdateCommandHandler> _logger;
+    private readonly IWorkerRepository _workerRepository;
     private readonly IOfficeRepository _officeRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public WorkerUpdateCommandHandler(ILogger<WorkerUpdateCommandHandler> logger, IOfficeRepository officeRepository, IUnitOfWork unitOfWork)
+    public WorkerUpdateCommandHandler(
+        ILogger<WorkerUpdateCommandHandler> logger,
+        IUnitOfWork unitOfWork,
+        IWorkerRepository workerRepository,
+        IOfficeRepository officeRepository)
     {
         _logger = logger;
-        _officeRepository = officeRepository;
         _unitOfWork = unitOfWork;
+        _workerRepository = workerRepository;
+        _officeRepository = officeRepository;
     }
     public async Task<Result<bool>> Handle(WorkerUpdateCommand request, CancellationToken cancellationToken)
     {
@@ -30,19 +36,7 @@ internal class WorkerUpdateCommandHandler : ICommandHandler<WorkerUpdateCommand,
 
         try
         {
-            var officeWorker = await _officeRepository.GetByIdAsync(request.OfficeId, cancellationToken);
-
-            if (officeWorker == null)
-            {
-                _logger.LogWarning("WorkerUpdateCommandHandler: Office doesn't exist!");
-                return Result.Failure<bool>(new Error(
-                "Office.NotFound",
-                $"The Office with Id {request.OfficeId} was not found"));
-            }
-
-
-            var worker = officeWorker.Workers.Where(x => x.Id == request.WorkerId).SingleOrDefault();
-
+            var worker = await _workerRepository.GetByIdAsync(request.WorkerId, cancellationToken);
             if (worker == null)
             {
                 _logger.LogWarning("WorkerGetByIdQueryHandler: Worker doesn't exist!");
@@ -50,6 +44,16 @@ internal class WorkerUpdateCommandHandler : ICommandHandler<WorkerUpdateCommand,
                 "Worker.NotFound",
                 $"The Worker with Id {request.WorkerId} was not found"));
             }
+
+            var office = await _officeRepository.GetByIdAsync(request.OfficeId, cancellationToken);
+            if (office == null)
+            {
+                _logger.LogWarning("WorkerGetByIdQueryHandler: Office doesn't exist!");
+                return Result.Failure<bool>(new Error(
+                "Office.NotFound",
+                $"The Office with Id {request.OfficeId} was not found"));
+            }
+            
             var emailResult = Email.Create(request.Email);
             if (emailResult.IsFailure)
             {
@@ -61,10 +65,10 @@ internal class WorkerUpdateCommandHandler : ICommandHandler<WorkerUpdateCommand,
                 return Result.Failure<bool>(phoneNumberResult.Error);
             }
 
-            officeWorker.UpdateWorker(
-                request.WorkerId,
-                emailResult.Value, 
-                phoneNumberResult.Value);
+            worker.Update(
+                emailResult.Value,
+                phoneNumberResult.Value,
+                office);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

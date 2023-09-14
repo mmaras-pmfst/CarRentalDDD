@@ -1,6 +1,7 @@
 ﻿using Domain.Common.Models;
 using Domain.Management.CarModels;
 using Domain.Management.Offices;
+using Domain.Sales.Contracts;
 using Domain.Shared;
 using Domain.Shared.Enums;
 using Microsoft.VisualBasic.FileIO;
@@ -25,6 +26,8 @@ public sealed class Car : AggregateRoot
 
     public CarModel CarModel { get; private set; }
     public Office Office { get; private set; }
+    public IReadOnlyCollection<Contract> Contracts { get; private set; }
+
 
 
     private Car(Guid id, string numberPlate, string name, decimal kilometers, byte[]? image, CarStatus status, FuelType fuelType, Guid carModelId, Guid officeId)

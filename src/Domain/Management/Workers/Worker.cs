@@ -1,5 +1,6 @@
 ﻿using Domain.Common.Models;
 using Domain.Management.Offices;
+using Domain.Sales.Contracts;
 using Domain.Shared.ValueObjects;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,8 @@ public sealed class Worker : AggregateRoot, IAuditableEntity
     public DateTime? ModifiedOnUtc { get; set; }
 
     public Office Office { get; private set; }
+    public IReadOnlyCollection<Contract> Contracts { get; private set; }
+
 
     private Worker()
     {

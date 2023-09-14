@@ -15,17 +15,17 @@ namespace Application.CarModels.GetById;
 internal sealed class CarModelGetByIdQueryHandler : IQueryHandler<CarModelGetByIdQuery, CarModel?>
 {
     private ILogger<CarModelGetByIdQueryHandler> _logger;
-    private ICarBrandRepository _carBrandRepository;
+    private ICarModelRepository _carModelRepository;
     private IUnitOfWork _unitOfWork;
 
     public CarModelGetByIdQueryHandler(
         ILogger<CarModelGetByIdQueryHandler> logger,
-        ICarBrandRepository carBrandRepository,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        ICarModelRepository carModelRepository)
     {
         _logger = logger;
-        _carBrandRepository = carBrandRepository;
         _unitOfWork = unitOfWork;
+        _carModelRepository = carModelRepository;
     }
 
     public async Task<Result<CarModel?>> Handle(CarModelGetByIdQuery request, CancellationToken cancellationToken)
@@ -34,16 +34,7 @@ internal sealed class CarModelGetByIdQueryHandler : IQueryHandler<CarModelGetByI
 
         try
         {
-            var carBrand = await _carBrandRepository.GetByIdAsync(request.CarBrandId, cancellationToken);
-            if(carBrand is null)
-            {
-                _logger.LogWarning("CarModelGetByIdCommandHandler: CarBrand doesn't exist!");
-                return Result.Failure<CarModel?>(new Error(
-                    "CarBrand.NotFound",
-                    $"The CarBrand with Id {request.CarBrandId} was not found"));
-            }
-
-            var carModel = carBrand.CarModels.FirstOrDefault(x => x.Id == request.CarModelId);
+            var carModel = await _carModelRepository.GetByIdAsync(request.CarModelId, cancellationToken);
 
             if(carModel is null)
             {

@@ -4,7 +4,7 @@ namespace WebApi.Contracts.CarModels;
 
 public sealed record UpdateCarModelRequest(
     Guid CarModelId,
-    decimal BasePricePerDay,
+    decimal PricePerDay,
+    decimal Discount,
     string CarModelName,
-    Guid CarBrandId,
     Guid CarCategoryId);

@@ -25,11 +25,14 @@ namespace Persistence.Repositories
 
         public async Task<bool> AlreadyExists(Address address, CancellationToken cancellationToken = default)
         {
-            var office = await _dbContext.Set<Office>()
-                .Where(x => x.Address == address)
-                .SingleOrDefaultAsync(cancellationToken);
+            var office = _dbContext.Set<Office>()
+                .AsEnumerable().FirstOrDefault(x => x.Address.Equals(address));
 
-            return office != null ? false : true;
+            if(office == null)
+            {
+                return false;
+            }
+            return true;
 
         }
 

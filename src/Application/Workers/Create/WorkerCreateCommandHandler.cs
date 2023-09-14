@@ -19,7 +19,11 @@ internal class WorkerCreateCommandHandler : ICommandHandler<WorkerCreateCommand,
     private readonly IOfficeRepository _officeRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public WorkerCreateCommandHandler(ILogger<WorkerCreateCommandHandler> logger, IWorkerRepository workerRepository, IUnitOfWork unitOfWork, IOfficeRepository officeRepository)
+    public WorkerCreateCommandHandler(
+        ILogger<WorkerCreateCommandHandler> logger,
+        IWorkerRepository workerRepository,
+        IUnitOfWork unitOfWork,
+        IOfficeRepository officeRepository)
     {
         _logger = logger;
         _workerRepository = workerRepository;
@@ -74,12 +78,14 @@ internal class WorkerCreateCommandHandler : ICommandHandler<WorkerCreateCommand,
                 return Result.Failure<Guid>(lastNameResult.Error);
 
             }
-            var newWorker = office.AddWorker(
-                request.PersonalIdentificationNumber,
+            var newWorker = Worker.Create(
+                Guid.NewGuid(),
                 firstNameResult.Value,
                 lastNameResult.Value, 
                 emailResult.Value,
-                phoneNumberResult.Value);
+                phoneNumberResult.Value,
+                office,
+                request.PersonalIdentificationNumber);
 
             await _workerRepository.AddAsync(newWorker, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

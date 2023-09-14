@@ -12,7 +12,9 @@ namespace Domain.Sales.Reservations.ValueObjects;
 public sealed class Card : ValueObject
 {
     public const int CvvLength = 3;
+
     public const int CardYearExpirationLength = 2;
+
     public string CardName { get; private set; }
     public string CardNumber { get; private set; }
     public string CVV { get; private set; }

@@ -25,7 +25,7 @@ internal sealed class CarBrandRepository : ICarBrandRepository
     public async Task<bool> AlreadyExists(CarBrandName carBrandName, CancellationToken cancellationToken = default)
     {
         var carBrand = await _dbContext.Set<CarBrand>()
-            .Where(x => x.Name.Value.ToUpper() == carBrandName.Value.ToUpper())
+            .Where(x => x.Name == carBrandName)
             .SingleOrDefaultAsync(cancellationToken);
 
         return carBrand != null ? false : true;

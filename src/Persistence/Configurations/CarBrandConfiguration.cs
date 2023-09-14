@@ -25,7 +25,9 @@ internal class CarBrandConfiguration : IEntityTypeConfiguration<CarBrand>
             .IsRequired(true);
 
         builder.HasMany(x => x.CarModels)
-            .WithOne()
-            .HasForeignKey(x => x.CarBrandId);
+            .WithOne(x => x.CarBrand)
+            .HasForeignKey(x => x.CarBrandId)
+            .OnDelete(DeleteBehavior.Restrict);
+
     }
 }

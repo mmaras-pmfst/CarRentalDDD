@@ -15,17 +15,14 @@ namespace Application.CarModels.GetAll;
 internal sealed class CarModelGetAllQueryHandler : IQueryHandler<CarModelGetAllQuery, List<CarModel>>
 {
     private ILogger<CarModelGetAllQueryHandler> _logger;
-    private ICarBrandRepository _carBrandRepository;
-    private IUnitOfWork _unitOfWork;
+    private ICarModelRepository _carModelRepository;
 
     public CarModelGetAllQueryHandler(
         ILogger<CarModelGetAllQueryHandler> logger,
-        ICarBrandRepository carBrandRepository,
-        IUnitOfWork unitOfWork)
+        ICarModelRepository carModelRepository)
     {
         _logger = logger;
-        _carBrandRepository = carBrandRepository;
-        _unitOfWork = unitOfWork;
+        _carModelRepository = carModelRepository;
     }
     public async Task<Result<List<CarModel>>> Handle(CarModelGetAllQuery request, CancellationToken cancellationToken)
     {
@@ -33,9 +30,7 @@ internal sealed class CarModelGetAllQueryHandler : IQueryHandler<CarModelGetAllQ
 
         try
         {
-            var carBrands = await _carBrandRepository.GetAllAsync(cancellationToken);
-
-            var carModels = carBrands.SelectMany(x => x.CarModels).ToList();
+            var carModels = await _carModelRepository.GetAllAsync(cancellationToken);
 
             if (!carModels.Any())
             {

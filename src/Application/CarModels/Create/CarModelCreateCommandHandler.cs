@@ -1,6 +1,7 @@
 ﻿using Application.Abstractions;
 using Domain.Errors;
 using Domain.Management.CarBrands.ValueObjects;
+using Domain.Management.CarModels;
 using Domain.Management.CarModels.ValueObjects;
 using Domain.Repositories;
 using Domain.Shared;
@@ -76,7 +77,13 @@ internal sealed class CarModelCreateCommandHandler : ICommandHandler<CarModelCre
             {
                 return Result.Failure<Guid>(carModelNameResult.Error);
             }
-            var carModel = carBrand.CreateCarModel(carModelNameResult.Value, carCategory);
+            var carModel = CarModel.Create(
+                Guid.NewGuid(),
+                carModelNameResult.Value,
+                carBrand,
+                carCategory,
+                request.PricePerDay,
+                request.Discount);
 
             await _carModelRepository.AddAsync(carModel, cancellationToken);
 

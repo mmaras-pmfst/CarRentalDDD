@@ -8,4 +8,4 @@ using System.Threading.Tasks;
 
 namespace Application.Reservations.GetById;
 public sealed record ReservationGetByIdQuery(
-    Guid ReservationId) : IQuery<Reservation>;
+    Guid ReservationId) : IQuery<Reservation?>;

@@ -14,28 +14,24 @@ namespace Application.Workers.GetById;
 internal class WorkerGetByIdQueryHandler : IQueryHandler<WorkerGetByIdQuery, Worker?>
 {
     private ILogger<WorkerGetByIdQueryHandler> _logger;
-    private readonly IOfficeRepository _officeRepository;
+    private readonly IWorkerRepository _workerRepository;
 
-    public WorkerGetByIdQueryHandler(ILogger<WorkerGetByIdQueryHandler> logger, IOfficeRepository officeRepository)
+    public WorkerGetByIdQueryHandler(
+        ILogger<WorkerGetByIdQueryHandler> logger,
+        IWorkerRepository workerRepository)
     {
         _logger = logger;
-        _officeRepository = officeRepository;
+        _workerRepository = workerRepository;
     }
     public async Task<Result<Worker?>> Handle(WorkerGetByIdQuery request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Started WorkerGetByIdQueryHandler");
-        _logger.LogInformation("Finished WorkerGetByIdQueryHandler");
 
         try
         {
-            var officeWorkers = await _officeRepository.GetAllAsync(cancellationToken);
+            var worker = await _workerRepository.GetByIdAsync(request.WorkerId, cancellationToken);
 
-            var worker = officeWorkers
-                            .SelectMany(x => x.Workers)
-                            .Where(x => x.Id == request.WorkerId)
-                            .SingleOrDefault();
-
-            if(worker == null)
+            if (worker == null)
             {
                 _logger.LogWarning("WorkerGetByIdQueryHandler: Worker doesn't exist!");
                 return Result.Failure<Worker?>(new Error(
@@ -43,6 +39,7 @@ internal class WorkerGetByIdQueryHandler : IQueryHandler<WorkerGetByIdQuery, Wor
                 $"The Worker with Id {request.WorkerId} was not found"));
             }
 
+            _logger.LogInformation("Finished WorkerGetByIdQueryHandler");
             return worker;
 
 

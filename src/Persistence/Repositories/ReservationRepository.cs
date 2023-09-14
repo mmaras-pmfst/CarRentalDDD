@@ -20,9 +20,10 @@ internal sealed class ReservationRepository : IReservationRepository
         await _dbContext.Set<Reservation>().AddAsync(reservation, cancellationToken);
     }
 
-    public async Task<List<Reservation>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<List<Reservation>> GetAllAsync(DateTime? dateFrom, DateTime? dateTo, CancellationToken cancellationToken = default)
     {
         var reservations = await _dbContext.Set<Reservation>()
+                .Where(x => (dateFrom == null || x.CreatedOnUtc >=dateFrom) && (dateTo == null || x.CreatedOnUtc<=dateTo))
                 .ToListAsync(cancellationToken);
 
         return reservations;

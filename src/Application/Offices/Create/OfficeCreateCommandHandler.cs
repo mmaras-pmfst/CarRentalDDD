@@ -59,8 +59,7 @@ internal sealed class OfficeCreateCommandHandler : ICommandHandler<OfficeCreateC
                     address.Value,
                     request.OpeningTime,
                     request.ClosingTime,
-                    phoneNumberResult.Value
-                    );
+                    phoneNumberResult.Value);
 
             await _officeRepository.AddAsync(newOffice);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

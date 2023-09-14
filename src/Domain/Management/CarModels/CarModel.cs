@@ -2,6 +2,7 @@
 using Domain.Management.CarBrands;
 using Domain.Management.CarCategories;
 using Domain.Management.CarModels.ValueObjects;
+using Domain.Management.Cars;
 using Domain.Shared;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,8 @@ public sealed class CarModel : AggregateRoot, IAuditableEntity
 
     public CarBrand CarBrand { get; private set; }
     public CarCategory CarCategory { get; private set; }
+    public IReadOnlyCollection<Car> Cars { get; private set; }
+
 
     internal CarModel(Guid id, CarModelName name, Guid carBrandId, Guid carCategoryId, decimal pricePerDay, decimal discount)
         : base(id)

@@ -26,9 +26,11 @@ internal class ReservationDetailConfiguration : IEntityTypeConfiguration<Reserva
             .HasColumnType("decimal(18,2)")
             .IsRequired(true);
 
-        builder.HasOne<Extra>()
+        builder.HasOne<Extra>(x => x.Extra)
             .WithMany()
-            .HasForeignKey(x => x.ExtrasId);
+            .HasForeignKey(x => x.ExtrasId)
+            .OnDelete(DeleteBehavior.Restrict);
+
 
 
     }

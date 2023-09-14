@@ -4,6 +4,7 @@ using Domain.Management.Workers;
 using Domain.Sales.Contracts;
 using Domain.Sales.Reservations;
 using Domain.Sales.Reservations.ValueObjects;
+using Domain.Shared.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Persistence.Constants;
@@ -23,18 +24,20 @@ internal class ContractConfiguration : IEntityTypeConfiguration<Contract>
 
         builder.HasKey(x => x.Id);
 
-
         builder.Property(x => x.DriverFirstName)
-            .IsRequired(true)
-            .HasMaxLength(50);
+           .HasConversion(x => x.Value, v => FirstName.Create(v).Value)
+           .HasMaxLength(FirstName.MaxLength)
+           .IsRequired(true);
 
         builder.Property(x => x.DriverLastName)
-            .IsRequired(true)
-            .HasMaxLength(50);
+           .HasConversion(x => x.Value, v => LastName.Create(v).Value)
+           .HasMaxLength(LastName.MaxLength)
+           .IsRequired(true);
 
         builder.Property(x => x.Email)
-            .IsRequired(true)
-            .HasMaxLength(50);
+           .HasConversion(x => x.Value, v => Email.Create(v).Value)
+           .IsRequired(true);
+
         builder.Property(x => x.PickUpDate)
             .IsRequired(true);
         builder.Property(x => x.DropDownDate)
@@ -64,27 +67,55 @@ internal class ContractConfiguration : IEntityTypeConfiguration<Contract>
             .HasConversion<string>()
             .IsRequired(false);
 
+        //v2
+        //builder.Property(x => x.Card)
+        //    .HasConversion(
+        //        v => new {v.CardName,v.CardNumber, v.CVV,v.CardDateExpiration, v.CardYearExpiration},
+        //        v => Card.Create(
+        //            v.CardName,
+        //            v.CardNumber,
+        //            v.CVV,
+        //            v.CardDateExpiration,
+        //            v.CardYearExpiration).Value
+        //    )
+        //    .IsRequired(false);
 
-        builder.Property(x => x.Card)
-            .HasConversion(
-                v => new {v.CardName,v.CardNumber, v.CVV,v.CardDateExpiration, v.CardYearExpiration},
-                v => Card.Create(
-                    v.CardName,
-                    v.CardNumber,
-                    v.CVV,
-                    v.CardDateExpiration,
-                    v.CardYearExpiration).Value
-            )
+        //v1:
+        builder.OwnsOne(x => x.Card, card =>
+        {
+            card.Property(x => x.CardName)
+            .HasColumnName("CardName")
             .IsRequired(false);
 
+            card.Property(x => x.CardNumber)
+            .HasColumnName("CardNumber")
+            .IsRequired(false);
 
-        builder.HasOne<Reservation>()
-            .WithMany()
-            .HasForeignKey(x => x.ReservationId);
+            card.Property(x => x.CVV)
+            .HasColumnName("CVV")
+            .IsRequired(false);
 
-        builder.HasOne<Worker>()
-            .WithMany()
-            .HasForeignKey(x => x.WorkerId);
+            card.Property(x => x.CardDateExpiration)
+            .HasColumnName("CardDateExpiration")
+            .IsRequired(false);
+
+            card.Property(x => x.CardYearExpiration)
+            .HasColumnName("CardYearExpiration")
+            .IsRequired(false);
+        });
+
+
+        builder.HasOne(x => x.Reservation)
+            .WithOne(x => x.Contract)
+            .HasForeignKey<Contract>(x => x.ReservationId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+
+        builder.HasOne<Worker>(x => x.Worker)
+            .WithMany(x => x.Contracts)
+            .HasForeignKey(x => x.WorkerId)
+            .OnDelete(DeleteBehavior.Restrict);
+
 
 
         builder.HasOne<Office>(x => x.PickUpOffice)
@@ -96,11 +127,13 @@ internal class ContractConfiguration : IEntityTypeConfiguration<Contract>
             .WithMany()
             .HasForeignKey(x => x.DropDownOfficeId)
             .OnDelete(DeleteBehavior.Restrict);
-        ;
+        
 
-        builder.HasOne<Car>()
-            .WithMany()
-            .HasForeignKey(x => x.CarId);
+        builder.HasOne<Car>(x => x.Car)
+            .WithMany(x => x.Contracts)
+            .HasForeignKey(x => x.CarId)
+            .OnDelete(DeleteBehavior.Restrict);
+
 
     }
 }

@@ -43,13 +43,13 @@ internal class CarConfiguration : IEntityTypeConfiguration<Car>
             .HasConversion<string>()
             .IsRequired(true);
 
-        builder.HasOne<CarModel>()
-            .WithMany()
+        builder.HasOne<CarModel>(x => x.CarModel)
+            .WithMany(x => x.Cars)
             .HasForeignKey(x => x.CarModelId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne<Office>()
-            .WithMany()
+        builder.HasOne<Office>(x => x.Office)
+            .WithMany(x =>x.Cars)
             .HasForeignKey(x => x.OfficeId)
             .OnDelete(DeleteBehavior.Restrict);
 

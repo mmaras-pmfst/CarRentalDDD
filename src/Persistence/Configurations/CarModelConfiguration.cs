@@ -26,8 +26,8 @@ internal class CarModelConfiguration : IEntityTypeConfiguration<CarModel>
             .IsRequired(true);
 
 
-        builder.HasOne<CarCategory>() // CarModel belongs to one CarCategory
-            .WithMany() //CarCategory belongs to many CarModels
+        builder.HasOne<CarCategory>(x => x.CarCategory) // CarModel belongs to one CarCategory
+            .WithMany(x => x.CarModels) //CarCategory belongs to many CarModels
             .HasForeignKey(x => x.CarCategoryId)
             .OnDelete(DeleteBehavior.Restrict);
 

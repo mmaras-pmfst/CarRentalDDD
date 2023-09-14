@@ -26,7 +26,7 @@ internal sealed class CarCategoryRepository : ICarCategoryRepository
     public async Task<bool> AlreadyExists(CarCategoryShortName shortName, CancellationToken cancellationToken = default)
     {
         var carCategory = await _dbContext.Set<CarCategory>()
-            .Where(x => x.ShortName.Value.ToUpper() == shortName.Value.ToUpper())
+            .Where(x => x.ShortName.Equals(shortName))
             .SingleOrDefaultAsync(cancellationToken);
 
         return carCategory != null ? false : true;

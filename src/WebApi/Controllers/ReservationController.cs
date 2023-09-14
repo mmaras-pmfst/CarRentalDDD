@@ -1,6 +1,9 @@
-﻿using Application.Reservations.Create;
+﻿using Application.Reservations.AddReservationItem;
+using Application.Reservations.Create;
 using Application.Reservations.GetAll;
 using Application.Reservations.GetById;
+using Application.Reservations.RemoveReservationItem;
+using Azure;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,8 +27,21 @@ public class ReservationController : ApiController
     {
         _logger.LogInformation("Started ReservationController.Create");
         var extrases = new List<ExtrasModel>();
-        request.Extras.ForEach(x => extrases.Add(new ExtrasModel(x.ExtraId, x.Quantity)));
-        var commmand = new ReservationCreateCommand(request.DriverFirstName, request.DriverLastName, request.Email, request.PickUpDate, request.DropDownDate, request.PickUpLocationId, request.DropDownLocationId, request.CarModelRentId, extrases);
+        if (request.Extras != null || request.Extras.Any())
+        {
+            request.Extras.ForEach(x => extrases.Add(new ExtrasModel(x.ExtraId, x.Quantity)));
+
+        }
+        var commmand = new ReservationCreateCommand(
+            request.DriverFirstName,
+            request.DriverLastName,
+            request.Email,
+            request.PickUpDate,
+            request.DropDownDate,
+            request.PickUpLocationId,
+            request.DropDownLocationId,
+            request.CarModelId,
+            extrases);
 
         var response = await Sender.Send(commmand);
 
@@ -41,7 +57,50 @@ public class ReservationController : ApiController
             response.Value);
     }
 
-    [HttpGet("getall")]
+    [HttpPost("addReservationItem")]
+    public async Task<IActionResult> AddReservationItem(CreateReservationItemRequest request)
+    {
+        _logger.LogInformation("Started ReservationController.AddReservationItem");
+        var extrases = new List<ExtrasModel>();
+        if (request.Extras != null || request.Extras.Any())
+        {
+            request.Extras.ForEach(x => extrases.Add(new ExtrasModel(x.ExtraId, x.Quantity)));
+
+        }
+        var command = new AddReservationItemCommand(request.ReservationId, extrases);
+        var response = await Sender.Send(command);
+        _logger.LogInformation("Finished ReservationController.AddReservationItem");
+
+        if (response.IsFailure)
+        {
+            return HandleFailure(response);
+        }
+        return CreatedAtAction(
+            nameof(Create),
+            new { id = response.Value },
+            response.Value);
+    }
+
+    [HttpDelete("removeReservationItem")]
+    public async Task<IActionResult> RemoveReservationItem(RemoveReservationItemRequest request)
+    {
+        _logger.LogInformation("Started ReservationController.RemoveReservationItem");
+        var command = new RemoveReservationItemCommand(request.ReservationId, request.ExtraIds);
+        var response = await Sender.Send(command);
+        _logger.LogInformation("Finished ReservationController.RemoveReservationItem");
+
+        if (response.IsFailure)
+        {
+            return HandleFailure(response);
+        }
+        return CreatedAtAction(
+            nameof(Create),
+            new { id = response.Value },
+            response.Value);
+
+    }
+
+    [HttpGet()]
     public async Task<IActionResult> GetAll([FromQuery] GetAllReservationsRequest request)
     {
         _logger.LogInformation("Started ReservationController.GetAll");
