@@ -32,6 +32,11 @@ internal sealed class CarRepository : ICarRepository
     {
         var car = await _dbContext.Set<Car>()
             .Where(x => x.Id == carId)
+            .Include(x => x.Office)
+            .Include(x => x.CarModel)
+                .ThenInclude(x => x.CarCategory)
+            .Include(x => x.CarModel)
+                .ThenInclude(x => x.CarBrand)
             .SingleOrDefaultAsync(cancellationToken);
 
         return car;

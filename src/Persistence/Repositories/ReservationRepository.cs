@@ -20,4 +20,23 @@ internal sealed class ReservationRepository : IReservationRepository
         await _dbContext.Set<Reservation>().AddAsync(reservation, cancellationToken);
     }
 
+    public async Task<List<Reservation>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        var reservations = await _dbContext.Set<Reservation>()
+                .ToListAsync(cancellationToken);
+
+        return reservations;
+    }
+
+    public async Task<Reservation?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Set<Reservation>()
+                .Where(x => x.Id == id)
+                .Include(x => x.ReservationItems)
+                    .ThenInclude(x => x.Extra)
+                .Include(x => x.CarModel)
+                .Include(x => x.DropDownOffice)
+                .Include(x => x.PickUpOffice)
+                .SingleOrDefaultAsync();
+    }
 }

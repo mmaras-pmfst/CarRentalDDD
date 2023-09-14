@@ -20,6 +20,8 @@ public sealed class Worker : AggregateRoot, IAuditableEntity
     public DateTime CreatedOnUtc { get; set; }
     public DateTime? ModifiedOnUtc { get; set; }
 
+    public Office Office { get; private set; }
+
     private Worker()
     {
 

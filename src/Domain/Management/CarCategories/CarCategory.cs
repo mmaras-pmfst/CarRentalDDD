@@ -1,5 +1,6 @@
 ﻿using Domain.Common.Models;
 using Domain.Management.CarCategories.ValueObjects;
+using Domain.Management.CarModels;
 using Domain.Shared.ValueObjects;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ public sealed class CarCategory : AggregateRoot
     public Description Description { get; private set; }
     public DateTime CreatedOnUtc { get; set; }
     public DateTime? ModifiedOnUtc { get; set; }
+
+    public IReadOnlyCollection<CarModel> CarModels { get; private set; } = new List<CarModel>();
 
     private CarCategory(Guid id, CarCategoryName name, CarCategoryShortName shortName, Description description)
         : base(id)

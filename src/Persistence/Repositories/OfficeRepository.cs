@@ -36,7 +36,6 @@ namespace Persistence.Repositories
         public async Task<List<Office>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             var offices = await _dbContext.Set<Office>()
-                .Include(x => x.Workers)
                 .ToListAsync(cancellationToken);
 
             return offices;

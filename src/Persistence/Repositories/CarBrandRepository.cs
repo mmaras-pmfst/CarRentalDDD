@@ -1,4 +1,5 @@
 ﻿using Domain.Management.CarBrands;
+using Domain.Management.CarBrands.ValueObjects;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -21,10 +22,10 @@ internal sealed class CarBrandRepository : ICarBrandRepository
         await _dbContext.Set<CarBrand>().AddAsync(carBrand, cancellationToken);
     }
 
-    public async Task<bool> AlreadyExists(string carBrandName, CancellationToken cancellationToken = default)
+    public async Task<bool> AlreadyExists(CarBrandName carBrandName, CancellationToken cancellationToken = default)
     {
         var carBrand = await _dbContext.Set<CarBrand>()
-            .Where(x => x.Name.Value.ToUpper() == carBrandName.ToUpper())
+            .Where(x => x.Name.Value.ToUpper() == carBrandName.Value.ToUpper())
             .SingleOrDefaultAsync(cancellationToken);
 
         return carBrand != null ? false : true;
@@ -34,7 +35,6 @@ internal sealed class CarBrandRepository : ICarBrandRepository
     public async Task<List<CarBrand>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await _dbContext.Set<CarBrand>()
-            .Include(x => x.CarModels)
             .ToListAsync(cancellationToken);
 
     }

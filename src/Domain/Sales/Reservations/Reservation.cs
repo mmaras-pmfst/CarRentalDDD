@@ -1,5 +1,6 @@
 ﻿using Domain.Common.Models;
 using Domain.Management.CarModels;
+using Domain.Management.Offices;
 using Domain.Sales.Extras;
 using Domain.Sales.Reservations.Entities;
 using Domain.Shared.ValueObjects;
@@ -22,9 +23,14 @@ public sealed class Reservation : AggregateRoot
     public DateTime DropDownDate { get; private set; }
     public decimal RentalPrice { get; private set; }
     public decimal TotalPrice { get; private set; }
-    public Guid PickUpLocationId { get; private set; }
-    public Guid DropDownLocationId { get; private set; }
+    public Guid PickUpOfficeId { get; private set; }
+    public Guid DropDownOfficeId { get; private set; }
+    public Guid CarModelId { get; private set; }
+
+
     public CarModel CarModel { get; private set; }
+    public Office PickUpOffice { get; private set; }
+    public Office DropDownOffice { get; private set; }
     public IReadOnlyCollection<ReservationItem> ReservationItems => _reservationItems;
 
 
@@ -32,7 +38,7 @@ public sealed class Reservation : AggregateRoot
     {
 
     }
-    private Reservation(FirstName driverFirstName, LastName driverLastName, Email email, DateTime pickUpDate, DateTime dropDownDate, decimal totalPrice, Guid pickUpLocationId, Guid dropDownLocationId, CarModel carModel, decimal rentalPrice)
+    private Reservation(FirstName driverFirstName, LastName driverLastName, Email email, DateTime pickUpDate, DateTime dropDownDate, decimal totalPrice, Guid pickUpLocationId, Guid dropDownLocationId, Guid carModelId, decimal rentalPrice)
     {
         DriverFirstName = driverFirstName;
         DriverLastName = driverLastName;
@@ -40,9 +46,9 @@ public sealed class Reservation : AggregateRoot
         PickUpDate = pickUpDate;
         DropDownDate = dropDownDate;
         TotalPrice = totalPrice;
-        PickUpLocationId = pickUpLocationId;
-        DropDownLocationId = dropDownLocationId;
-        CarModel = carModel;
+        PickUpOfficeId = pickUpLocationId;
+        DropDownOfficeId = dropDownLocationId;
+        CarModelId = carModelId;
         RentalPrice = rentalPrice;
     }
 
@@ -54,7 +60,7 @@ public sealed class Reservation : AggregateRoot
 
         var totalPrice = rentalPrice;
 
-        return new Reservation(driverFirstName, driverLastName, email, pickUpDate, dropDownDate, totalPrice, pickUpLocationId, dropDownLocationId, carModel, rentalPrice);
+        return new Reservation(driverFirstName, driverLastName, email, pickUpDate, dropDownDate, totalPrice, pickUpLocationId, dropDownLocationId, carModel.Id, rentalPrice);
     }
 
     public ReservationItem AddItem(decimal quantity, Extra extras)

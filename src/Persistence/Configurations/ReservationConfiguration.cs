@@ -45,13 +45,13 @@ internal class ReservationConfiguration : IEntityTypeConfiguration<Reservation>
 
         builder.HasOne<Office>()
             .WithMany()
-            .HasForeignKey(x => x.PickUpLocationId)
+            .HasForeignKey(x => x.PickUpOfficeId)
             .OnDelete(DeleteBehavior.Restrict);
 
 
         builder.HasOne<Office>()
             .WithMany()
-            .HasForeignKey(x => x.DropDownLocationId)
+            .HasForeignKey(x => x.DropDownOfficeId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasMany(x => x.ReservationItems)

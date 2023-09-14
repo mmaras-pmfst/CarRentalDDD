@@ -7,10 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Persistence.Repositories;
-internal sealed class ReservationDetailRepository : IReservationItemRepository
+internal sealed class ReservationItemRepository : IReservationItemRepository
 {
     private readonly ApplicationDbContext _dbContext;
-    public ReservationDetailRepository(ApplicationDbContext dbContext)
+    public ReservationItemRepository(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
     }

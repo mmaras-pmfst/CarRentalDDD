@@ -40,7 +40,13 @@ public sealed class Contract : AggregateRoot, IAuditableEntity
     public Guid WorkerId { get; private set; }
     public DateTime CreatedOnUtc { get; set; }
     public DateTime? ModifiedOnUtc { get; set; }
+
     public IReadOnlyCollection<ContractItem> ContractItems => _contractItems;
+    public Car Car { get; private set; }
+    public Office DropDownOffice { get; private set; }
+    public Office PickUpOffice { get; private set; }
+    public Reservation? Reservation { get; private set; }
+    public Worker Worker { get; private set; }
 
     
 

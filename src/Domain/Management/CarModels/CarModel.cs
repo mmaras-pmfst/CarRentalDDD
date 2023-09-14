@@ -21,6 +21,9 @@ public sealed class CarModel : AggregateRoot, IAuditableEntity
     public DateTime CreatedOnUtc { get; set; }
     public DateTime? ModifiedOnUtc { get; set; }
 
+    public CarBrand CarBrand { get; private set; }
+    public CarCategory CarCategory { get; private set; }
+
     internal CarModel(Guid id, CarModelName name, Guid carBrandId, Guid carCategoryId, decimal pricePerDay, decimal discount)
         : base(id)
     {

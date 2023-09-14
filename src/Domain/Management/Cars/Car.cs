@@ -23,6 +23,9 @@ public sealed class Car : AggregateRoot
     public Guid CarModelId { get; private set; }
     public Guid OfficeId { get; private set; }
 
+    public CarModel CarModel { get; private set; }
+    public Office Office { get; private set; }
+
 
     private Car(Guid id, string numberPlate, string name, decimal kilometers, byte[]? image, CarStatus status, FuelType fuelType, Guid carModelId, Guid officeId)
         : base(id)

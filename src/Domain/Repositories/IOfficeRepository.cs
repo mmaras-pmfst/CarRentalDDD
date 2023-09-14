@@ -11,11 +11,8 @@ namespace Domain.Repositories;
 public interface IOfficeRepository
 {
     Task AddAsync(Office office, CancellationToken cancellationToken = default);
-
     Task<List<Office>> GetAllAsync(CancellationToken cancellationToken = default);
-
     Task<Office?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
-
     Task<bool> AlreadyExists(Address address, CancellationToken cancellationToken = default);
 
 }
