@@ -1,5 +1,5 @@
-﻿using Domain.Management.Office;
-using Domain.Sales.CarModelRent.Entities;
+﻿using Domain.Management.Offices;
+using Domain.Sales.Reservations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Persistence.Constants;
@@ -54,7 +54,7 @@ internal class ReservationConfiguration : IEntityTypeConfiguration<Reservation>
             .HasForeignKey(x => x.DropDownLocationId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasMany(x => x.ReservationDetails)
+        builder.HasMany(x => x.ReservationItems)
             .WithOne()
             .HasForeignKey(x => x.ReservationId);
 

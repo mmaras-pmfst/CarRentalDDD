@@ -1,4 +1,4 @@
-﻿using Domain.Management.Office.Entities;
+﻿using Domain.Management.Workers;
 using Domain.Repositories;
 using System;
 using System.Collections.Generic;

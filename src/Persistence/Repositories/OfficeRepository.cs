@@ -1,4 +1,5 @@
-﻿using Domain.Management.Office;
+﻿using Domain.Management.Offices;
+using Domain.Management.Offices.ValueObjects;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -22,10 +23,10 @@ namespace Persistence.Repositories
             await _dbContext.Set<Office>().AddAsync(office);
         }
 
-        public async Task<bool> AlreadyExists(string city, string streetName, string streetNumber, CancellationToken cancellationToken = default)
+        public async Task<bool> AlreadyExists(Address address, CancellationToken cancellationToken = default)
         {
             var office = await _dbContext.Set<Office>()
-                .Where(x => x.City == city && x.StreetName == streetName && x.StreetNumber == streetName)
+                .Where(x => x.Address == address)
                 .SingleOrDefaultAsync(cancellationToken);
 
             return office != null ? false : true;

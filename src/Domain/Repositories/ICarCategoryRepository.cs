@@ -1,4 +1,4 @@
-﻿using Domain.Management.CarCategory;
+﻿using Domain.Management.CarCategories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

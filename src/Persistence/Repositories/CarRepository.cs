@@ -1,4 +1,4 @@
-﻿using Domain.Management.Car;
+﻿using Domain.Management.Cars;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;

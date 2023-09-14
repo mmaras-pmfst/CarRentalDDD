@@ -1,4 +1,6 @@
-﻿using Domain.Management.CarBrand;
+﻿using Domain.Management.CarBrands.ValueObjects;
+using Domain.Management.CarCategories.ValueObjects;
+using Domain.Management.CarModels.ValueObjects;
 using Domain.Shared;
 using System;
 using System.Collections.Generic;
@@ -25,11 +27,11 @@ public static class DomainErrors
 
         public static readonly Error CarBrandNameTooLong = new Error(
             "CarBrand.CarBrandNameTooLong",
-            $"The specified CarBrand Name is longer than {Management.CarBrand.ValueObjects.CarBrandName.MaxLength}");
+            $"The specified CarBrand Name is longer than {CarBrandName.MaxLength}");
 
         public static readonly Error CarBrandNameTooShort = new Error(
             "CarBrand.CarBrandNameTooShort",
-            $"The specified CarBrand Name is shorter than {Management.CarBrand.ValueObjects.CarBrandName.MinLength} ");
+            $"The specified CarBrand Name is shorter than {CarBrandName.MinLength} ");
     }
 
     public static class CarCategory
@@ -40,19 +42,19 @@ public static class DomainErrors
 
         public static readonly Error CarCategoryNameTooLong = new Error(
             "CarBrand.CarCategoryNameTooLong",
-            $"The specified CarCategory Name is longer than {Management.CarCategory.ValueObjects.CarCategoryName.MaxLength}");
+            $"The specified CarCategory Name is longer than {CarCategoryName.MaxLength}");
 
         public static readonly Error CarCategoryNameTooShort = new Error(
             "CarBrand.CarCategoryNameTooShort",
-            $"The specified CarCategory Name is shorter than {Management.CarCategory.ValueObjects.CarCategoryName.MinLength} ");
+            $"The specified CarCategory Name is shorter than {CarCategoryName.MinLength} ");
 
         public static readonly Error CarCategoryShortNameTooLong = new Error(
             "CarBrand.CarCategoryShortNameTooLong",
-            $"The specified CarCategory ShortName is longer than {Management.CarCategory.ValueObjects.CarCategoryShortName.MaxLength}");
+            $"The specified CarCategory ShortName is longer than {CarCategoryShortName.MaxLength}");
 
         public static readonly Error CarCategoryShortNameTooShort = new Error(
             "CarBrand.CarCategoryShortNameTooShort",
-            $"The specified CarCategory ShortName is shorter than {Management.CarCategory.ValueObjects.CarCategoryShortName.MinLength} ");
+            $"The specified CarCategory ShortName is shorter than {CarCategoryShortName.MinLength} ");
     }
 
     public static class CarModel
@@ -63,11 +65,11 @@ public static class DomainErrors
 
         public static readonly Error CarModelNameTooLong = new Error(
             "CarBrand.CarModelNameTooLong",
-            $"The specified CarModel Name is longer than {Management.CarBrand.ValueObjects.CarModelName.MaxLength}");
+            $"The specified CarModel Name is longer than {CarModelName.MaxLength}");
 
         public static readonly Error CarModelNameTooShort = new Error(
             "CarBrand.CarModelNameTooShort",
-            $"The specified CarName Name is shorter than {Management.CarBrand.ValueObjects.CarModelName.MinLength} ");
+            $"The specified CarName Name is shorter than {CarModelName.MinLength} ");
     }
 
     public static class Office
@@ -108,7 +110,7 @@ public static class DomainErrors
             "FirstName.Empty",
             "FirstName field cannot be empty");
 
-        public static readonly Func<(string,int), Error> TooLong = parameters => new Error(
+        public static readonly Func<(string, int), Error> TooLong = parameters => new Error(
             "FirstName.TooLong",
             $"FirstName {parameters.Item1} is longer then {parameters.Item2}");
 

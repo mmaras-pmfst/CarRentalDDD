@@ -1,9 +1,10 @@
 ﻿using Application.Abstractions;
-using Domain.Common.ValueObjects;
 using Domain.Errors;
-using Domain.Management.Office;
+using Domain.Management.Offices;
+using Domain.Management.Offices.ValueObjects;
 using Domain.Repositories;
 using Domain.Shared;
+using Domain.Shared.ValueObjects;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -33,7 +34,13 @@ internal sealed class OfficeCreateCommandHandler : ICommandHandler<OfficeCreateC
 
         try
         {
-            var exists = await _officeRepository.AlreadyExists(request.City, request.StreetName, request.StreetNumber, cancellationToken);
+            var address = Address.Create(request.City, request.StreetName, request.StreetNumber, request.Country);
+            if (address.IsFailure)
+            {
+                return Result.Failure<Guid>(address.Error);
+
+            }
+            var exists = await _officeRepository.AlreadyExists(address.Value, cancellationToken);
             if (exists)
             {
                 _logger.LogWarning("CreateOfficeCommandHandler: Office already exists!");
@@ -46,12 +53,10 @@ internal sealed class OfficeCreateCommandHandler : ICommandHandler<OfficeCreateC
                 return Result.Failure<Guid>(phoneNumberResult.Error);
 
             }
+            
             var newOffice = Office.Create(
                     Guid.NewGuid(),
-                    request.Country,
-                    request.City,
-                    request.StreetName,
-                    request.StreetNumber,
+                    address.Value,
                     request.OpeningTime,
                     request.ClosingTime,
                     phoneNumberResult.Value

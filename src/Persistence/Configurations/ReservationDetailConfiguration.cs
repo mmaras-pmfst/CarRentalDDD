@@ -1,6 +1,5 @@
-﻿using Domain.Sales.CarModelRent;
-using Domain.Sales.CarModelRent.Entities;
-using Domain.Sales.Extras;
+﻿using Domain.Sales.Extras;
+using Domain.Sales.Reservations.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Persistence.Constants;
@@ -11,9 +10,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Persistence.Configurations;
-internal class ReservationDetailConfiguration : IEntityTypeConfiguration<ReservationDetail>
+internal class ReservationDetailConfiguration : IEntityTypeConfiguration<ReservationItem>
 {
-    public void Configure(EntityTypeBuilder<ReservationDetail> builder)
+    public void Configure(EntityTypeBuilder<ReservationItem> builder)
     {
         builder.ToTable(TableNames.ReservationDetails, SchemaNames.Sales);
 

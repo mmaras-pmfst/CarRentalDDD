@@ -1,5 +1,5 @@
-﻿using Domain.Management.CarBrand;
-using Domain.Management.CarBrand.ValueObjects;
+﻿using Domain.Management.CarBrands;
+using Domain.Management.CarBrands.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Persistence.Constants;

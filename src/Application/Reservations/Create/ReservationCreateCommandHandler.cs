@@ -1,7 +1,7 @@
 ﻿using Application.Abstractions;
-using Domain.Management.Car;
+using Domain.Management.Cars;
 using Domain.Repositories;
-using Domain.Sales.CarModelRent.Entities;
+using Domain.Sales.Reservations;
 using Domain.Shared;
 using Microsoft.Extensions.Logging;
 using System;
@@ -16,12 +16,12 @@ internal class ReservationCreateCommandHandler : ICommandHandler<ReservationCrea
     private ILogger<ReservationCreateCommandHandler> _logger;
     private readonly ICarBrandRepository _carBrandRepository;
     private readonly IReservationRepository _reservationRepository;
-    private readonly IReservationDetailRepository _reservationDetailRepository;
+    private readonly IReservationItemRepository _reservationDetailRepository;
     private readonly IExtrasRepository _extrasRepository;
     private readonly IOfficeRepository _officeRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public ReservationCreateCommandHandler(ILogger<ReservationCreateCommandHandler> logger, IUnitOfWork unitOfWork, ICarBrandRepository carBrandRepository, IReservationRepository reservationRepository, IReservationDetailRepository reservationDetailRepository, IExtrasRepository extrasRepository, IOfficeRepository officeRepository)
+    public ReservationCreateCommandHandler(ILogger<ReservationCreateCommandHandler> logger, IUnitOfWork unitOfWork, ICarBrandRepository carBrandRepository, IReservationRepository reservationRepository, IReservationItemRepository reservationDetailRepository, IExtrasRepository extrasRepository, IOfficeRepository officeRepository)
     {
         _logger = logger;
         _unitOfWork = unitOfWork;
@@ -104,7 +104,7 @@ internal class ReservationCreateCommandHandler : ICommandHandler<ReservationCrea
                             "Extra.NotFound",
                              $"The Extra with Id {extra.ExtraId} was not found"));
                 }
-                var newExtra = newReservation.AddReservationDetail(extra.Quantity, dbExtra);
+                var newExtra = newReservation.AddItem(extra.Quantity, dbExtra);
                 await _reservationDetailRepository.AddAsync(newExtra, cancellationToken);
             }
 

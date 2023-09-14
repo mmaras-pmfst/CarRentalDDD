@@ -1,7 +1,6 @@
-﻿using Domain.Management.Car;
-using Domain.Management.CarBrand.Entities;
-using Domain.Management.Color;
-using Domain.Management.Office;
+﻿using Domain.Management.CarModels;
+using Domain.Management.Cars;
+using Domain.Management.Offices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Persistence.Constants;
@@ -47,11 +46,6 @@ internal class CarConfiguration : IEntityTypeConfiguration<Car>
         builder.HasOne<CarModel>()
             .WithMany()
             .HasForeignKey(x => x.CarModelId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        builder.HasOne<Color>()
-            .WithMany()
-            .HasForeignKey(x => x.ColorId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne<Office>()

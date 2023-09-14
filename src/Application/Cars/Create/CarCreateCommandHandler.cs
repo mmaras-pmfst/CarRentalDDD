@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions;
-using Domain.Management.Car;
+using Domain.Management.Cars;
 using Domain.Repositories;
 using Domain.Shared;
 using Microsoft.Extensions.Logging;
@@ -44,7 +44,6 @@ internal class CarCreateCommandHandler : ICommandHandler<CarCreateCommand, Guid>
                 request.Image,
                 request.CarStatus,
                 request.FuelType,
-                request.ColorId,
                 request.CarModelId,
                 request.OfficeId);
 

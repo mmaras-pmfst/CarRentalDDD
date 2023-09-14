@@ -1,5 +1,5 @@
 ﻿using Domain.Repositories;
-using Domain.Sales.CarModelRent.Entities;
+using Domain.Sales.Reservations;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

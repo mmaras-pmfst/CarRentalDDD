@@ -1,6 +1,6 @@
 ﻿using Application.Abstractions;
 using Application.Workers.Update;
-using Domain.Management.Office.Entities;
+using Domain.Management.Workers;
 using Domain.Repositories;
 using Domain.Shared;
 using Microsoft.Extensions.Logging;

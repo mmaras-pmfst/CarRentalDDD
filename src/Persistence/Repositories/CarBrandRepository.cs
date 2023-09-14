@@ -1,5 +1,4 @@
-﻿using Domain.Management.CarBrand;
-using Domain.Management.CarCategory;
+﻿using Domain.Management.CarBrands;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -36,9 +35,6 @@ internal sealed class CarBrandRepository : ICarBrandRepository
     {
         return await _dbContext.Set<CarBrand>()
             .Include(x => x.CarModels)
-                .ThenInclude(x => x.CarModelRents)
-                    .ThenInclude(x => x.Reservations)
-                        .ThenInclude(x => x.ReservationDetails)
             .ToListAsync(cancellationToken);
 
     }

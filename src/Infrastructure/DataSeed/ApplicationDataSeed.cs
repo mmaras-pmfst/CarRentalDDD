@@ -39,7 +39,7 @@ public class ApplicationDataSeed
             var _colorRepository = serviceScope.ServiceProvider.GetService<IColorRepository>();
             var _extraRepository = serviceScope.ServiceProvider.GetService<IExtrasRepository>();
             var _officeRepository = serviceScope.ServiceProvider.GetService<IOfficeRepository>();
-            var _reservationDetailRepository = serviceScope.ServiceProvider.GetService<IReservationDetailRepository>();
+            var _reservationDetailRepository = serviceScope.ServiceProvider.GetService<IReservationItemRepository>();
             var _reservationRepository = serviceScope.ServiceProvider.GetService<IReservationRepository>();
             var _workerRepository = serviceScope.ServiceProvider.GetService<IWorkerRepository>();
 

@@ -1,9 +1,9 @@
 ﻿using Application.Abstractions;
-using Domain.Common.ValueObjects;
-using Domain.Management.CarCategory;
-using Domain.Management.CarCategory.ValueObjects;
+using Domain.Management.CarCategories;
+using Domain.Management.CarCategories.ValueObjects;
 using Domain.Repositories;
 using Domain.Shared;
+using Domain.Shared.ValueObjects;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;

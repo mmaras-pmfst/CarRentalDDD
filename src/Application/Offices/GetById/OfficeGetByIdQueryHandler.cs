@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions;
-using Domain.Management.Office;
+using Domain.Management.Offices;
 using Domain.Repositories;
 using Domain.Shared;
 using MediatR;

@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions;
-using Domain.Enums;
+using Domain.Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

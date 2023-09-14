@@ -1,6 +1,6 @@
 ﻿using Application.Abstractions;
-using Domain.Management.CarBrand;
-using Domain.Management.CarBrand.ValueObjects;
+using Domain.Management.CarBrands;
+using Domain.Management.CarBrands.ValueObjects;
 using Domain.Repositories;
 using Domain.Shared;
 using MediatR;

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.Common.Models;
+
 public interface IAuditableEntity
 {
     DateTime CreatedOnUtc { get; set; }

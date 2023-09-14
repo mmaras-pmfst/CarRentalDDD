@@ -1,4 +1,5 @@
-﻿using Domain.Management.Office;
+﻿using Domain.Management.Offices;
+using Domain.Management.Offices.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,6 @@ public interface IOfficeRepository
 
     Task<Office?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
-    Task<bool> AlreadyExists(string city, string streetName, string streetNumber, CancellationToken cancellationToken = default);
+    Task<bool> AlreadyExists(Address address, CancellationToken cancellationToken = default);
 
 }

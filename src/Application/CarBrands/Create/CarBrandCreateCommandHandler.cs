@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions;
-using Domain.Management.CarBrand;
+using Domain.Management.CarBrands;
 using Domain.Errors;
 using Domain.Repositories;
 using Domain.Shared;
@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Management.CarBrand.ValueObjects;
+using Domain.Management.CarBrands.ValueObjects;
 using System.Xml.Linq;
 
 namespace Application.CarBrands.Create;
@@ -34,7 +34,12 @@ internal sealed class CarBrandCreateCommandHandler : ICommandHandler<CarBrandCre
 
         try
         {
-            var exists = await _carBrandRepository.AlreadyExists(request.CarBrandName, cancellationToken);
+            var carBrandNameResult = CarBrandName.Create(request.CarBrandName);
+            if (carBrandNameResult.IsFailure)
+            {
+                return Result.Failure<Guid>(carBrandNameResult.Error);
+            }
+            var exists = await _carBrandRepository.AlreadyExists(carBrandNameResult.Value, cancellationToken);
             if (exists)
             {
 
@@ -43,11 +48,7 @@ internal sealed class CarBrandCreateCommandHandler : ICommandHandler<CarBrandCre
 
             }
 
-            var carBrandNameResult = CarBrandName.Create(request.CarBrandName);
-            if (carBrandNameResult.IsFailure)
-            {
-                return Result.Failure<Guid>(carBrandNameResult.Error);
-            }
+            
 
             var newCarBrand = CarBrand.Create(
                 Guid.NewGuid(),

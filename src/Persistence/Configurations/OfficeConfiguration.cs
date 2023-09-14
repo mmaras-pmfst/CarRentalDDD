@@ -1,5 +1,6 @@
-﻿using Domain.Common.ValueObjects;
-using Domain.Management.Office;
+﻿using Domain.Management.Offices;
+using Domain.Management.Offices.ValueObjects;
+using Domain.Shared.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Persistence.Constants;
@@ -18,21 +19,17 @@ internal class OfficeConfiguration : IEntityTypeConfiguration<Office>
         builder.ToTable(TableNames.Offices, SchemaNames.Catalog);
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.City)
-            .HasMaxLength(25)
-            .IsRequired();
-
-        builder.Property(x => x.Country)
-            .HasMaxLength(30)
-            .IsRequired();
-
-        builder.Property(x => x.StreetName)
-            .HasMaxLength(50)
-            .IsRequired();
-
-        builder.Property(x => x.StreetNumber)
-            .HasMaxLength(3)
-            .IsRequired();
+        builder.Property(x => x.Address)
+            .HasConversion(
+                x => new {x.City, x.StreetName, x.StreetNumber, x.Country},
+                v => Address.Create(
+                    v.City,
+                    v.StreetName,
+                    v.StreetNumber,
+                    v.Country
+                    ).Value
+            )
+            .IsRequired(true);
 
         builder.Property(x => x.PhoneNumber)
             .HasConversion(x => x.Value, v => PhoneNumber.Create(v).Value)

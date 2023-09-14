@@ -1,14 +1,16 @@
-﻿using Domain.Management.Car;
-using Domain.Management.Office;
-using Domain.Management.Office.Entities;
-using Domain.Sales.CarModelRent.Entities;
-using Domain.Sales.Contract;
+﻿using Domain.Management.Cars;
+using Domain.Management.Offices;
+using Domain.Management.Workers;
+using Domain.Sales.Contracts;
+using Domain.Sales.Reservations;
+using Domain.Sales.Reservations.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Persistence.Constants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -62,23 +64,17 @@ internal class ContractConfiguration : IEntityTypeConfiguration<Contract>
             .HasConversion<string>()
             .IsRequired(false);
 
-        builder.Property(x => x.CardName)
-            .IsRequired(false)
-            .HasMaxLength(50);
 
-        builder.Property(x => x.CardNumber)
-            .IsRequired(false)
-            .HasMaxLength(15);
-
-        builder.Property(x => x.CVV)
-            .IsRequired(false);
-
-        builder.Property(x => x.CardDateExpiration)
-            .HasMaxLength(2)
-            .IsRequired(false);
-
-        builder.Property(x => x.CardYearExpiration)
-            .HasMaxLength(2)
+        builder.Property(x => x.Card)
+            .HasConversion(
+                v => new {v.CardName,v.CardNumber, v.CVV,v.CardDateExpiration, v.CardYearExpiration},
+                v => Card.Create(
+                    v.CardName,
+                    v.CardNumber,
+                    v.CVV,
+                    v.CardDateExpiration,
+                    v.CardYearExpiration).Value
+            )
             .IsRequired(false);
 
 
@@ -93,12 +89,12 @@ internal class ContractConfiguration : IEntityTypeConfiguration<Contract>
 
         builder.HasOne<Office>()
             .WithMany()
-            .HasForeignKey(x => x.PickUpLocationId)
+            .HasForeignKey(x => x.PickUpOfficeId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne<Office>()
             .WithMany()
-            .HasForeignKey(x => x.DropDownLocationId)
+            .HasForeignKey(x => x.DropDownOfficeId)
             .OnDelete(DeleteBehavior.Restrict);
         ;
 

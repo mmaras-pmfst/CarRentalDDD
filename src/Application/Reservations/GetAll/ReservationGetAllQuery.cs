@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions;
-using Domain.Sales.CarModelRent.Entities;
+using Domain.Sales.Reservations;
 using System;
 using System.Collections.Generic;
 using System.Linq;

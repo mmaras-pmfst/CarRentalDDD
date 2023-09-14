@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions;
-using Domain.Management.CarCategory;
+using Domain.Management.CarCategories;
 using Domain.Errors;
 using Domain.Repositories;
 using Domain.Shared;
@@ -10,8 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Management.CarCategory.ValueObjects;
-using Domain.Common.ValueObjects;
+using Domain.Management.CarCategories.ValueObjects;
+using Domain.Shared.ValueObjects;
 
 namespace Application.CarCategories.Create;
 

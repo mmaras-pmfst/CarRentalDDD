@@ -1,4 +1,4 @@
-﻿using Domain.Management.CarBrand.Entities;
+﻿using Domain.Management.CarModels;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;

@@ -1,9 +1,9 @@
 ﻿using Application.Abstractions;
-using Domain.Common.ValueObjects;
 using Domain.Errors;
-using Domain.Management.Office;
+using Domain.Management.Workers;
 using Domain.Repositories;
 using Domain.Shared;
+using Domain.Shared.ValueObjects;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

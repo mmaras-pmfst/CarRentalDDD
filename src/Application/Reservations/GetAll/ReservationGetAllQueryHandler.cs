@@ -1,6 +1,6 @@
 ﻿using Application.Abstractions;
 using Domain.Repositories;
-using Domain.Sales.CarModelRent.Entities;
+using Domain.Sales.Reservations;
 using Domain.Shared;
 using Microsoft.Extensions.Logging;
 using System;

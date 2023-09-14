@@ -1,4 +1,4 @@
-﻿using Domain.Sales.Contract.Entities;
+﻿using Domain.Sales.Contracts.Entities;
 using Domain.Sales.Extras;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -10,9 +10,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Persistence.Configurations;
-internal class ContractDetailConfiguration : IEntityTypeConfiguration<ContractDetail>
+internal class ContractDetailConfiguration : IEntityTypeConfiguration<ContractItem>
 {
-    public void Configure(EntityTypeBuilder<ContractDetail> builder)
+    public void Configure(EntityTypeBuilder<ContractItem> builder)
     {
         builder.ToTable(TableNames.ContractDetails, SchemaNames.Sales);
 
@@ -28,6 +28,6 @@ internal class ContractDetailConfiguration : IEntityTypeConfiguration<ContractDe
 
         builder.HasOne<Extra>()
             .WithMany()
-            .HasForeignKey(x => x.ExtrasId);
+            .HasForeignKey(x => x.ExtraId);
     }
 }

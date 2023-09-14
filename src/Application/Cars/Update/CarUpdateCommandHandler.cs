@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions;
-using Domain.Management.Car;
+using Domain.Management.Cars;
 using Domain.Repositories;
 using Domain.Shared;
 using Microsoft.Extensions.Logging;
@@ -51,7 +51,7 @@ internal class CarUpdateCommandHandler : ICommandHandler<CarUpdateCommand, bool>
                     $"The Office with Id {request.OfficeId} was not found"));
             }
 
-            var result = car.Update(request.Kilometers, request.Image, request.CarStatus, request.OfficeId);
+            var result = car.Update(request.Kilometers, request.Image, request.CarStatus, office);
             if (result.IsFailure)
             {
                 _logger.LogWarning("CarUpdateCommandHandler: Wrong car kilometers");
