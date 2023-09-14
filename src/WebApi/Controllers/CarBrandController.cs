@@ -3,7 +3,7 @@ using Application.CarBrands.GetAll;
 using Application.CarBrands.GetById;
 using Application.CarBrands.Update;
 using Azure.Core;
-using Domain.Management.CarBrand;
+using Domain.Management.CarBrands;
 using Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Http;

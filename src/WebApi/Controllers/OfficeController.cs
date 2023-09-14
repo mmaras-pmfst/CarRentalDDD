@@ -2,7 +2,7 @@
 using Application.Offices.GetAll;
 using Application.Offices.GetById;
 using Application.Offices.Update;
-using Domain.Management.Office;
+using Domain.Management.Offices;
 using Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Http;

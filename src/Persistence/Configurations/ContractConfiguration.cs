@@ -87,12 +87,12 @@ internal class ContractConfiguration : IEntityTypeConfiguration<Contract>
             .HasForeignKey(x => x.WorkerId);
 
 
-        builder.HasOne<Office>()
+        builder.HasOne<Office>(x => x.PickUpOffice)
             .WithMany()
             .HasForeignKey(x => x.PickUpOfficeId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne<Office>()
+        builder.HasOne<Office>(x => x.DropDownOffice)
             .WithMany()
             .HasForeignKey(x => x.DropDownOfficeId)
             .OnDelete(DeleteBehavior.Restrict);

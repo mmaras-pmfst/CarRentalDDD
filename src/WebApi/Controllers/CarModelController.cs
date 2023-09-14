@@ -2,7 +2,7 @@
 using Application.CarModels.GetAll;
 using Application.CarModels.GetById;
 using Application.CarModels.Update;
-using Domain.Management.CarBrand.Entities;
+using Domain.Management.CarModels;
 using Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Http;
