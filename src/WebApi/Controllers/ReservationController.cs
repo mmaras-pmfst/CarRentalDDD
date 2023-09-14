@@ -100,7 +100,7 @@ public class ReservationController : ApiController
 
     }
 
-    [HttpGet()]
+    [HttpGet]
     public async Task<IActionResult> GetAll([FromQuery] GetAllReservationsRequest request)
     {
         _logger.LogInformation("Started ReservationController.GetAll");
