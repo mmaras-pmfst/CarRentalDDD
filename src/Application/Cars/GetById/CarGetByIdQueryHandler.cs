@@ -27,7 +27,7 @@ internal class CarGetByIdQueryHandler : IQueryHandler<CarGetByIdQuery, Car?>
 
         try
         {
-            var dbCar = await _carRepository.GetByAsync(request.CarId, cancellationToken);
+            var dbCar = await _carRepository.GetByIdAsync(request.CarId, cancellationToken);
             if (dbCar == null)
             {
                 _logger.LogWarning("CarGetByIdQueryHandler: Car doesn't exist!");

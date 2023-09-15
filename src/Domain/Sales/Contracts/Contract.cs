@@ -6,6 +6,7 @@ using Domain.Management.Workers;
 using Domain.Sales.Contracts.Entities;
 using Domain.Sales.Extras;
 using Domain.Sales.Reservations;
+using Domain.Sales.Reservations.Entities;
 using Domain.Sales.Reservations.ValueObjects;
 using Domain.Shared.Enums;
 using Domain.Shared.ValueObjects;
@@ -34,7 +35,7 @@ public sealed class Contract : AggregateRoot, IAuditableEntity
     public string DriverLicenceNumber { get; private set; }
     public string DriverIdentificationNumber { get; private set; }
     public CardType? CardType { get; private set; }
-    public PaymentMethod? PaymentMethod { get; private set; }
+    public PaymentMethod PaymentMethod { get; private set; }
     public Card? Card { get; private set; }
     public Guid? ReservationId { get; private set; }
     public Guid WorkerId { get; private set; }
@@ -54,7 +55,7 @@ public sealed class Contract : AggregateRoot, IAuditableEntity
 
     }
 
-    private Contract(Guid id, FirstName driverFirstName, LastName driverLastName, Email email, DateTime pickUpDate, DateTime dropDownDate, decimal totalPrice, Guid pickUpOfficeId, Guid dropDownOfficeId, Guid carId, string driverLicenceNumber, string driverIdentificationNumber, CardType? cardType, PaymentMethod? paymentMethod, Card? card, Guid? reservationId, decimal rentalPrice, Guid workerId)
+    private Contract(Guid id, FirstName driverFirstName, LastName driverLastName, Email email, DateTime pickUpDate, DateTime dropDownDate, decimal totalPrice, Guid pickUpOfficeId, Guid dropDownOfficeId, Guid carId, string driverLicenceNumber, string driverIdentificationNumber, CardType? cardType, PaymentMethod paymentMethod, Card? card, Guid? reservationId, decimal rentalPrice, Guid workerId)
         : base(id)
     {
         DriverFirstName = driverFirstName;
@@ -77,7 +78,7 @@ public sealed class Contract : AggregateRoot, IAuditableEntity
     }
 
 
-    public static Contract Create(Guid id, FirstName driverFirstName, LastName driverLastName, Email email, DateTime pickUpDate, DateTime dropDownDate, Office pickUpOffice, Office dropDownOffice, Car car, string driverLicenceNumber, string driverIdentificationNumber, CardType? cardType, PaymentMethod? paymentMethod, Card? card, Reservation? reservation, CarModel carModel, Worker worker)
+    public static Contract Create(Guid id, FirstName driverFirstName, LastName driverLastName, Email email, DateTime pickUpDate, DateTime dropDownDate, Office pickUpOffice, Office dropDownOffice, Car car, string driverLicenceNumber, string driverIdentificationNumber, CardType? cardType, PaymentMethod paymentMethod, Card? card, Reservation? reservation, CarModel carModel, Worker worker)
     {
         var duration = (decimal)dropDownDate.Subtract(pickUpDate).TotalDays;
 
@@ -86,7 +87,7 @@ public sealed class Contract : AggregateRoot, IAuditableEntity
         var totalPrice = rentalPrice;
 
 
-        return new Contract(id, driverFirstName, driverLastName, email, pickUpDate, dropDownDate, totalPrice, pickUpOffice.Id, dropDownOffice.Id, car.Id, driverLicenceNumber, driverIdentificationNumber, cardType, paymentMethod, card, reservation == null ? null : reservation.Id, rentalPrice, worker.Id);
+        return new Contract(id, driverFirstName, driverLastName, email, pickUpDate, dropDownDate, totalPrice, pickUpOffice.Id, dropDownOffice.Id, car.Id, driverLicenceNumber, driverIdentificationNumber, cardType, paymentMethod, card, reservation is null ? null : reservation.Id, rentalPrice, worker.Id);
 
 
     }
@@ -104,10 +105,10 @@ public sealed class Contract : AggregateRoot, IAuditableEntity
 
     }
 
-    public void AddContractDetail(decimal quantity, Extra extra)
+    public ContractItem AddContractDetail(decimal quantity, Extra extra)
     {
         var detailElement = _contractItems.Where(x => x.ExtraId == extra.Id).SingleOrDefault();
-        if (detailElement != null)
+        if (detailElement is not null)
         {
             _contractItems.RemoveAll(x => x.ExtraId == extra.Id);
             TotalPrice -= detailElement.Price;
@@ -115,24 +116,17 @@ public sealed class Contract : AggregateRoot, IAuditableEntity
         var contracDetail = ContractItem.Create(Guid.NewGuid(), quantity, extra, this);
         TotalPrice += contracDetail.Price;
         _contractItems.Add(contracDetail);
+        return contracDetail;
     }
 
-    public void RemoveContractDetail(decimal quantity, Extra extra)
+    public void RemoveContractDetail(Extra extra)
     {
+
         var contractDetail = _contractItems.Where(x => x.ExtraId == extra.Id).SingleOrDefault();
-        if (contractDetail != null)
+        if (contractDetail is not null)
         {
-            if (contractDetail.Quantity == quantity)
-            {
-                _contractItems.RemoveAll(x => x.ExtraId == extra.Id);
-                TotalPrice -= contractDetail.Price;
-            }
-            else if (contractDetail.Quantity > quantity)
-            {
-                AddContractDetail(quantity, extra);
-            }
-
-
+            _contractItems.RemoveAll(x => x.ExtraId == extra.Id);
+            TotalPrice -= contractDetail.Price;
         }
     }
 

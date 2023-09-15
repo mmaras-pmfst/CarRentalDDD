@@ -65,7 +65,7 @@ internal class ContractConfiguration : IEntityTypeConfiguration<Contract>
 
         builder.Property(r => r.PaymentMethod)
             .HasConversion<string>()
-            .IsRequired(false);
+            .IsRequired(true);
 
         //v2
         //builder.Property(x => x.Card)

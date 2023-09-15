@@ -1,5 +1,5 @@
 ﻿namespace WebApi.Contracts.Contracts;
 
-public class GetAllContractRequest
-{
-}
+public record GetAllContractRequest(
+    DateTime? DateFrom,
+    DateTime? DateTo);

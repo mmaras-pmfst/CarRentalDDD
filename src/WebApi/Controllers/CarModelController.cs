@@ -51,7 +51,6 @@ namespace WebApi.Controllers
 
         }
 
-        [Route("GetAll")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {

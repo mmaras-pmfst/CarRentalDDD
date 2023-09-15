@@ -39,7 +39,7 @@ internal class AddReservationItemCommandHandler : ICommandHandler<AddReservation
         try
         {
             var reservation = await _reservationRepository.GetByIdAsync(request.ReservationId, cancellationToken);
-            if (reservation == null)
+            if (reservation is null)
             {
                 _logger.LogWarning("AddReservationItemCommandHandler: Reservation doesn't exist!");
                 return Result.Failure<Guid>(new Error(
@@ -50,7 +50,7 @@ internal class AddReservationItemCommandHandler : ICommandHandler<AddReservation
             foreach (var extra in request.Extras)
             {
                 var dbExtra = await _extrasRepository.GetByIdAsync(extra.ExtraId, cancellationToken);
-                if (dbExtra == null)
+                if (dbExtra is null)
                 {
                     _logger.LogWarning("ReservationCreateCommandHandler: Extra doesn't exist!");
                     return Result.Failure<Guid>(new Error(

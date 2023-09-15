@@ -2,96 +2,128 @@
   {
     "Id": "cfb21da8-9714-4d30-8526-9b378ca98b79",
     "Name": { "Value": "Polo" },
+    "PricePerDay": 30.00,
+    "Discount": 0.00,
     "CarBrandId": "ef48100a-cb31-42fa-b3b5-064acef28f5a",
     "CarCategoryId": "7e35482d-e8f2-44cf-b629-0882aab9d6a9"
   },
   {
     "Id": "b87ce676-6a60-4464-a1e4-a585461b9226",
     "Name": { "Value": "Passat" },
+    "PricePerDay": 35.00,
+    "Discount": 0.00,
     "CarBrandId": "ef48100a-cb31-42fa-b3b5-064acef28f5a",
     "CarCategoryId": "9aa97f53-6008-45d2-ae54-e90bbd9c2396"
   },
   {
     "Id": "a161e79c-5d61-4235-b5ca-539804fc3413",
     "Name": { "Value": "M1" },
+    "PricePerDay": 37.00,
+    "Discount": 0.00,
     "CarBrandId": "d45d42cd-5a58-4fe5-b576-c4bb487e7606",
     "CarCategoryId": "7e35482d-e8f2-44cf-b629-0882aab9d6a9"
   },
   {
     "Id": "1bce9f28-0685-410c-a41c-0354a55313f6",
     "Name": { "Value": "M5" },
+    "PricePerDay": 55.00,
+    "Discount": 0.00,
     "CarBrandId": "d45d42cd-5a58-4fe5-b576-c4bb487e7606",
     "CarCategoryId": "9aa97f53-6008-45d2-ae54-e90bbd9c2396"
   },
   {
     "Id": "2e6091e2-0859-4674-879a-aaad0baab8db",
     "Name": { "Value": "Tiguan" },
+    "PricePerDay": 47.00,
+    "Discount": 0.00,
     "CarBrandId": "ef48100a-cb31-42fa-b3b5-064acef28f5a",
     "CarCategoryId": "0464d506-deea-4a1c-8074-43bf93edacf7"
   },
   {
     "Id": "b7547632-f25d-4faa-a8d1-e7b65bc72a34",
     "Name": { "Value": "A1" },
+    "PricePerDay": 32.00,
+    "Discount": 0.00,
     "CarBrandId": "311e4dab-62ab-489a-8501-d770f88627fd",
     "CarCategoryId": "7e35482d-e8f2-44cf-b629-0882aab9d6a9"
   },
   {
     "Id": "10c48ef1-e9c5-4092-a0c2-c15b8baa6801",
     "Name": { "Value": "A6" },
+    "PricePerDay": 56,
+    "Discount": 0,
     "CarBrandId": "311e4dab-62ab-489a-8501-d770f88627fd",
     "CarCategoryId": "9aa97f53-6008-45d2-ae54-e90bbd9c2396"
   },
   {
     "Id": "2680ffdc-07d7-429d-a655-161c6a510ede",
     "Name": { "Value": "Q7" },
+    "PricePerDay": 60.00,
+    "Discount": 0.00,
     "CarBrandId": "311e4dab-62ab-489a-8501-d770f88627fd",
     "CarCategoryId": "0464d506-deea-4a1c-8074-43bf93edacf7"
   },
   {
     "Id": "bbcdee04-ffe4-4870-bdf5-6df5d9e05598",
     "Name": { "Value": "Leon" },
+    "PricePerDay": 30.00,
+    "Discount": 0.00,
     "CarBrandId": "df25a1bf-ff01-4912-88ee-936e6de51fa6",
     "CarCategoryId": "7e35482d-e8f2-44cf-b629-0882aab9d6a9"
   },
   {
     "Id": "c7db1583-db30-4831-bc97-e51b12ed60a6",
     "Name": { "Value": "Formentor" },
+    "PricePerDay": 45,
+    "Discount": 0,
     "CarBrandId": "df25a1bf-ff01-4912-88ee-936e6de51fa6",
     "CarCategoryId": "0464d506-deea-4a1c-8074-43bf93edacf7"
   },
   {
     "Id": "50524cad-cb86-4210-b92e-4c692416c6ec",
     "Name": { "Value": "Transporter" },
+    "PricePerDay": 60.00,
+    "Discount": 0.00,
     "CarBrandId": "ef48100a-cb31-42fa-b3b5-064acef28f5a",
     "CarCategoryId": "b3d96483-8525-41cc-be9f-5d0aadc25d47"
   },
   {
     "Id": "0238f519-9ee0-45bc-bf87-12a137dd64f5",
     "Name": { "Value": "Megane" },
+    "PricePerDay": 36.00,
+    "Discount": 0.00,
     "CarBrandId": "296ea139-ef55-46cc-a3fa-9b1e561d52da",
     "CarCategoryId": "9aa97f53-6008-45d2-ae54-e90bbd9c2396"
   },
   {
     "Id": "f782ebed-4b3f-417d-ba28-688a70417f97",
     "Name": { "Value": "Clio" },
+    "PricePerDay": 25.00,
+    "Discount": 0.00,
     "CarBrandId": "296ea139-ef55-46cc-a3fa-9b1e561d52da",
     "CarCategoryId": "7e35482d-e8f2-44cf-b629-0882aab9d6a9"
   },
   {
     "Id": "ba4e69ed-aa5a-4ac3-bb6a-d7180a2b307f",
     "Name": { "Value": "E220" },
+    "PricePerDay": 30,
+    "Discount": 0,
     "CarBrandId": "14a9d668-01d3-4934-85c2-350fb462dcfb",
     "CarCategoryId": "9aa97f53-6008-45d2-ae54-e90bbd9c2396"
   },
   {
     "Id": "ea77b491-85dc-42b6-b286-8c789c421eb6",
     "Name": { "Value": "GLS" },
+    "PricePerDay": 37.00,
+    "Discount": 0.00,
     "CarBrandId": "14a9d668-01d3-4934-85c2-350fb462dcfb",
     "CarCategoryId": "0464d506-deea-4a1c-8074-43bf93edacf7"
   },
   {
     "Id": "a24bc702-95ee-4dac-a279-6e3259168428",
     "Name": { "Value": "Sprinter" },
+    "PricePerDay": 61.00,
+    "Discount": 0.00,
     "CarBrandId": "14a9d668-01d3-4934-85c2-350fb462dcfb",
     "CarCategoryId": "b3d96483-8525-41cc-be9f-5d0aadc25d47"
   }

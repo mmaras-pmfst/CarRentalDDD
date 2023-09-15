@@ -14,6 +14,5 @@ public sealed record CarCreateCommand(
     byte[]? Image,
     CarStatus CarStatus,
     FuelType FuelType,
-    Guid ColorId,
     Guid CarModelId,
     Guid OfficeId) :ICommand<Guid>;

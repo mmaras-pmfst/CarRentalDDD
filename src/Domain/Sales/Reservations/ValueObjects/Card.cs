@@ -1,6 +1,7 @@
 ﻿using Domain.Common.Models;
 using Domain.Management.Offices.ValueObjects;
 using Domain.Shared;
+using Domain.Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,13 +16,13 @@ public sealed class Card : ValueObject
 
     public const int CardYearExpirationLength = 2;
 
-    public string CardName { get; private set; }
-    public string CardNumber { get; private set; }
-    public string CVV { get; private set; }
-    public string CardDateExpiration { get; private set; }
-    public string CardYearExpiration { get; private set; }
+    public string? CardName { get; private set; }
+    public string? CardNumber { get; private set; }
+    public string? CVV { get; private set; }
+    public string? CardDateExpiration { get; private set; }
+    public string? CardYearExpiration { get; private set; }
 
-    private Card(string cardName, string cardNumber, string cVV, string cardDateExpiration, string cardYearExpiration)
+    private Card(string? cardName, string? cardNumber, string? cVV, string? cardDateExpiration, string? cardYearExpiration)
     {
         CardName = cardName;
         CardNumber = cardNumber;
@@ -34,44 +35,48 @@ public sealed class Card : ValueObject
 
     }
 
-    public static Result<Card> Create(string cardName, string cardNumber, string CVV, string cardDateExpiration, string cardYearExpiration)
+    public static Result<Card> Create(string? cardName, string? cardNumber, string? CVV, string? cardDateExpiration, string? cardYearExpiration, PaymentMethod paymentMethod)
     {
-        if (string.IsNullOrEmpty(cardName))
+        if(paymentMethod == PaymentMethod.Card)
         {
-            return Result.Failure<Card>(new Error(
-                "CardNameIsNull",
-                $"The CardName field cannot be null"));
+            if (string.IsNullOrEmpty(cardName))
+            {
+                return Result.Failure<Card>(new Error(
+                    "CardNameIsNull",
+                    $"The CardName field cannot be null"));
+            }
+            else if (string.IsNullOrEmpty(cardNumber))
+            {
+                return Result.Failure<Card>(new Error(
+                    "CardNumberIsNull",
+                    $"The CardNumber field cannot be null"));
+            }
+            else if (string.IsNullOrEmpty(CVV) || CVV.Length != CvvLength)
+            {
+                return Result.Failure<Card>(new Error(
+                    "CVVIncorectFormat",
+                    $"The CVV field cannot be null or longer/shorter then {CvvLength}"));
+            }
+            else if (string.IsNullOrEmpty(cardName))
+            {
+                return Result.Failure<Card>(new Error(
+                    "CardNameIsNull",
+                    $"The CardName field cannot be null"));
+            }
+            else if (string.IsNullOrEmpty(cardDateExpiration))
+            {
+                return Result.Failure<Card>(new Error(
+                    "CardDateExpirationIsNull",
+                    $"The CardDateExpiration field cannot be null"));
+            }
+            else if (string.IsNullOrEmpty(cardYearExpiration) || cardYearExpiration.Length != CardYearExpirationLength)
+            {
+                return Result.Failure<Card>(new Error(
+                    "CardYearExpirationFormat",
+                    $"The CardYearExpiration field cannot be null or longer/shorter then {CardYearExpirationLength}"));
+            }
         }
-        else if (string.IsNullOrEmpty(cardNumber))
-        {
-            return Result.Failure<Card>(new Error(
-                "CardNumberIsNull",
-                $"The CardNumber field cannot be null"));
-        }
-        else if (string.IsNullOrEmpty(CVV) || CVV.Length != CvvLength)
-        {
-            return Result.Failure<Card>(new Error(
-                "CVVIncorectFormat",
-                $"The CVV field cannot be null or longer/shorter then {CvvLength}"));
-        }
-        else if (string.IsNullOrEmpty(cardName))
-        {
-            return Result.Failure<Card>(new Error(
-                "CardNameIsNull",
-                $"The CardName field cannot be null"));
-        }
-        else if (string.IsNullOrEmpty(cardDateExpiration))
-        {
-            return Result.Failure<Card>(new Error(
-                "CardDateExpirationIsNull",
-                $"The CardDateExpiration field cannot be null"));
-        }
-        else if (string.IsNullOrEmpty(cardYearExpiration) || cardYearExpiration.Length!=CardYearExpirationLength)
-        {
-            return Result.Failure<Card>(new Error(
-                "CardYearExpirationFormat",
-                $"The CardYearExpiration field cannot be null or longer/shorter then {CardYearExpirationLength}"));
-        }
+        
 
         return new Card(cardName, cardNumber, CVV, cardDateExpiration, cardYearExpiration);
     }

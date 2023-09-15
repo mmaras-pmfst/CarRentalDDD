@@ -1,5 +1,5 @@
 ﻿namespace WebApi.Contracts.Contracts;
 
-public class RemoveContractItemRequest
-{
-}
+public record RemoveContractItemRequest(
+    Guid ContractId,
+    List<Guid> ExtraIds);

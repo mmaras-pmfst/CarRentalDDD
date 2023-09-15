@@ -3,6 +3,8 @@ using Application.Contracts.Create;
 using Application.Contracts.GetAll;
 using Application.Contracts.GetById;
 using Application.Contracts.RemoveContractItem;
+using Application.Reservations.Create;
+using Domain.Shared.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Abstractions;
@@ -25,13 +27,33 @@ public class ContractController : ApiController
     public async Task<IActionResult> Create(CreateContractRequest request)
     {
         _logger.LogInformation("Started ContractController.Create");
-        //var extrases = new List<ExtrasModel>();
-        //if (request.Extras != null || request.Extras.Any())
-        //{
-        //    request.Extras.ForEach(x => extrases.Add(new ExtrasModel(x.ExtraId, x.Quantity)));
+        var extrases = new List<ExtrasModel>();
+        if (request.Extras != null || request.Extras.Any())
+        {
+            request.Extras.ForEach(x => extrases.Add(new ExtrasModel(x.ExtraId, x.Quantity)));
 
-        //}
-        var commmand = new CreateContractCommand();
+        }
+        var commmand = new CreateContractCommand(
+            request.DriverFirstName,
+            request.DriverLastName,
+            request.Email,
+            request.PickUpDate,
+            request.DropDownDate,
+            request.PickUpOfficeId,
+            request.DropDownOfficeId,
+            request.CarId,
+            request.DriverLicenceNumber,
+            request.DriverIdentificationNumber,
+            request.CardType,
+            request.PaymentMethod,
+            request.ReservationId,
+            request.WorkerId,
+            request.CardName,
+            request.CardNumber,
+            request.CVV,
+            request.CardDateExpiration,
+            request.CardYearExpiration,
+            extrases);
 
         var response = await Sender.Send(commmand);
 
@@ -51,13 +73,13 @@ public class ContractController : ApiController
     public async Task<IActionResult> AddContractItem(CreateContractItemRequest request)
     {
         _logger.LogInformation("Started ContractController.AddContractItem");
-        //var extrases = new List<ExtrasModel>();
-        //if (request.Extras != null || request.Extras.Any())
-        //{
-        //    request.Extras.ForEach(x => extrases.Add(new ExtrasModel(x.ExtraId, x.Quantity)));
+        var extrases = new List<ExtrasModel>();
+        if (request.Extras != null || request.Extras.Any())
+        {
+            request.Extras.ForEach(x => extrases.Add(new ExtrasModel(x.ExtraId, x.Quantity)));
 
-        //}
-        var command = new AddContractItemCommand();
+        }
+        var command = new AddContractItemCommand(request.ContractId, extrases);
         var response = await Sender.Send(command);
         _logger.LogInformation("Finished ContractController.AddContractItem");
 
@@ -75,7 +97,7 @@ public class ContractController : ApiController
     public async Task<IActionResult> RemoveContractItem(RemoveContractItemRequest request)
     {
         _logger.LogInformation("Started ContractController.RemoveContractItem");
-        var command = new RemoveContractItemCommand();
+        var command = new RemoveContractItemCommand(request.ContractId, request.ExtraIds);
         var response = await Sender.Send(command);
         _logger.LogInformation("Finished ContractController.RemoveContractItem");
 
@@ -95,7 +117,7 @@ public class ContractController : ApiController
     {
         _logger.LogInformation("Started ContractController.GetAll");
 
-        var command = new GetAllContractQuery();
+        var command = new GetAllContractQuery(request.DateFrom, request.DateTo);
         var response = await Sender.Send(command);
 
         _logger.LogInformation("Finished ContractController.GetAll");
@@ -109,13 +131,9 @@ public class ContractController : ApiController
     public async Task<IActionResult> GetById(Guid id)
     {
         _logger.LogInformation("Started ContractController.GetById");
-
         var command = new GetByIdContractQuery(id);
         var response = await Sender.Send(command);
         _logger.LogInformation("Finished ContractController.GetById");
         return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
-
-
-
     }
 }

@@ -31,7 +31,7 @@ internal class CarUpdateCommandHandler : ICommandHandler<CarUpdateCommand, bool>
 
         try
         {
-            var car = await _carRepository.GetByAsync(request.CarId, cancellationToken);
+            var car = await _carRepository.GetByIdAsync(request.CarId, cancellationToken);
 
             if (car == null)
             {

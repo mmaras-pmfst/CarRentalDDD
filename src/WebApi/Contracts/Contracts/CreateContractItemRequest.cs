@@ -1,5 +1,7 @@
-﻿namespace WebApi.Contracts.Contracts;
+﻿using WebApi.Contracts.Reservations;
 
-public class CreateContractItemRequest
-{
-}
+namespace WebApi.Contracts.Contracts;
+
+public record CreateContractItemRequest(
+    Guid ContractId,
+    List<ExtrasRequest> Extras);

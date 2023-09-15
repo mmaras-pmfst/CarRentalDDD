@@ -21,9 +21,10 @@ internal sealed class ContractRepository : IContractRepository
 
     }
 
-    public async Task<List<Contract>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<List<Contract>> GetAllAsync(DateTime? DateFrom, DateTime? DateTo, CancellationToken cancellationToken = default)
     {
         return await _dbContext.Set<Contract>()
+            .Where(x => (DateFrom == null || x.CreatedOnUtc >= DateFrom) && (DateTo == null || x.CreatedOnUtc <= DateTo))
             .ToListAsync(cancellationToken);
     }
 

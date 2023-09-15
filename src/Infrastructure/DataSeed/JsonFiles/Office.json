@@ -1,30 +1,36 @@
 [
   {
     "Id": "28d5d144-32e7-4ecc-889f-160091349f0b",
-    "City": "Split",
-    "StreetName": "Bruna Bušića",
-    "Streetnumber": "123",
-    "Country": "Hrvatska",
+    "Address": {
+      "City": "Split",
+      "StreetName": "Bruna Bušića",
+      "Streetnumber": "123",
+      "Country": "Hrvatska"
+    },
     "OpeningTime": "",
     "ClosingTime": "",
     "PhoneNumber": { "Value": "0919854453" }
   },
   {
     "Id": "b1931c34-90c5-450f-871a-37c886d326ce",
-    "City": "Trogir",
-    "StreetName": "kneza Trpimira",
-    "Streetnumber": "44",
-    "Country": "Hrvatska",
+    "Address": {
+      "City": "Trogir",
+      "StreetName": "kneza Trpimira",
+      "Streetnumber": "44",
+      "Country": "Hrvatska"
+    },
     "OpeningTime": "",
     "ClosingTime": "",
     "PhoneNumber": { "Value": "0917453325" }
   },
   {
     "Id": "9229a4fc-24cd-4e04-a513-aac620620876",
-    "City": "Zagreb",
-    "StreetName": "Aleja Blogne",
-    "Streetnumber": "321",
-    "Country": "Hrvatska",
+    "Address": {
+      "City": "Zagreb",
+      "StreetName": "Aleja Blogne",
+      "Streetnumber": "321",
+      "Country": "Hrvatska"
+    },
     "OpeningTime": "",
     "ClosingTime": "",
     "PhoneNumber": { "Value": "0914523365" }
