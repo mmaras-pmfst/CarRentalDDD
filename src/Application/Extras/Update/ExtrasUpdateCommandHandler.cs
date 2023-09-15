@@ -30,7 +30,7 @@ internal class ExtrasUpdateCommandHandler : ICommandHandler<ExtrasUpdateCommand,
         try
         {
             var dbExtra = await _extrasRepository.GetByIdAsync(request.ExtraId, cancellationToken);
-            if(dbExtra == null)
+            if(dbExtra == null || dbExtra is null)
             {
                 _logger.LogWarning("ExtrasUpdateCommandHandler: Extra doesn't exist!");
                 return Result.Failure<bool>(new Error(

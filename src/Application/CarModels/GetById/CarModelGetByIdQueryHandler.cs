@@ -36,7 +36,7 @@ internal sealed class CarModelGetByIdQueryHandler : IQueryHandler<CarModelGetByI
         {
             var carModel = await _carModelRepository.GetByIdAsync(request.CarModelId, cancellationToken);
 
-            if(carModel is null)
+            if(carModel is null ||carModel == null)
             {
                 _logger.LogWarning("CarModelGetByIdCommandHandler: CarModel doesn't exist!");
                 return Result.Failure<CarModel?>(new Error(

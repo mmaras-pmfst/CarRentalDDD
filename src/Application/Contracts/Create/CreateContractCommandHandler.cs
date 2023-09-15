@@ -45,7 +45,7 @@ internal class CreateContractCommandHandler : ICommandHandler<CreateContractComm
         try
         {
             var dropDownLocation = await _officeRepository.GetByIdAsync(request.DropDownOfficeId, cancellationToken);
-            if (dropDownLocation is null)
+            if (dropDownLocation is null || dropDownLocation == null)
             {
                 _logger.LogWarning("CreateContractCommandHandler: DropDownLocation doesn't exist!");
                 return Result.Failure<Guid>(new Error(
@@ -53,7 +53,7 @@ internal class CreateContractCommandHandler : ICommandHandler<CreateContractComm
                     $"The Office with Id {request.DropDownOfficeId} was not found"));
             }
             var pickUpLocation = await _officeRepository.GetByIdAsync(request.PickUpOfficeId, cancellationToken);
-            if (pickUpLocation is null)
+            if (pickUpLocation is null || pickUpLocation == null)
             {
                 _logger.LogWarning("CreateContractCommandHandler: PickUpLocation doesn't exist!");
                 return Result.Failure<Guid>(new Error(
@@ -62,7 +62,7 @@ internal class CreateContractCommandHandler : ICommandHandler<CreateContractComm
             }
 
             var worker = await _workerRepository.GetByIdAsync(request.WorkerId, cancellationToken);
-            if (worker is null)
+            if (worker is null || worker == null)
             {
                 _logger.LogWarning("CreateContractCommandHandler: Worker doesn't exist!");
 
@@ -72,7 +72,7 @@ internal class CreateContractCommandHandler : ICommandHandler<CreateContractComm
             }
 
             var car = await _carRepository.GetByIdAsync(request.CarId, cancellationToken);
-            if (car is null)
+            if (car is null || car == null)
             {
                 _logger.LogWarning("CreateContractCommandHandler: Car doesn't exist!");
 
@@ -84,7 +84,7 @@ internal class CreateContractCommandHandler : ICommandHandler<CreateContractComm
             if(request.ReservationId != null)
             {
                 var reservationDb = await _reservationRepository.GetByIdAsync((Guid)request.ReservationId, cancellationToken);
-                if (reservationDb == null)
+                if (reservationDb == null || reservationDb is null)
                 {
                     _logger.LogWarning("ReservationCreateCommandHandler: Reservation doesn't exist!");
 
@@ -148,7 +148,7 @@ internal class CreateContractCommandHandler : ICommandHandler<CreateContractComm
             foreach (var extra in request.Extras)
             {
                 var dbExtra = await _extrasRepository.GetByIdAsync(extra.ExtraId, cancellationToken);
-                if (dbExtra is null)
+                if (dbExtra is null || dbExtra == null)
                 {
                     _logger.LogWarning("ReservationCreateCommandHandler: Extra doesn't exist!");
                     return Result.Failure<Guid>(new Error(

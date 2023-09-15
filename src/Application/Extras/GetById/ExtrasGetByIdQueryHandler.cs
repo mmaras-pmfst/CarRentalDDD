@@ -30,7 +30,7 @@ internal class ExtrasGetByIdQueryHandler : IQueryHandler<ExtrasGetByIdQuery, Ext
 
             var dbExtra = await _extrasRepository.GetByIdAsync(request.ExtraId, cancellationToken);
 
-            if (dbExtra == null)
+            if (dbExtra == null || dbExtra is null)
             {
                 _logger.LogWarning("ExtrasGetByIdQueryHandler: Extra doesn't exist!");
                 return Result.Failure<Extra?>(new Error(

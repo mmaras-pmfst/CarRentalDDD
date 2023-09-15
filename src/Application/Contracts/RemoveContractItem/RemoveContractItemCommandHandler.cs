@@ -40,7 +40,7 @@ internal class RemoveContractItemCommandHandler : ICommandHandler<RemoveContract
         try
         {
             var contract = await _contractRepository.GetByIdAsync(request.ContractId, cancellationToken);
-            if (contract is null)
+            if (contract is null || contract == null)
             {
                 _logger.LogWarning("RemoveContractItemCommandHandler: Contract doesn't exist!");
                 return Result.Failure<Guid>(new Error(
@@ -51,7 +51,7 @@ internal class RemoveContractItemCommandHandler : ICommandHandler<RemoveContract
             foreach (var extraId in request.ExtraIds)
             {
                 var dbExtra = await _extrasRepository.GetByIdAsync(extraId, cancellationToken);
-                if (dbExtra is null)
+                if (dbExtra is null || dbExtra == null)
                 {
                     _logger.LogWarning("RemoveContractItemCommandHandler: Extra doesn't exist!");
                     return Result.Failure<Guid>(new Error(

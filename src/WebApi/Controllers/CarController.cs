@@ -32,7 +32,6 @@ public class CarController : ApiController
 
         var command = new CarCreateCommand(
             request.NumberPlate,
-            request.Name,
             request.Kilometers,
             request.Image,
             request.CarStatus,

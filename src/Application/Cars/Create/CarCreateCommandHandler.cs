@@ -48,7 +48,7 @@ internal class CarCreateCommandHandler : ICommandHandler<CarCreateCommand, Guid>
             }
 
             var carModel = await _carModelRepository.GetByIdAsync(request.CarModelId, cancellationToken);
-            if(carModel == null)
+            if(carModel == null || carModel is null)
             {
                 _logger.LogWarning("CarCreateCommandHandler: CarModel doesn't exist!");
                 return Result.Failure<Guid>(new Error(
@@ -57,7 +57,7 @@ internal class CarCreateCommandHandler : ICommandHandler<CarCreateCommand, Guid>
             }
 
             var office = await _officeRepository.GetByIdAsync(request.OfficeId, cancellationToken);
-            if (office == null)
+            if (office == null || office is null)
             {
                 _logger.LogWarning("CarCreateCommandHandler: Office doesn't exist!");
                 return Result.Failure<Guid>(new Error(
@@ -69,7 +69,6 @@ internal class CarCreateCommandHandler : ICommandHandler<CarCreateCommand, Guid>
             var newCar = Car.Create(
                 Guid.NewGuid(),
                 request.NumberPlate,
-                request.Name,
                 request.Kilometers,
                 request.Image,
                 request.CarStatus,

@@ -31,7 +31,7 @@ internal class WorkerGetByIdQueryHandler : IQueryHandler<WorkerGetByIdQuery, Wor
         {
             var worker = await _workerRepository.GetByIdAsync(request.WorkerId, cancellationToken);
 
-            if (worker == null)
+            if (worker == null || worker is null)
             {
                 _logger.LogWarning("WorkerGetByIdQueryHandler: Worker doesn't exist!");
                 return Result.Failure<Worker?>(new Error(

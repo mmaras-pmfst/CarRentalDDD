@@ -41,14 +41,14 @@ internal sealed class CarModelUpdateCommandHandler : ICommandHandler<CarModelUpd
         {
             var carModel = await _carModelRepository.GetByIdAsync(request.CarModelId, cancellationToken);
             var carCategory = await _carCategoryRepository.GetByIdAsync(request.CarCategoryId, cancellationToken);
-            if (carModel is null)
+            if (carModel is null || carModel == null)
             {
                 _logger.LogWarning("CarModelUpdateCommandHandler: CarModel doesn't exist!");
                 return Result.Failure<bool>(new Error(
                     "CarModel.NotFound",
                     $"The CarModel with Id {request.CarModelId} was not found"));
             }
-            if(carCategory is null)
+            if(carCategory is null || carCategory == null)
             {
                 _logger.LogWarning("CarModelUpdateCommandHandler: CarCategory doesn't exist!");
                 return Result.Failure<bool>(new Error(

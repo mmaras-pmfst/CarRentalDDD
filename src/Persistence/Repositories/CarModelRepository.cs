@@ -25,13 +25,21 @@ internal sealed class CarModelRepository : ICarModelRepository
 
     }
 
-    public async Task<bool> AlreadyExists(CarModelName carModelName, CancellationToken cancellationToken = default)
+    public async Task<bool> AlreadyExists(CarModelName carModelName, Guid carBrandId, Guid carCategoryId, CancellationToken cancellationToken = default)
     {
         var carModel = await _dbContext.Set<CarModel>()
-            .Where(x => x.Name.Value.ToUpper() == carModelName.Value.ToUpper())
+            .Where(x => 
+                x.Name.Value.ToUpper() == carModelName.Value.ToUpper()
+                && x.CarCategoryId == carCategoryId
+                && x.CarBrandId == carBrandId)
             .SingleOrDefaultAsync(cancellationToken);
 
-        return carModel != null ? false : true;
+        if(carModel == null || carModel is null)
+        {
+            return false;
+        }
+        return true;
+
     }
 
     public async Task<List<CarModel>> GetAllAsync(CancellationToken cancellationToken = default)

@@ -37,7 +37,7 @@ internal class WorkerUpdateCommandHandler : ICommandHandler<WorkerUpdateCommand,
         try
         {
             var worker = await _workerRepository.GetByIdAsync(request.WorkerId, cancellationToken);
-            if (worker == null)
+            if (worker == null || worker is null)
             {
                 _logger.LogWarning("WorkerGetByIdQueryHandler: Worker doesn't exist!");
                 return Result.Failure<bool>(new Error(
@@ -46,7 +46,7 @@ internal class WorkerUpdateCommandHandler : ICommandHandler<WorkerUpdateCommand,
             }
 
             var office = await _officeRepository.GetByIdAsync(request.OfficeId, cancellationToken);
-            if (office == null)
+            if (office == null || office is null)
             {
                 _logger.LogWarning("WorkerGetByIdQueryHandler: Office doesn't exist!");
                 return Result.Failure<bool>(new Error(

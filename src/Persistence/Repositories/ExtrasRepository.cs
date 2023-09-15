@@ -26,7 +26,7 @@ internal sealed class ExtrasRepository : IExtrasRepository
             .Where(x => x.Name.ToUpper() == name.ToUpper())
             .SingleOrDefaultAsync(cancellationToken);
 
-        if(extras is null)
+        if(extras is null || extras == null)
         {
             return false;
         }

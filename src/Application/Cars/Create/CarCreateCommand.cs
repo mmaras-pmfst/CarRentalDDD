@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 namespace Application.Cars.Create;
 public sealed record CarCreateCommand(
     string NumberPlate,
-    string Name,
     decimal Kilometers,
     byte[]? Image,
     CarStatus CarStatus,

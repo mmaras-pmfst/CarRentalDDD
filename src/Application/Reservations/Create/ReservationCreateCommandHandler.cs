@@ -48,7 +48,7 @@ internal class ReservationCreateCommandHandler : ICommandHandler<ReservationCrea
         try
         {
             var dropDownLocation = await _officeRepository.GetByIdAsync(request.DropDownLocationId, cancellationToken);
-            if(dropDownLocation is null)
+            if(dropDownLocation is null || dropDownLocation == null)
             {
                 _logger.LogWarning("ReservationCreateCommandHandler: DropDownLocation doesn't exist!");
                 return Result.Failure<Guid>(new Error(
@@ -56,7 +56,7 @@ internal class ReservationCreateCommandHandler : ICommandHandler<ReservationCrea
                     $"The Office with Id {request.DropDownLocationId} was not found"));
             }
             var pickUpLocation = await _officeRepository.GetByIdAsync(request.PickUpLocationId, cancellationToken);
-            if(pickUpLocation is null)
+            if(pickUpLocation is null || pickUpLocation == null)
             {
                 _logger.LogWarning("ReservationCreateCommandHandler: PickUpLocation doesn't exist!");
                 return Result.Failure<Guid>(new Error(
@@ -66,7 +66,7 @@ internal class ReservationCreateCommandHandler : ICommandHandler<ReservationCrea
 
             var carModel = await _carModelRepository.GetByIdAsync(request.CarModelId,cancellationToken);
 
-            if (carModel is null)
+            if (carModel is null || carModel == null)
             {
                 _logger.LogWarning("ReservationCreateCommandHandler: CarModel doesn't exist!");
 
@@ -106,7 +106,7 @@ internal class ReservationCreateCommandHandler : ICommandHandler<ReservationCrea
             foreach (var extra in request.Extras)
             {
                 var dbExtra = await _extrasRepository.GetByIdAsync(extra.ExtraId, cancellationToken);
-                if (dbExtra is null)
+                if (dbExtra is null || dbExtra == null)
                 {
                     _logger.LogWarning("ReservationCreateCommandHandler: Extra doesn't exist!");
                     return Result.Failure<Guid>(new Error(

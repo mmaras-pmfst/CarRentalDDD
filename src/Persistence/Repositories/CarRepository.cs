@@ -48,7 +48,7 @@ internal sealed class CarRepository : ICarRepository
             .Where(x => x.NumberPlate == numberPlate)
             .SingleOrDefaultAsync(cancellationToken);
 
-        if(car is null)
+        if(car is null || car == null)
         {
             return false;
         }

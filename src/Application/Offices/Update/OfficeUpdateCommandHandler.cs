@@ -35,7 +35,7 @@ namespace Application.Offices.Update
             {
                 var dbOffice = await _officeRepository.GetByIdAsync(request.OfficeId, cancellationToken);
 
-                if(dbOffice == null)
+                if(dbOffice == null || dbOffice is null)
                 {
                     _logger.LogWarning("OfficeUpdateCommandHandler: Office doesn't exist!");
                     return Result.Failure<bool>(new Error(

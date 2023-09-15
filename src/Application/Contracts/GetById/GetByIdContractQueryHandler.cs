@@ -30,7 +30,7 @@ internal class GetByIdContractQueryHandler : IQueryHandler<GetByIdContractQuery,
         {
             var contract = await _contractRepository.GetByIdAsync(request.ContractId, cancellationToken);
 
-            if (contract is null)
+            if (contract is null || contract == null)
             {
                 _logger.LogWarning("GetByIdContractQueryHandler: Contract doesn't exist!");
                 return Result.Failure<Contract?>(new Error(

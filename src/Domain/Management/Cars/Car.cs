@@ -16,7 +16,6 @@ namespace Domain.Management.Cars;
 public sealed class Car : AggregateRoot
 {
     public string NumberPlate { get; private set; }
-    public string Name { get; private set; }
     public decimal Kilometers { get; private set; }
     public byte[]? Image { get; private set; }
     public CarStatus Status { get; private set; }
@@ -30,11 +29,10 @@ public sealed class Car : AggregateRoot
 
 
 
-    private Car(Guid id, string numberPlate, string name, decimal kilometers, byte[]? image, CarStatus status, FuelType fuelType, Guid carModelId, Guid officeId)
+    private Car(Guid id, string numberPlate, decimal kilometers, byte[]? image, CarStatus status, FuelType fuelType, Guid carModelId, Guid officeId)
         : base(id)
     {
         NumberPlate = numberPlate;
-        Name = name;
         Kilometers = kilometers;
         Image = image;
         Status = status;
@@ -46,9 +44,9 @@ public sealed class Car : AggregateRoot
     {
     }
 
-    public static Car Create(Guid id, string numberPlate, string name, decimal kilometers, byte[]? image, CarStatus status, FuelType fuelType, CarModel carModel, Office office)
+    public static Car Create(Guid id, string numberPlate, decimal kilometers, byte[]? image, CarStatus status, FuelType fuelType, CarModel carModel, Office office)
     {
-        return new Car(id, numberPlate, name, kilometers, image, status, fuelType, carModel.Id, office.Id);
+        return new Car(id, numberPlate, kilometers, image, status, fuelType, carModel.Id, office.Id);
     }
 
     public Result<bool> Update(decimal kilometers, byte[]? image, CarStatus status, Office office)

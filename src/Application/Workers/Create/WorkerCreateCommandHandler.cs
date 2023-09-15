@@ -38,7 +38,7 @@ internal class WorkerCreateCommandHandler : ICommandHandler<WorkerCreateCommand,
         try
         {
             var office = await _officeRepository.GetByIdAsync(request.OfficeId, cancellationToken);
-            if (office == null)
+            if (office == null || office is null )
             {
                 _logger.LogWarning("WorkerCreateCommandHandler: Office doesn't exist!");
                 return Result.Failure<Guid>(new Error(
@@ -46,10 +46,8 @@ internal class WorkerCreateCommandHandler : ICommandHandler<WorkerCreateCommand,
                 $"The Office with Id {request.OfficeId} was not found"));
             }
 
-            var worker = office.Workers
-                .Where(x => x.PersonalIdentificationNumber == request.PersonalIdentificationNumber)
-                .SingleOrDefault();
-            if (worker is not null)
+            var worker = await _workerRepository.AlreadyExists(request.PersonalIdentificationNumber, cancellationToken);
+            if (worker)
             {
                 _logger.LogWarning("WorkerCreateCommandHandler: Worker already exist!");
                 return Result.Failure<Guid>(DomainErrors.Worker.WorkerAlreadyExists);

@@ -13,5 +13,5 @@ public interface ICarModelRepository
     Task AddAsync(CarModel carModel, CancellationToken cancellationToken = default);
     Task<List<CarModel>> GetAllAsync(CancellationToken cancellationToken = default);
     Task<CarModel?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
-    Task<bool> AlreadyExists(CarModelName carModelName, CancellationToken cancellationToken = default);
+    Task<bool> AlreadyExists(CarModelName carModelName, Guid carBrandId, Guid carCategoryId, CancellationToken cancellationToken = default);
 }

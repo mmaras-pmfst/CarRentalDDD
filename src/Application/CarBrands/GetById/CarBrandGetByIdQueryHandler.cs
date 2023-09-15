@@ -32,7 +32,7 @@ internal sealed class CarBrandGetByIdQueryHandler : IQueryHandler<CarBrandGetByI
         try
         {
             var dbCarBrand = await _carBrandRepository.GetByIdAsync(request.CarBrandId, cancellationToken);
-            if (dbCarBrand == null)
+            if (dbCarBrand == null ||dbCarBrand is null)
             {
 
                 _logger.LogWarning("CarBrandGetByIdCommandHandler: CarBrand doesn't exist!");

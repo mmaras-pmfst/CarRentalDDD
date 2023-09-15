@@ -24,10 +24,6 @@ internal class CarConfiguration : IEntityTypeConfiguration<Car>
             .HasMaxLength(10)
             .IsRequired(true);
 
-        builder.Property(x => x.Name)
-            .IsRequired(true)
-            .HasMaxLength(20);
-
         builder.Property(x => x.Kilometers)
             .HasColumnType("decimal(18,1)")
             .IsRequired(true);

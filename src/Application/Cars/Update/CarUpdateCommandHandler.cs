@@ -33,7 +33,7 @@ internal class CarUpdateCommandHandler : ICommandHandler<CarUpdateCommand, bool>
         {
             var car = await _carRepository.GetByIdAsync(request.CarId, cancellationToken);
 
-            if (car == null)
+            if (car == null || car is null)
             {
                 _logger.LogWarning("CarUpdateCommandHandler: Car doesn't exist!");
                 return Result.Failure<bool>(new Error(
@@ -43,7 +43,7 @@ internal class CarUpdateCommandHandler : ICommandHandler<CarUpdateCommand, bool>
 
             var office = await _officeRepository.GetByIdAsync(request.OfficeId, cancellationToken);
 
-            if (office == null)
+            if (office == null || office is null)
             {
                 _logger.LogWarning("CarUpdateCommandHandler: Office doesn't exist!");
                 return Result.Failure<bool>(new Error(

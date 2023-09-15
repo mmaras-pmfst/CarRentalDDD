@@ -39,7 +39,7 @@ internal class AddContractItemCommandHandler : ICommandHandler<AddContractItemCo
         try
         {
             var contract = await _contractRepository.GetByIdAsync(request.ContractId, cancellationToken);
-            if (contract is null)
+            if (contract is null || contract == null)
             {
                 _logger.LogWarning("AddContractItemCommandHandler: Contract doesn't exist!");
                 return Result.Failure<Guid>(new Error(
@@ -50,7 +50,7 @@ internal class AddContractItemCommandHandler : ICommandHandler<AddContractItemCo
             foreach (var extra in request.Extras)
             {
                 var dbExtra = await _extrasRepository.GetByIdAsync(extra.ExtraId, cancellationToken);
-                if (dbExtra is null)
+                if (dbExtra is null || dbExtra == null)
                 {
                     _logger.LogWarning("AddContractItemCommandHandler: Extra doesn't exist!");
                     return Result.Failure<Guid>(new Error(

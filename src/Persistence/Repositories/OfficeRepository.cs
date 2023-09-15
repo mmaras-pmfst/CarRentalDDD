@@ -28,7 +28,7 @@ namespace Persistence.Repositories
             var office = _dbContext.Set<Office>()
                 .AsEnumerable().FirstOrDefault(x => x.Address.Equals(address));
 
-            if(office == null)
+            if(office == null || office is null)
             {
                 return false;
             }

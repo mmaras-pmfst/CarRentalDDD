@@ -31,7 +31,7 @@ internal class ReservationGetByIdQueryHandler : IQueryHandler<ReservationGetById
         {
             var reservation = await _reservationRepository.GetByIdAsync(request.ReservationId, cancellationToken);
 
-            if (reservation == null)
+            if (reservation == null || reservation is null)
             {
                 _logger.LogWarning("ReservationGetByCustomerQueryHandler: Reservation doesn't exist!");
                 return Result.Failure<Reservation?>(new Error(

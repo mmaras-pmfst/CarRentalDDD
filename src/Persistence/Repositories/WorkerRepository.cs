@@ -26,8 +26,11 @@ internal sealed class WorkerRepository : IWorkerRepository
         var worker = await _dbContext.Set<Worker>()
                 .Where(x => x.PersonalIdentificationNumber == personalIdentificationNumber)
                 .SingleOrDefaultAsync(cancellationToken);
-
-        return worker != null ? false : true;
+        if(worker is null || worker == null)
+        {
+            return false;
+        }
+        return true;
     }
 
     public async Task<List<Worker>> GetAllAsync(CancellationToken cancellationToken = default)
