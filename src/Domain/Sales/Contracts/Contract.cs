@@ -8,6 +8,7 @@ using Domain.Sales.Extras;
 using Domain.Sales.Reservations;
 using Domain.Sales.Reservations.Entities;
 using Domain.Sales.Reservations.ValueObjects;
+using Domain.Shared;
 using Domain.Shared.Enums;
 using Domain.Shared.ValueObjects;
 using System;
@@ -78,7 +79,7 @@ public sealed class Contract : AggregateRoot, IAuditableEntity
     }
 
 
-    public static Contract Create(Guid id, FirstName driverFirstName, LastName driverLastName, Email email, DateTime pickUpDate, DateTime dropDownDate, Office pickUpOffice, Office dropDownOffice, Car car, string driverLicenceNumber, string driverIdentificationNumber, CardType? cardType, PaymentMethod paymentMethod, Card? card, Reservation? reservation, CarModel carModel, Worker worker)
+    public static Result<Contract> Create(Guid id, FirstName driverFirstName, LastName driverLastName, Email email, DateTime pickUpDate, DateTime dropDownDate, Office pickUpOffice, Office dropDownOffice, Car car, string driverLicenceNumber, string driverIdentificationNumber, CardType? cardType, PaymentMethod paymentMethod, Card? card, Reservation? reservation, CarModel carModel, Worker worker)
     {
         var duration = (decimal)dropDownDate.Subtract(pickUpDate).TotalDays;
 
@@ -86,6 +87,12 @@ public sealed class Contract : AggregateRoot, IAuditableEntity
 
         var totalPrice = rentalPrice;
 
+        if(car.Status == CarStatus.Repairing || car.Status == CarStatus.Rented)
+        {
+            return Result.Failure<Contract>(new Error(
+                    "CarCannotBeRented",
+                    $"The Car cannot be rented beacuse it is in status {car.Status}"));
+        }
 
         return new Contract(id, driverFirstName, driverLastName, email, pickUpDate, dropDownDate, totalPrice, pickUpOffice.Id, dropDownOffice.Id, car.Id, driverLicenceNumber, driverIdentificationNumber, cardType, paymentMethod, card, reservation is null ? null : reservation.Id, rentalPrice, worker.Id);
 

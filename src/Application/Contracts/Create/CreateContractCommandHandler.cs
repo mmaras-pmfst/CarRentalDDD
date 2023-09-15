@@ -144,6 +144,11 @@ internal class CreateContractCommandHandler : ICommandHandler<CreateContractComm
                 reservation,
                 car.CarModel,
                 worker);
+            if (newContract.IsFailure)
+            {
+                return Result.Failure<Guid>(newContract.Error);
+
+            }
 
             foreach (var extra in request.Extras)
             {
@@ -155,14 +160,14 @@ internal class CreateContractCommandHandler : ICommandHandler<CreateContractComm
                             "Extra.NotFound",
                              $"The Extra with Id {extra.ExtraId} was not found"));
                 }
-                var newExtra = newContract.AddContractDetail(extra.Quantity, dbExtra);
+                var newExtra = newContract.Value.AddContractDetail(extra.Quantity, dbExtra);
                 await _contractItemRepository.AddAsync(newExtra, cancellationToken);
             }
 
-            await _contractRepository.AddAsync(newContract, cancellationToken);
+            await _contractRepository.AddAsync(newContract.Value, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             _logger.LogInformation("Finished CreateContractCommandHandler");
-            return newContract.Id;
+            return newContract.Value.Id;
         }
         catch (Exception ex)
         {
