@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions;
+using Application.Contracts.Events;
 using Application.Reservations.Create;
 using Domain.Repositories;
 using Domain.Sales.Contracts;
@@ -6,6 +7,7 @@ using Domain.Sales.Reservations;
 using Domain.Sales.Reservations.ValueObjects;
 using Domain.Shared;
 using Domain.Shared.ValueObjects;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -25,8 +27,20 @@ internal class CreateContractCommandHandler : ICommandHandler<CreateContractComm
     private readonly IOfficeRepository _officeRepository;
     private readonly IWorkerRepository _workerRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IPublisher _publisher;
 
-    public CreateContractCommandHandler(ILogger<CreateContractCommandHandler> logger, ICarRepository carRepository, IContractRepository contractRepository, IContractItemRepository contractItemRepository, IExtrasRepository extrasRepository, IOfficeRepository officeRepository, IUnitOfWork unitOfWork, IReservationRepository reservationRepository, IWorkerRepository workerRepository)
+
+    public CreateContractCommandHandler(
+        ILogger<CreateContractCommandHandler> logger,
+        ICarRepository carRepository,
+        IContractRepository contractRepository,
+        IContractItemRepository contractItemRepository,
+        IExtrasRepository extrasRepository,
+        IOfficeRepository officeRepository,
+        IUnitOfWork unitOfWork,
+        IReservationRepository reservationRepository,
+        IWorkerRepository workerRepository,
+        IPublisher publisher)
     {
         _logger = logger;
         _carRepository = carRepository;
@@ -37,6 +51,7 @@ internal class CreateContractCommandHandler : ICommandHandler<CreateContractComm
         _unitOfWork = unitOfWork;
         _reservationRepository = reservationRepository;
         _workerRepository = workerRepository;
+        _publisher = publisher;
     }
 
     public async Task<Result<Guid>> Handle(CreateContractCommand request, CancellationToken cancellationToken)
@@ -166,6 +181,20 @@ internal class CreateContractCommandHandler : ICommandHandler<CreateContractComm
 
             await _contractRepository.AddAsync(newContract.Value, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            var contractCreatedEvent = new ContractCreatedEvent
+            {
+                Email = request.Email,
+                RegistrationPlate = car.NumberPlate,
+                CarBrandName = car.CarModel.CarBrand.Name.Value,
+                CarModelName = car.CarModel.Name.Value,
+                RentalPrice = newContract.Value.RentalPrice,
+                TotalPrice = newContract.Value.TotalPrice,
+                Type = Common.Mailing.EmailType.Contract
+
+            };
+            await _publisher.Publish(contractCreatedEvent, cancellationToken);
+
             _logger.LogInformation("Finished CreateContractCommandHandler");
             return newContract.Value.Id;
         }

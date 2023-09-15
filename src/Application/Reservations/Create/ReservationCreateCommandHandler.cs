@@ -1,10 +1,13 @@
 ﻿using Application.Abstractions;
+using Application.Contracts.Events;
+using Application.Reservations.Events;
 using Domain.Errors;
 using Domain.Management.Cars;
 using Domain.Repositories;
 using Domain.Sales.Reservations;
 using Domain.Shared;
 using Domain.Shared.ValueObjects;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -22,6 +25,7 @@ internal class ReservationCreateCommandHandler : ICommandHandler<ReservationCrea
     private readonly IExtrasRepository _extrasRepository;
     private readonly IOfficeRepository _officeRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IPublisher _publisher;
 
     public ReservationCreateCommandHandler(
         ILogger<ReservationCreateCommandHandler> logger,
@@ -30,7 +34,8 @@ internal class ReservationCreateCommandHandler : ICommandHandler<ReservationCrea
         IReservationItemRepository reservationDetailRepository,
         IExtrasRepository extrasRepository,
         IOfficeRepository officeRepository,
-        ICarModelRepository carModelRepository)
+        ICarModelRepository carModelRepository,
+        IPublisher publisher)
     {
         _logger = logger;
         _unitOfWork = unitOfWork;
@@ -39,6 +44,7 @@ internal class ReservationCreateCommandHandler : ICommandHandler<ReservationCrea
         _extrasRepository = extrasRepository;
         _officeRepository = officeRepository;
         _carModelRepository = carModelRepository;
+        _publisher = publisher;
     }
 
     public async Task<Result<Guid>> Handle(ReservationCreateCommand request, CancellationToken cancellationToken)
@@ -119,6 +125,18 @@ internal class ReservationCreateCommandHandler : ICommandHandler<ReservationCrea
 
             await _reservationRepository.AddAsync(newReservation, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            var contractCreatedEvent = new ReservationCreatedEvent
+            {
+                Email = request.Email,
+                CarBrandName = carModel.CarBrand.Name.Value,
+                CarModelName = carModel.Name.Value,
+                RentalPrice = newReservation.RentalPrice,
+                TotalPrice = newReservation.TotalPrice,
+                Type = Common.Mailing.EmailType.Reservation
+
+            };
+            await _publisher.Publish(contractCreatedEvent, cancellationToken);
 
             _logger.LogInformation("Finished ReservationCreateCommandHandler");
             return newReservation.Id;

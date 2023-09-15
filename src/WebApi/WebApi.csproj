@@ -27,11 +27,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Email Templates\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="Email Templates\email-confirmation.cshtml">
+    <Content Update="Email Templates\reservation.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Email Templates\contract.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
