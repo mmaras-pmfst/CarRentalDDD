@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions;
-using Domain.Management.CarCategory;
+using Domain.Management.CarCategories;
 using Domain.Errors;
 using Domain.Repositories;
 using Domain.Shared;
@@ -10,8 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Management.CarCategory.ValueObjects;
-using Domain.Common.ValueObjects;
+using Domain.Management.CarCategories.ValueObjects;
+using Domain.Shared.ValueObjects;
 
 namespace Application.CarCategories.Create;
 
@@ -34,7 +34,13 @@ internal sealed class CarCategoryCreateCommandHandler : ICommandHandler<CarCateg
 
         try
         {
-            var exists = await _carCategoryRepository.AlreadyExists(request.ShortName, cancellationToken);
+            var carCategoryShortNameResult = CarCategoryShortName.Create(request.ShortName);
+            if (carCategoryShortNameResult.IsFailure)
+            {
+                return Result.Failure<Guid>(carCategoryShortNameResult.Error);
+
+            }
+            var exists = await _carCategoryRepository.AlreadyExists(carCategoryShortNameResult.Value, cancellationToken);
             if (exists)
             {
                 _logger.LogWarning("CarCategoryCreateCommandHandler: CarCategory already exists!");
@@ -47,12 +53,7 @@ internal sealed class CarCategoryCreateCommandHandler : ICommandHandler<CarCateg
             {
                 return Result.Failure<Guid>(carCategoryNameResult.Error);
             }
-            var carCategoryShortNameResult = CarCategoryShortName.Create(request.ShortName);
-            if (carCategoryShortNameResult.IsFailure)
-            {
-                return Result.Failure<Guid>(carCategoryShortNameResult.Error);
-
-            }
+            
             var descriptionResult = Description.Create(request.Description);
             if (descriptionResult.IsFailure)
             {

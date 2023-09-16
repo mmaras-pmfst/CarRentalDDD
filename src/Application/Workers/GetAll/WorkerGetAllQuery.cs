@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions;
-using Domain.Management.Office.Entities;
+using Domain.Management.Workers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

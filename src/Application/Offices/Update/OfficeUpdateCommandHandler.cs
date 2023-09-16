@@ -1,8 +1,9 @@
 ﻿using Application.Abstractions;
-using Domain.Common.ValueObjects;
-using Domain.Management.Office;
+using Domain.Management.Offices;
+using Domain.Management.Offices.ValueObjects;
 using Domain.Repositories;
 using Domain.Shared;
+using Domain.Shared.ValueObjects;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -34,7 +35,7 @@ namespace Application.Offices.Update
             {
                 var dbOffice = await _officeRepository.GetByIdAsync(request.OfficeId, cancellationToken);
 
-                if(dbOffice == null)
+                if(dbOffice == null || dbOffice is null)
                 {
                     _logger.LogWarning("OfficeUpdateCommandHandler: Office doesn't exist!");
                     return Result.Failure<bool>(new Error(
@@ -47,12 +48,15 @@ namespace Application.Offices.Update
                     return Result.Failure<bool>(phoneNumberResult.Error);
 
                 }
+                var address = Address.Create(request.City, request.StreetName, request.StreetNumber, request.Country);
+                if (address.IsFailure)
+                {
+                    return Result.Failure<bool>(address.Error);
+
+                }
 
                 dbOffice.Update(
-                    request.Country, 
-                    request.City, 
-                    request.StreetName, 
-                    request.StreetNumber, 
+                    address.Value, 
                     request.OpeningTime, 
                     request.ClosingTime,
                     phoneNumberResult.Value);

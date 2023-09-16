@@ -1,5 +1,6 @@
-﻿using Domain.Management.Office;
-using Domain.Sales.CarModelRent.Entities;
+﻿using Domain.Management.Offices;
+using Domain.Sales.Reservations;
+using Domain.Shared.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Persistence.Constants;
@@ -19,16 +20,18 @@ internal class ReservationConfiguration : IEntityTypeConfiguration<Reservation>
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.DriverFirstName)
-            .IsRequired(true)
-            .HasMaxLength(50);
+           .HasConversion(x => x.Value, v => FirstName.Create(v).Value)
+           .HasMaxLength(FirstName.MaxLength)
+           .IsRequired(true);
 
         builder.Property(x => x.DriverLastName)
-            .HasMaxLength(50)
-            .IsRequired(true);
+           .HasConversion(x => x.Value, v => LastName.Create(v).Value)
+           .HasMaxLength(LastName.MaxLength)
+           .IsRequired(true);
 
         builder.Property(x => x.Email)
-            .IsRequired(true)
-            .HasMaxLength(50);
+           .HasConversion(x => x.Value, v => Email.Create(v).Value)
+           .IsRequired(true);
 
         builder.Property(x => x.PickUpDate)
             .IsRequired(true);
@@ -43,18 +46,18 @@ internal class ReservationConfiguration : IEntityTypeConfiguration<Reservation>
             .IsRequired(true)
             .HasColumnType("decimal(18,2)");
 
-        builder.HasOne<Office>()
+        builder.HasOne<Office>(x => x.PickUpOffice)
             .WithMany()
-            .HasForeignKey(x => x.PickUpLocationId)
+            .HasForeignKey(x => x.PickUpOfficeId)
             .OnDelete(DeleteBehavior.Restrict);
 
 
-        builder.HasOne<Office>()
+        builder.HasOne<Office>(x => x.DropDownOffice)
             .WithMany()
-            .HasForeignKey(x => x.DropDownLocationId)
+            .HasForeignKey(x => x.DropDownOfficeId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasMany(x => x.ReservationDetails)
+        builder.HasMany(x => x.ReservationItems)
             .WithOne()
             .HasForeignKey(x => x.ReservationId);
 

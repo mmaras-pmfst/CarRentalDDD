@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions;
-using Domain.Management.CarCategory;
+using Domain.Management.CarCategories;
 using Domain.Repositories;
 using Domain.Shared;
 using MediatR;
@@ -31,7 +31,7 @@ internal sealed class CarCategoryGetByIdQueryHandler : IQueryHandler<CarCategory
         {
             var dbCarCategory = await _carCategoryRepository.GetByIdAsync(request.CarCategoryId, cancellationToken);
 
-            if (dbCarCategory == null)
+            if (dbCarCategory == null ||dbCarCategory is null)
             {
                 _logger.LogWarning("CarCategoryGetByIdCommandHandler: CarCategory doesn't exist!");
                 return Result.Failure<CarCategory?>(new Error(

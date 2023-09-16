@@ -1,5 +1,5 @@
-﻿using Domain.Management.CarBrand;
-using Domain.Management.CarCategory;
+﻿using Domain.Management.CarBrands;
+using Domain.Management.CarBrands.ValueObjects;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -21,35 +21,28 @@ internal sealed class CarBrandRepository : ICarBrandRepository
     {
         await _dbContext.Set<CarBrand>().AddAsync(carBrand, cancellationToken);
     }
-
-    public async Task<bool> AlreadyExists(string carBrandName, CancellationToken cancellationToken = default)
+    public async Task<bool> AlreadyExists(CarBrandName carBrandName, 
+        CancellationToken cancellationToken = default)
     {
         var carBrand = await _dbContext.Set<CarBrand>()
-            .Where(x => x.Name.Value.ToUpper() == carBrandName.ToUpper())
+            .Where(x => x.Name == carBrandName)
             .SingleOrDefaultAsync(cancellationToken);
 
         return carBrand != null ? false : true;
 
     }
-
     public async Task<List<CarBrand>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await _dbContext.Set<CarBrand>()
-            .Include(x => x.CarModels)
-                .ThenInclude(x => x.CarModelRents)
-                    .ThenInclude(x => x.Reservations)
-                        .ThenInclude(x => x.ReservationDetails)
             .ToListAsync(cancellationToken);
 
     }
-
     public async Task<CarBrand?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Set<CarBrand>()
+        var carBrand = await _dbContext.Set<CarBrand>()
             .Include(x => x.CarModels)
             .Where(x => x.Id == id)
             .SingleOrDefaultAsync(cancellationToken);
-
+        return carBrand;
     }
-
 }

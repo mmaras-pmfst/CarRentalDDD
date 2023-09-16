@@ -77,7 +77,10 @@ public class ExtraController : ApiController
     {
         _logger.LogInformation("Started ExtraController.Update");
 
-        var command = new ExtrasUpdateCommand(request.ExtraId, request.Name, request.Description, request.PricePerDay);
+        var command = new ExtrasUpdateCommand(
+            request.ExtraId,
+            request.Description,
+            request.PricePerDay);
 
         var response = await Sender.Send(command);
 

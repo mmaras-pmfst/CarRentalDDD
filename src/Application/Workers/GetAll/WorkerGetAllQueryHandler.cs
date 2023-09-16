@@ -1,6 +1,6 @@
 ﻿using Application.Abstractions;
 using Application.Workers.GetById;
-using Domain.Management.Office.Entities;
+using Domain.Management.Workers;
 using Domain.Repositories;
 using Domain.Shared;
 using Microsoft.Extensions.Logging;
@@ -14,12 +14,14 @@ namespace Application.Workers.GetAll;
 internal class WorkerGetAllQueryHandler : IQueryHandler<WorkerGetAllQuery, List<Worker>>
 {
     private ILogger<WorkerGetAllQueryHandler> _logger;
-    private readonly IOfficeRepository _officeRepository;
+    private readonly IWorkerRepository _workerRepository;
 
-    public WorkerGetAllQueryHandler(ILogger<WorkerGetAllQueryHandler> logger, IOfficeRepository officeRepository)
+    public WorkerGetAllQueryHandler(
+        ILogger<WorkerGetAllQueryHandler> logger,
+        IWorkerRepository workerRepository)
     {
         _logger = logger;
-        _officeRepository = officeRepository;
+        _workerRepository = workerRepository;
     }
 
     public async Task<Result<List<Worker>>> Handle(WorkerGetAllQuery request, CancellationToken cancellationToken)
@@ -28,19 +30,15 @@ internal class WorkerGetAllQueryHandler : IQueryHandler<WorkerGetAllQuery, List<
 
         try
         {
-            var officeWorkers = await _officeRepository.GetAllAsync(cancellationToken);
+            var workers = await _workerRepository.GetAllAsync(cancellationToken);
 
-            if (officeWorkers.SelectMany(x => x.Workers) == null)
+            if (!workers.Any())
             {
                 _logger.LogWarning("WorkerGetAllQueryHandler: No Workers in database");
                 return Result.Failure<List<Worker>>(new Error(
                         "Workers.NoData",
                         "There are no Workers to fetch"));
             }
-
-            var workers = officeWorkers
-                            .SelectMany(x => x.Workers)
-                            .ToList();
 
             _logger.LogInformation("Finished WorkerGetAllQueryHandler");
             return workers;

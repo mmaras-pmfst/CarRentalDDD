@@ -1,6 +1,5 @@
-﻿using Domain.Management.CarBrand.Entities;
-using Domain.Management.CarBrand.ValueObjects;
-using Domain.Management.CarCategory;
+﻿using Domain.Management.CarModels;
+using Domain.Management.CarCategories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Persistence.Constants;
@@ -9,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Management.CarModels.ValueObjects;
 
 namespace Persistence.Configurations;
 
@@ -26,13 +26,8 @@ internal class CarModelConfiguration : IEntityTypeConfiguration<CarModel>
             .IsRequired(true);
 
 
-        builder.HasMany(x => x.CarModelRents)
-            .WithOne()
-            .HasForeignKey(x => x.CarModelId);
-
-
-        builder.HasOne<CarCategory>() // CarModel belongs to one CarCategory
-            .WithMany() //CarCategory belongs to many CarModels
+        builder.HasOne<CarCategory>(x => x.CarCategory) // CarModel belongs to one CarCategory
+            .WithMany(x => x.CarModels) //CarCategory belongs to many CarModels
             .HasForeignKey(x => x.CarCategoryId)
             .OnDelete(DeleteBehavior.Restrict);
 

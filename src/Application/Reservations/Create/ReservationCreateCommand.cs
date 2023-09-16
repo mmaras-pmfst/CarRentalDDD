@@ -14,8 +14,8 @@ public sealed record ReservationCreateCommand(
     DateTime DropDownDate,
     Guid PickUpLocationId,
     Guid DropDownLocationId,
-    Guid CarModelRentId,
-    List<ExtrasModel> Extras) : ICommand<Guid>;
+    Guid CarModelId,
+    List<ExtrasModel>? Extras) : ICommand<Guid>;
 
 
 public sealed record ExtrasModel(

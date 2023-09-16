@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions;
-using Domain.Management.Office;
+using Domain.Management.Offices;
 using Domain.Repositories;
 using Domain.Shared;
 using MediatR;
@@ -30,7 +30,7 @@ namespace Application.Offices.GetById
             try
             {
                 var dbOffice = await _officeRepository.GetByIdAsync(request.OfficeId, cancellationToken);
-                if(dbOffice == null)
+                if(dbOffice == null || dbOffice is null)
                 {
                     _logger.LogWarning("OfficeGetByIdCommandHandler: Office doesn't exist!");
                     return Result.Failure<Office?>(new Error(

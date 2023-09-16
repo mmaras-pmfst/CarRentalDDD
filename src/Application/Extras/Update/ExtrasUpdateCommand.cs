@@ -8,6 +8,5 @@ using System.Threading.Tasks;
 namespace Application.Extras.Update;
 public sealed record ExtrasUpdateCommand(
     Guid ExtraId,
-    string Name,
     string Description,
     decimal PricePerDay) : ICommand<bool>;

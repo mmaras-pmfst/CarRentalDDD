@@ -38,7 +38,11 @@ internal class ExtrasCreateCommandHandler : ICommandHandler<ExtrasCreateCommand,
                 return Result.Failure<Guid>(DomainErrors.Extra.ExtraAlreadyExists);
             }
 
-            var newExtra = Extra.Create(Guid.NewGuid(), request.Name, request.Description, request.PricePerDay);
+            var newExtra = Extra.Create(
+                Guid.NewGuid(),
+                request.Name,
+                request.Description,
+                request.PricePerDay);
 
             await _extrasRepository.AddAsync(newExtra, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

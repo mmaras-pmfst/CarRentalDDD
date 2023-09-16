@@ -1,5 +1,5 @@
 ﻿namespace WebApi.Contracts.Reservations;
 
 public record GetAllReservationsRequest(
-    DateTime DateFrom,
-    DateTime DateTo);
+    DateTime? DateFrom,
+    DateTime? DateTo);

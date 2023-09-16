@@ -1,7 +1,7 @@
-﻿using Domain.Common.ValueObjects;
-using Domain.Management.CarBrand.ValueObjects;
-using Domain.Management.CarCategory;
-using Domain.Management.CarCategory.ValueObjects;
+﻿using Domain.Management.CarBrands.ValueObjects;
+using Domain.Management.CarCategories;
+using Domain.Management.CarCategories.ValueObjects;
+using Domain.Shared.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Persistence.Constants;

@@ -2,7 +2,7 @@
 using Application.CarModels.GetAll;
 using Application.CarModels.GetById;
 using Application.CarModels.Update;
-using Domain.Management.CarBrand.Entities;
+using Domain.Management.CarModels;
 using Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -29,7 +29,12 @@ namespace WebApi.Controllers
         {
             _logger.LogInformation("Started CarModelController.Create");
 
-            var command = new CarModelCreateCommand(request.CarModelName, request.CarBrandId,  request.CarCategoryId);
+            var command = new CarModelCreateCommand(
+                request.CarModelName,
+                request.PricePerDay,
+                request.Discount,
+                request.CarBrandId,
+                request.CarCategoryId);
 
             Result<Guid> response = await Sender.Send(command);
 
@@ -46,7 +51,6 @@ namespace WebApi.Controllers
 
         }
 
-        [Route("GetAll")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -63,13 +67,13 @@ namespace WebApi.Controllers
 
         }
 
-        [Route("{carBrandId}/{carModelId}")]
+        [Route("{carModelId}")]
         [HttpGet]
-        public async Task<IActionResult> GetById(Guid carBrandId, Guid carModelId)
+        public async Task<IActionResult> GetById( Guid carModelId)
         {
             _logger.LogInformation("Started CarModelController.GetById");
 
-            var command = new CarModelGetByIdQuery(carBrandId, carModelId);
+            var command = new CarModelGetByIdQuery(carModelId);
 
             Result<CarModel?> response = await Sender.Send(command);
 
@@ -84,7 +88,12 @@ namespace WebApi.Controllers
         {
             _logger.LogInformation("Started CarModelController.Update");
 
-            var command = new CarModelUpdateCommand(request.CarModelId, request.BasePricePerDay, request.CarModelName,  request.CarBrandId, request.CarCategoryId);
+            var command = new CarModelUpdateCommand(
+                request.CarModelId,
+                request.PricePerDay,
+                request.Discount,
+                request.CarModelName,
+                request.CarCategoryId);
 
             Result<bool> response = await Sender.Send(command);
 

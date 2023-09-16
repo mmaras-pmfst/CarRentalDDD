@@ -1,6 +1,6 @@
 ﻿using Application.Abstractions;
-using Domain.Management.CarBrand;
-using Domain.Management.CarBrand.ValueObjects;
+using Domain.Management.CarBrands;
+using Domain.Management.CarBrands.ValueObjects;
 using Domain.Repositories;
 using Domain.Shared;
 using MediatR;
@@ -33,7 +33,7 @@ internal sealed class CarBrandUpdateCommandHandler : IQueryHandler<CarBrandUpdat
         try
         {
             var dbCarBrand = await _carBrandRepository.GetByIdAsync(request.CarBrandId, cancellationToken);
-            if (dbCarBrand == null)
+            if (dbCarBrand == null ||dbCarBrand is null)
             {
 
                 _logger.LogWarning("CarBrandUpdateCommandHandler: CarBrand doesn't exist!");

@@ -9,8 +9,8 @@ public record CreateReservationRequest(
     DateTime DropDownDate,
     Guid PickUpLocationId,
     Guid DropDownLocationId,
-    Guid CarModelRentId,
-    List<ExtrasRequest> Extras);
+    Guid CarModelId,
+    List<ExtrasRequest>? Extras);
 
 public record ExtrasRequest(
     Guid ExtraId,

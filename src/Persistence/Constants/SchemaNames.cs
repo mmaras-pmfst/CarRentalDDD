@@ -12,4 +12,5 @@ namespace Persistence.Constants
         internal const string Data = nameof(Data);
         internal const string Sales = nameof(Sales);
     }
+    
 }

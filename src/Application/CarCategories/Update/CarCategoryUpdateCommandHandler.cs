@@ -1,9 +1,9 @@
 ﻿using Application.Abstractions;
-using Domain.Common.ValueObjects;
-using Domain.Management.CarCategory;
-using Domain.Management.CarCategory.ValueObjects;
+using Domain.Management.CarCategories;
+using Domain.Management.CarCategories.ValueObjects;
 using Domain.Repositories;
 using Domain.Shared;
+using Domain.Shared.ValueObjects;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -34,7 +34,7 @@ internal sealed class CarCategoryUpdateCommandHandler : ICommandHandler<CarCateg
         try
         {
             var dbCarCategory = await _carCategoryRepository.GetByIdAsync(request.CarCategoryId, cancellationToken);
-            if (dbCarCategory == null)
+            if (dbCarCategory == null || dbCarCategory is null)
             {
                 _logger.LogWarning("CarCategoryUpdateCommandHandler: CarCategory doesn't exist!");
                 return Result.Failure<bool>(new Error(

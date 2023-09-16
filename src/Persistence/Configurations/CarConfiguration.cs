@@ -1,7 +1,6 @@
-﻿using Domain.Management.Car;
-using Domain.Management.CarBrand.Entities;
-using Domain.Management.Color;
-using Domain.Management.Office;
+﻿using Domain.Management.CarModels;
+using Domain.Management.Cars;
+using Domain.Management.Offices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Persistence.Constants;
@@ -25,10 +24,6 @@ internal class CarConfiguration : IEntityTypeConfiguration<Car>
             .HasMaxLength(10)
             .IsRequired(true);
 
-        builder.Property(x => x.Name)
-            .IsRequired(true)
-            .HasMaxLength(20);
-
         builder.Property(x => x.Kilometers)
             .HasColumnType("decimal(18,1)")
             .IsRequired(true);
@@ -44,20 +39,14 @@ internal class CarConfiguration : IEntityTypeConfiguration<Car>
             .HasConversion<string>()
             .IsRequired(true);
 
-        builder.HasOne<CarModel>()
-            .WithMany()
+        builder.HasOne<CarModel>(x => x.CarModel)
+            .WithMany(x => x.Cars)
             .HasForeignKey(x => x.CarModelId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne<Color>()
-            .WithMany()
-            .HasForeignKey(x => x.ColorId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        builder.HasOne<Office>()
-            .WithMany()
+        builder.HasOne<Office>(x => x.Office)
+            .WithMany(x =>x.Cars)
             .HasForeignKey(x => x.OfficeId)
             .OnDelete(DeleteBehavior.Restrict);
-
     }
 }

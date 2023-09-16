@@ -1,6 +1,8 @@
 ﻿using Application.Abstractions;
 using Domain.Errors;
-using Domain.Management.CarBrand.ValueObjects;
+using Domain.Management.CarBrands.ValueObjects;
+using Domain.Management.CarModels;
+using Domain.Management.CarModels.ValueObjects;
 using Domain.Repositories;
 using Domain.Shared;
 using MediatR;
@@ -48,7 +50,7 @@ internal sealed class CarModelCreateCommandHandler : ICommandHandler<CarModelCre
                 .GetByIdAsync(request.CarBrandId, cancellationToken);
 
 
-            if (carCategory is null)
+            if (carCategory is null || carCategory == null)
             {
                 _logger.LogWarning("CarModelCreateCommandHandler: CarCategory doesn't exist!");
                 return Result.Failure<Guid>(new Error(
@@ -56,7 +58,7 @@ internal sealed class CarModelCreateCommandHandler : ICommandHandler<CarModelCre
                     $"The CarCategory with Id {request.CarCategoryId} was not found"));
             }
 
-            if(carBrand is null)
+            if (carBrand is null || carBrand == null)
             {
                 _logger.LogWarning("CarModelCreateCommandHandler: CarBrand doesn't exist!");
                 return Result.Failure<Guid>(new Error(
@@ -64,18 +66,27 @@ internal sealed class CarModelCreateCommandHandler : ICommandHandler<CarModelCre
                     $"The CarBrand with Id {request.CarBrandId} was not found"));
             }
 
-            var carModelExist = carBrand.CarModels.Where(x => x.Name.Value == request.CarModelName).Any();
-            if (carModelExist)
-            {
-                return Result.Failure<Guid>(DomainErrors.CarModel.CarModelAlreadyExists);
-
-            }
             var carModelNameResult = CarModelName.Create(request.CarModelName);
             if (carModelNameResult.IsFailure)
             {
                 return Result.Failure<Guid>(carModelNameResult.Error);
             }
-            var carModel = carBrand.CreateCarModel(carModelNameResult.Value, carCategory);
+
+            //var carModelExist = carBrand.CarModels.Where(x => x.Name.Value == request.CarModelName).Any();
+            var carModelExist = await _carModelRepository.AlreadyExists(carModelNameResult.Value, carBrand.Id, carCategory.Id, cancellationToken);
+            if (carModelExist)
+            {
+                return Result.Failure<Guid>(DomainErrors.CarModel.CarModelAlreadyExists);
+
+            }
+
+            var carModel = CarModel.Create(
+                Guid.NewGuid(),
+                carModelNameResult.Value,
+                carBrand,
+                carCategory,
+                request.PricePerDay,
+                request.Discount);
 
             await _carModelRepository.AddAsync(carModel, cancellationToken);
 

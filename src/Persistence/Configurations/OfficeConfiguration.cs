@@ -1,5 +1,6 @@
-﻿using Domain.Common.ValueObjects;
-using Domain.Management.Office;
+﻿using Domain.Management.Offices;
+using Domain.Management.Offices.ValueObjects;
+using Domain.Shared.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Persistence.Constants;
@@ -18,21 +19,52 @@ internal class OfficeConfiguration : IEntityTypeConfiguration<Office>
         builder.ToTable(TableNames.Offices, SchemaNames.Catalog);
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.City)
-            .HasMaxLength(25)
-            .IsRequired();
+        //v2:
+        //builder.Property(x => x.Address)
+        //    .HasConversion(
+        //        x => new {x.City, x.StreetName, x.StreetNumber, x.Country},
+        //        v => Address.Create(
+        //            v.City,
+        //            v.StreetName,
+        //            v.StreetNumber,
+        //            v.Country
+        //            ).Value
+        //    )
+        //    .IsRequired(true);
 
-        builder.Property(x => x.Country)
-            .HasMaxLength(30)
-            .IsRequired();
+        //v1:
+        builder.OwnsOne(x => x.Address, address =>
+        {
+            address.Property(x => x.City)
+            .HasColumnName("City")
+            .IsRequired(true);
 
-        builder.Property(x => x.StreetName)
-            .HasMaxLength(50)
-            .IsRequired();
+            address.Property(x => x.StreetName)
+            .HasColumnName("StreetName")
+            .IsRequired(true);
 
-        builder.Property(x => x.StreetNumber)
-            .HasMaxLength(3)
-            .IsRequired();
+            address.Property(x => x.StreetNumber)
+            .HasColumnName("StreetNumber")
+            .IsRequired(true);
+
+            address.Property(x => x.Country)
+            .HasColumnName("Country")
+            .IsRequired(true);
+        });
+
+        //v3:
+        //builder.Property(x => x.Address)
+        //    .HasConversion(
+        //    v => $"{v.City},{v.StreetName},{v.StreetNumber},{v.Country}",
+        //    v => Address.Create(
+        //        v.Split(",")[0].ToString(),
+        //        v.Split(",")[1].ToString(),
+        //        v.Split(",")[2].ToString(),
+        //        v.Split(",")[3].ToString()
+
+        //        ).Value
+        //    );
+
 
         builder.Property(x => x.PhoneNumber)
             .HasConversion(x => x.Value, v => PhoneNumber.Create(v).Value)
@@ -47,7 +79,9 @@ internal class OfficeConfiguration : IEntityTypeConfiguration<Office>
             .IsRequired(false);
 
         builder.HasMany(x => x.Workers)
-            .WithOne()
-            .HasForeignKey(x => x.OfficeId);
+            .WithOne(x => x.Office)
+            .HasForeignKey(x => x.OfficeId)
+            .OnDelete(DeleteBehavior.Restrict);
+
     }
 }

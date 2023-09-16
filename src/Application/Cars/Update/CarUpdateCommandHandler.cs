@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions;
-using Domain.Management.Car;
+using Domain.Management.Cars;
 using Domain.Repositories;
 using Domain.Shared;
 using Microsoft.Extensions.Logging;
@@ -31,9 +31,9 @@ internal class CarUpdateCommandHandler : ICommandHandler<CarUpdateCommand, bool>
 
         try
         {
-            var car = await _carRepository.GetByAsync(request.CarId, cancellationToken);
+            var car = await _carRepository.GetByIdAsync(request.CarId, cancellationToken);
 
-            if (car == null)
+            if (car == null || car is null)
             {
                 _logger.LogWarning("CarUpdateCommandHandler: Car doesn't exist!");
                 return Result.Failure<bool>(new Error(
@@ -43,7 +43,7 @@ internal class CarUpdateCommandHandler : ICommandHandler<CarUpdateCommand, bool>
 
             var office = await _officeRepository.GetByIdAsync(request.OfficeId, cancellationToken);
 
-            if (office == null)
+            if (office == null || office is null)
             {
                 _logger.LogWarning("CarUpdateCommandHandler: Office doesn't exist!");
                 return Result.Failure<bool>(new Error(
@@ -51,7 +51,11 @@ internal class CarUpdateCommandHandler : ICommandHandler<CarUpdateCommand, bool>
                     $"The Office with Id {request.OfficeId} was not found"));
             }
 
-            var result = car.Update(request.Kilometers, request.Image, request.CarStatus, request.OfficeId);
+            var result = car.Update(
+                request.Kilometers,
+                request.Image,
+                request.CarStatus,
+                office);
             if (result.IsFailure)
             {
                 _logger.LogWarning("CarUpdateCommandHandler: Wrong car kilometers");

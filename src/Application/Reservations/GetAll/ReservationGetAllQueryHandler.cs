@@ -1,6 +1,6 @@
 ﻿using Application.Abstractions;
 using Domain.Repositories;
-using Domain.Sales.CarModelRent.Entities;
+using Domain.Sales.Reservations;
 using Domain.Shared;
 using Microsoft.Extensions.Logging;
 using System;
@@ -13,12 +13,14 @@ namespace Application.Reservations.GetAll;
 internal class ReservationGetAllQueryHandler : IQueryHandler<ReservationGetAllQuery, List<Reservation>>
 {
     private ILogger<ReservationGetAllQueryHandler> _logger;
-    private readonly ICarBrandRepository _carBrandRepository;
+    private readonly IReservationRepository _reservationRepository;
 
-    public ReservationGetAllQueryHandler(ILogger<ReservationGetAllQueryHandler> logger, ICarBrandRepository carBrandRepository)
+    public ReservationGetAllQueryHandler(
+        ILogger<ReservationGetAllQueryHandler> logger, 
+        IReservationRepository reservationRepository)
     {
         _logger = logger;
-        _carBrandRepository = carBrandRepository;
+        _reservationRepository = reservationRepository;
     }
 
     public async Task<Result<List<Reservation>>> Handle(ReservationGetAllQuery request, CancellationToken cancellationToken)
@@ -27,18 +29,16 @@ internal class ReservationGetAllQueryHandler : IQueryHandler<ReservationGetAllQu
 
         try
         {
-            var brands = await _carBrandRepository.GetAllAsync(cancellationToken);
 
-            var reservations = brands
-                .SelectMany(x => x.CarModels)
-                .SelectMany(x => x.CarModelRents)
-                .SelectMany(x => x.Reservations)
-                .Where(x => x.PickUpDate.Date >= request.DateFrom.Date && x.PickUpDate.Date <= request.DateTo.Date)
-                .ToList();
+            var reservations = await _reservationRepository.GetAllAsync(request.DateFrom, request.DateTo, cancellationToken);
+
 
             if (!reservations.Any())
             {
-                //return no data to fetch
+                _logger.LogWarning("ReservationGetAllQueryHandler: No Reservation in database");
+                return Result.Failure<List<Reservation>>(new Error(
+                        "Reservation.NoData",
+                        "There are no Reservations to fetch"));
             }
             _logger.LogInformation("Finished ReservationGetAllQueryHandler");
             return reservations;

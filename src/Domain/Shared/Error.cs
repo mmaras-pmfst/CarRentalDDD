@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.Shared;
+
 public class Error : IEquatable<Error>
 {
     public static readonly Error None = new(string.Empty, string.Empty);
@@ -55,4 +56,3 @@ public class Error : IEquatable<Error>
 
     public override string ToString() => Code;
 }
-

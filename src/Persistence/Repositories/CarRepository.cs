@@ -1,4 +1,4 @@
-﻿using Domain.Management.Car;
+﻿using Domain.Management.Cars;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -28,10 +28,15 @@ internal sealed class CarRepository : ICarRepository
         return cars;
     }
 
-    public async Task<Car?> GetByAsync(Guid carId, CancellationToken cancellationToken = default)
+    public async Task<Car?> GetByIdAsync(Guid carId, CancellationToken cancellationToken = default)
     {
         var car = await _dbContext.Set<Car>()
             .Where(x => x.Id == carId)
+            .Include(x => x.Office)
+            .Include(x => x.CarModel)
+                .ThenInclude(x => x.CarCategory)
+            .Include(x => x.CarModel)
+                .ThenInclude(x => x.CarBrand)
             .SingleOrDefaultAsync(cancellationToken);
 
         return car;
@@ -43,7 +48,7 @@ internal sealed class CarRepository : ICarRepository
             .Where(x => x.NumberPlate == numberPlate)
             .SingleOrDefaultAsync(cancellationToken);
 
-        if(car == null)
+        if(car is null || car == null)
         {
             return false;
         }

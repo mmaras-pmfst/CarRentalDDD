@@ -1,9 +1,9 @@
 ﻿using Application.Abstractions;
-using Domain.Common.ValueObjects;
 using Domain.Errors;
-using Domain.Management.Office;
+using Domain.Management.Workers;
 using Domain.Repositories;
 using Domain.Shared;
+using Domain.Shared.ValueObjects;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,11 @@ internal class WorkerCreateCommandHandler : ICommandHandler<WorkerCreateCommand,
     private readonly IOfficeRepository _officeRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public WorkerCreateCommandHandler(ILogger<WorkerCreateCommandHandler> logger, IWorkerRepository workerRepository, IUnitOfWork unitOfWork, IOfficeRepository officeRepository)
+    public WorkerCreateCommandHandler(
+        ILogger<WorkerCreateCommandHandler> logger,
+        IWorkerRepository workerRepository,
+        IUnitOfWork unitOfWork,
+        IOfficeRepository officeRepository)
     {
         _logger = logger;
         _workerRepository = workerRepository;
@@ -34,7 +38,7 @@ internal class WorkerCreateCommandHandler : ICommandHandler<WorkerCreateCommand,
         try
         {
             var office = await _officeRepository.GetByIdAsync(request.OfficeId, cancellationToken);
-            if (office == null)
+            if (office == null || office is null )
             {
                 _logger.LogWarning("WorkerCreateCommandHandler: Office doesn't exist!");
                 return Result.Failure<Guid>(new Error(
@@ -42,10 +46,8 @@ internal class WorkerCreateCommandHandler : ICommandHandler<WorkerCreateCommand,
                 $"The Office with Id {request.OfficeId} was not found"));
             }
 
-            var worker = office.Workers
-                .Where(x => x.PersonalIdentificationNumber == request.PersonalIdentificationNumber)
-                .SingleOrDefault();
-            if (worker is not null)
+            var worker = await _workerRepository.AlreadyExists(request.PersonalIdentificationNumber, cancellationToken);
+            if (worker)
             {
                 _logger.LogWarning("WorkerCreateCommandHandler: Worker already exist!");
                 return Result.Failure<Guid>(DomainErrors.Worker.WorkerAlreadyExists);
@@ -74,12 +76,14 @@ internal class WorkerCreateCommandHandler : ICommandHandler<WorkerCreateCommand,
                 return Result.Failure<Guid>(lastNameResult.Error);
 
             }
-            var newWorker = office.AddWorker(
-                request.PersonalIdentificationNumber,
+            var newWorker = Worker.Create(
+                Guid.NewGuid(),
                 firstNameResult.Value,
                 lastNameResult.Value, 
                 emailResult.Value,
-                phoneNumberResult.Value);
+                phoneNumberResult.Value,
+                office,
+                request.PersonalIdentificationNumber);
 
             await _workerRepository.AddAsync(newWorker, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

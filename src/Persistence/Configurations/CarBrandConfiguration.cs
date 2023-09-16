@@ -1,5 +1,5 @@
-﻿using Domain.Management.CarBrand;
-using Domain.Management.CarBrand.ValueObjects;
+﻿using Domain.Management.CarBrands;
+using Domain.Management.CarBrands.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Persistence.Constants;
@@ -25,7 +25,9 @@ internal class CarBrandConfiguration : IEntityTypeConfiguration<CarBrand>
             .IsRequired(true);
 
         builder.HasMany(x => x.CarModels)
-            .WithOne()
-            .HasForeignKey(x => x.CarBrandId);
+            .WithOne(x => x.CarBrand)
+            .HasForeignKey(x => x.CarBrandId)
+            .OnDelete(DeleteBehavior.Restrict);
+
     }
 }

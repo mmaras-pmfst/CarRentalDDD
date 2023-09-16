@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions;
-using Domain.Management.Car;
+using Domain.Management.Cars;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.Shared;
+
 public class Result
 {
     protected internal Result(bool isSuccess, Error error)
@@ -39,4 +40,3 @@ public class Result
 
     public static Result<TValue> Create<TValue>(TValue? value) => value is not null ? Success(value) : Failure<TValue>(Error.NullValue);
 }
-

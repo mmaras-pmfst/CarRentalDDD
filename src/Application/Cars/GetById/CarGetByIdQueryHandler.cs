@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions;
-using Domain.Management.Car;
+using Domain.Management.Cars;
 using Domain.Repositories;
 using Domain.Shared;
 using Microsoft.Extensions.Logging;
@@ -27,8 +27,8 @@ internal class CarGetByIdQueryHandler : IQueryHandler<CarGetByIdQuery, Car?>
 
         try
         {
-            var dbCar = await _carRepository.GetByAsync(request.CarId, cancellationToken);
-            if (dbCar == null)
+            var dbCar = await _carRepository.GetByIdAsync(request.CarId, cancellationToken);
+            if (dbCar == null || dbCar is null )
             {
                 _logger.LogWarning("CarGetByIdQueryHandler: Car doesn't exist!");
                 return Result.Failure<Car?>(new Error(

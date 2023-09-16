@@ -6,6 +6,7 @@ using Infrastructure.DataSeed;
 using MediatR;
 using Persistence;
 using Serilog;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using WebApi.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,7 +36,10 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.DocExpansion(DocExpansion.None);
+    });
 }
 
 app.UseHttpsRedirection();
