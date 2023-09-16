@@ -3,8 +3,8 @@ using Application.Contracts.Events;
 using Application.Reservations.Create;
 using Domain.Repositories;
 using Domain.Sales.Contracts;
+using Domain.Sales.Contracts.ValueObjects;
 using Domain.Sales.Reservations;
-using Domain.Sales.Reservations.ValueObjects;
 using Domain.Shared;
 using Domain.Shared.ValueObjects;
 using MediatR;
@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 namespace Application.Contracts.Create;
 internal class CreateContractCommandHandler : ICommandHandler<CreateContractCommand, Guid>
 {
+    #region variables
     private ILogger<CreateContractCommandHandler> _logger;
     private readonly ICarRepository _carRepository;
     private readonly IContractRepository _contractRepository;
@@ -28,19 +29,14 @@ internal class CreateContractCommandHandler : ICommandHandler<CreateContractComm
     private readonly IWorkerRepository _workerRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPublisher _publisher;
-
+    #endregion
 
     public CreateContractCommandHandler(
-        ILogger<CreateContractCommandHandler> logger,
-        ICarRepository carRepository,
-        IContractRepository contractRepository,
-        IContractItemRepository contractItemRepository,
-        IExtrasRepository extrasRepository,
-        IOfficeRepository officeRepository,
-        IUnitOfWork unitOfWork,
-        IReservationRepository reservationRepository,
-        IWorkerRepository workerRepository,
-        IPublisher publisher)
+        ILogger<CreateContractCommandHandler> logger,ICarRepository carRepository,
+        IContractRepository contractRepository,IContractItemRepository contractItemRepository,
+        IExtrasRepository extrasRepository,IOfficeRepository officeRepository,
+        IUnitOfWork unitOfWork,IReservationRepository reservationRepository,
+        IWorkerRepository workerRepository,IPublisher publisher)
     {
         _logger = logger;
         _carRepository = carRepository;
@@ -59,6 +55,7 @@ internal class CreateContractCommandHandler : ICommandHandler<CreateContractComm
         _logger.LogInformation("Started CreateContractCommandHandler");
         try
         {
+            #region Check DropDownLocation, PickUpLocation, Worker, Car
             var dropDownLocation = await _officeRepository.GetByIdAsync(request.DropDownOfficeId, cancellationToken);
             if (dropDownLocation is null || dropDownLocation == null)
             {
@@ -67,6 +64,7 @@ internal class CreateContractCommandHandler : ICommandHandler<CreateContractComm
                     "Office.NotFound",
                     $"The Office with Id {request.DropDownOfficeId} was not found"));
             }
+
             var pickUpLocation = await _officeRepository.GetByIdAsync(request.PickUpOfficeId, cancellationToken);
             if (pickUpLocation is null || pickUpLocation == null)
             {
@@ -109,7 +107,9 @@ internal class CreateContractCommandHandler : ICommandHandler<CreateContractComm
                 }
                 reservation = reservationDb;
             }
+            #endregion
 
+            #region Create value objects
             var driverFirstName = FirstName.Create(request.DriverFirstName);
             if (driverFirstName.IsFailure)
             {
@@ -140,7 +140,9 @@ internal class CreateContractCommandHandler : ICommandHandler<CreateContractComm
                 return Result.Failure<Guid>(cardResult.Error);
 
             }
+            #endregion
 
+            #region Create Contract
             var newContract = Contract.Create(
                 Guid.NewGuid(),
                 driverFirstName.Value,
@@ -164,7 +166,9 @@ internal class CreateContractCommandHandler : ICommandHandler<CreateContractComm
                 return Result.Failure<Guid>(newContract.Error);
 
             }
+            #endregion
 
+            #region Add ContractItems
             foreach (var extra in request.Extras)
             {
                 var dbExtra = await _extrasRepository.GetByIdAsync(extra.ExtraId, cancellationToken);
@@ -175,13 +179,13 @@ internal class CreateContractCommandHandler : ICommandHandler<CreateContractComm
                             "Extra.NotFound",
                              $"The Extra with Id {extra.ExtraId} was not found"));
                 }
-                var newExtra = newContract.Value.AddContractDetail(extra.Quantity, dbExtra);
+                var newExtra = newContract.Value.AddContractItem(extra.Quantity, dbExtra);
                 await _contractItemRepository.AddAsync(newExtra, cancellationToken);
             }
-
+            #endregion
             await _contractRepository.AddAsync(newContract.Value, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
-
+            #region Send Email
             var contractCreatedEvent = new ContractCreatedEvent
             {
                 Email = request.Email,
@@ -194,7 +198,7 @@ internal class CreateContractCommandHandler : ICommandHandler<CreateContractComm
 
             };
             await _publisher.Publish(contractCreatedEvent, cancellationToken);
-
+            #endregion
             _logger.LogInformation("Finished CreateContractCommandHandler");
             return newContract.Value.Id;
         }

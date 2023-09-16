@@ -8,7 +8,8 @@ namespace Persistence;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddPersistence(this IServiceCollection services, ConfigurationManager configuration)
+    public static IServiceCollection AddPersistence(this IServiceCollection services, 
+        ConfigurationManager configuration)
     {
 
         string connectionString = configuration.GetConnectionString("Database")!;

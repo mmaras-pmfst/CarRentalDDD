@@ -21,8 +21,8 @@ internal sealed class CarBrandRepository : ICarBrandRepository
     {
         await _dbContext.Set<CarBrand>().AddAsync(carBrand, cancellationToken);
     }
-
-    public async Task<bool> AlreadyExists(CarBrandName carBrandName, CancellationToken cancellationToken = default)
+    public async Task<bool> AlreadyExists(CarBrandName carBrandName, 
+        CancellationToken cancellationToken = default)
     {
         var carBrand = await _dbContext.Set<CarBrand>()
             .Where(x => x.Name == carBrandName)
@@ -31,14 +31,12 @@ internal sealed class CarBrandRepository : ICarBrandRepository
         return carBrand != null ? false : true;
 
     }
-
     public async Task<List<CarBrand>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await _dbContext.Set<CarBrand>()
             .ToListAsync(cancellationToken);
 
     }
-
     public async Task<CarBrand?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var carBrand = await _dbContext.Set<CarBrand>()
@@ -46,7 +44,5 @@ internal sealed class CarBrandRepository : ICarBrandRepository
             .Where(x => x.Id == id)
             .SingleOrDefaultAsync(cancellationToken);
         return carBrand;
-
     }
-
 }

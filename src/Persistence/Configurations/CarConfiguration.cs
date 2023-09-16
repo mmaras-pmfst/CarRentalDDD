@@ -48,6 +48,5 @@ internal class CarConfiguration : IEntityTypeConfiguration<Car>
             .WithMany(x =>x.Cars)
             .HasForeignKey(x => x.OfficeId)
             .OnDelete(DeleteBehavior.Restrict);
-
     }
 }

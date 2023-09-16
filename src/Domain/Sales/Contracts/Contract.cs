@@ -4,10 +4,10 @@ using Domain.Management.Cars;
 using Domain.Management.Offices;
 using Domain.Management.Workers;
 using Domain.Sales.Contracts.Entities;
+using Domain.Sales.Contracts.ValueObjects;
 using Domain.Sales.Extras;
 using Domain.Sales.Reservations;
 using Domain.Sales.Reservations.Entities;
-using Domain.Sales.Reservations.ValueObjects;
 using Domain.Shared;
 using Domain.Shared.Enums;
 using Domain.Shared.ValueObjects;
@@ -79,7 +79,24 @@ public sealed class Contract : AggregateRoot, IAuditableEntity
     }
 
 
-    public static Result<Contract> Create(Guid id, FirstName driverFirstName, LastName driverLastName, Email email, DateTime pickUpDate, DateTime dropDownDate, Office pickUpOffice, Office dropDownOffice, Car car, string driverLicenceNumber, string driverIdentificationNumber, CardType? cardType, PaymentMethod paymentMethod, Card? card, Reservation? reservation, CarModel carModel, Worker worker)
+    public static Result<Contract> Create(
+        Guid id,
+        FirstName driverFirstName,
+        LastName driverLastName,
+        Email email,
+        DateTime pickUpDate,
+        DateTime dropDownDate,
+        Office pickUpOffice,
+        Office dropDownOffice,
+        Car car,
+        string driverLicenceNumber,
+        string driverIdentificationNumber,
+        CardType? cardType,
+        PaymentMethod paymentMethod,
+        Card? card,
+        Reservation? reservation,
+        CarModel carModel,
+        Worker worker)
     {
         var duration = (decimal)dropDownDate.Subtract(pickUpDate).TotalDays;
 
@@ -94,9 +111,9 @@ public sealed class Contract : AggregateRoot, IAuditableEntity
                     $"The Car cannot be rented beacuse it is in status {car.Status}"));
         }
 
-        return new Contract(id, driverFirstName, driverLastName, email, pickUpDate, dropDownDate, totalPrice, pickUpOffice.Id, dropDownOffice.Id, car.Id, driverLicenceNumber, driverIdentificationNumber, cardType, paymentMethod, card, reservation is null ? null : reservation.Id, rentalPrice, worker.Id);
-
-
+        return new Contract(id, driverFirstName, driverLastName, email, pickUpDate, dropDownDate, 
+            totalPrice, pickUpOffice.Id, dropDownOffice.Id, car.Id, driverLicenceNumber, driverIdentificationNumber, 
+            cardType, paymentMethod, card, reservation is null ? null : reservation.Id, rentalPrice, worker.Id);
     }
 
 
@@ -112,7 +129,7 @@ public sealed class Contract : AggregateRoot, IAuditableEntity
 
     }
 
-    public ContractItem AddContractDetail(decimal quantity, Extra extra)
+    public ContractItem AddContractItem(decimal quantity, Extra extra)
     {
         var detailElement = _contractItems.Where(x => x.ExtraId == extra.Id).SingleOrDefault();
         if (detailElement is not null)

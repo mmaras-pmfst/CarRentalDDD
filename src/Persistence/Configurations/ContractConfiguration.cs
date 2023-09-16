@@ -3,7 +3,6 @@ using Domain.Management.Offices;
 using Domain.Management.Workers;
 using Domain.Sales.Contracts;
 using Domain.Sales.Reservations;
-using Domain.Sales.Reservations.ValueObjects;
 using Domain.Shared.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -38,6 +37,29 @@ internal class ContractConfiguration : IEntityTypeConfiguration<Contract>
            .HasConversion(x => x.Value, v => Email.Create(v).Value)
            .IsRequired(true);
 
+        builder.OwnsOne(x => x.Card, card =>
+        {
+            card.Property(x => x.CardName)
+            .HasColumnName("CardName")
+            .IsRequired(false);
+
+            card.Property(x => x.CardNumber)
+            .HasColumnName("CardNumber")
+            .IsRequired(false);
+
+            card.Property(x => x.CVV)
+            .HasColumnName("CVV")
+            .IsRequired(false);
+
+            card.Property(x => x.CardDateExpiration)
+            .HasColumnName("CardDateExpiration")
+            .IsRequired(false);
+
+            card.Property(x => x.CardYearExpiration)
+            .HasColumnName("CardYearExpiration")
+            .IsRequired(false);
+        });
+
         builder.Property(x => x.PickUpDate)
             .IsRequired(true);
         builder.Property(x => x.DropDownDate)
@@ -66,43 +88,6 @@ internal class ContractConfiguration : IEntityTypeConfiguration<Contract>
         builder.Property(r => r.PaymentMethod)
             .HasConversion<string>()
             .IsRequired(true);
-
-        //v2
-        //builder.Property(x => x.Card)
-        //    .HasConversion(
-        //        v => new {v.CardName,v.CardNumber, v.CVV,v.CardDateExpiration, v.CardYearExpiration},
-        //        v => Card.Create(
-        //            v.CardName,
-        //            v.CardNumber,
-        //            v.CVV,
-        //            v.CardDateExpiration,
-        //            v.CardYearExpiration).Value
-        //    )
-        //    .IsRequired(false);
-
-        //v1:
-        builder.OwnsOne(x => x.Card, card =>
-        {
-            card.Property(x => x.CardName)
-            .HasColumnName("CardName")
-            .IsRequired(false);
-
-            card.Property(x => x.CardNumber)
-            .HasColumnName("CardNumber")
-            .IsRequired(false);
-
-            card.Property(x => x.CVV)
-            .HasColumnName("CVV")
-            .IsRequired(false);
-
-            card.Property(x => x.CardDateExpiration)
-            .HasColumnName("CardDateExpiration")
-            .IsRequired(false);
-
-            card.Property(x => x.CardYearExpiration)
-            .HasColumnName("CardYearExpiration")
-            .IsRequired(false);
-        });
 
 
         builder.HasOne(x => x.Reservation)

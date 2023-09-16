@@ -57,7 +57,7 @@ internal class AddContractItemCommandHandler : ICommandHandler<AddContractItemCo
                             "Extra.NotFound",
                              $"The Extra with Id {extra.ExtraId} was not found"));
                 }
-                var newExtra = contract.AddContractDetail(extra.Quantity, dbExtra);
+                var newExtra = contract.AddContractItem(extra.Quantity, dbExtra);
                 await _contractItemRepository.AddAsync(newExtra, cancellationToken);
             }
 

@@ -10,11 +10,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Persistence.Configurations;
-internal class ContractDetailConfiguration : IEntityTypeConfiguration<ContractItem>
+internal class ContractItemConfiguration : IEntityTypeConfiguration<ContractItem>
 {
     public void Configure(EntityTypeBuilder<ContractItem> builder)
     {
-        builder.ToTable(TableNames.ContractDetails, SchemaNames.Sales);
+        builder.ToTable(TableNames.ContractItems, SchemaNames.Sales);
 
         builder.HasKey(x => x.Id);
 

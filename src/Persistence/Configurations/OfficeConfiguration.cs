@@ -1,6 +1,5 @@
 ﻿using Domain.Management.Offices;
 using Domain.Management.Offices.ValueObjects;
-using Domain.Sales.Reservations.ValueObjects;
 using Domain.Shared.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

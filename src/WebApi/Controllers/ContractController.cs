@@ -31,34 +31,17 @@ public class ContractController : ApiController
         if (request.Extras != null || request.Extras.Any())
         {
             request.Extras.ForEach(x => extrases.Add(new ExtrasModel(x.ExtraId, x.Quantity)));
-
         }
         var commmand = new CreateContractCommand(
-            request.DriverFirstName,
-            request.DriverLastName,
-            request.Email,
-            request.PickUpDate,
-            request.DropDownDate,
-            request.PickUpOfficeId,
-            request.DropDownOfficeId,
-            request.CarId,
-            request.DriverLicenceNumber,
-            request.DriverIdentificationNumber,
-            request.CardType,
-            request.PaymentMethod,
-            request.ReservationId,
-            request.WorkerId,
-            request.CardName,
-            request.CardNumber,
-            request.CVV,
-            request.CardDateExpiration,
-            request.CardYearExpiration,
-            extrases);
+            request.DriverFirstName,request.DriverLastName,request.Email,
+            request.PickUpDate, request.DropDownDate,request.PickUpOfficeId,
+            request.DropDownOfficeId,request.CarId,request.DriverLicenceNumber,
+            request.DriverIdentificationNumber,request.CardType, request.PaymentMethod,
+            request.ReservationId,request.WorkerId,request.CardName,request.CardNumber,
+            request.CVV,request.CardDateExpiration,request.CardYearExpiration,extrases);
 
         var response = await Sender.Send(commmand);
-
         _logger.LogInformation("Finished ContractController.Create");
-
         if (response.IsFailure)
         {
             return HandleFailure(response);

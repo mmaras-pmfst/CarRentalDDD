@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Sales.Reservations.ValueObjects;
+namespace Domain.Sales.Contracts.ValueObjects;
 
 public sealed class Card : ValueObject
 {
@@ -34,10 +34,10 @@ public sealed class Card : ValueObject
     {
 
     }
-
-    public static Result<Card> Create(string? cardName, string? cardNumber, string? CVV, string? cardDateExpiration, string? cardYearExpiration, PaymentMethod paymentMethod)
+    public static Result<Card> Create(string? cardName, string? cardNumber, 
+        string? CVV, string? cardDateExpiration, string? cardYearExpiration, PaymentMethod paymentMethod)
     {
-        if(paymentMethod == PaymentMethod.Card)
+        if (paymentMethod == PaymentMethod.Card)
         {
             if (string.IsNullOrEmpty(cardName))
             {
@@ -76,7 +76,6 @@ public sealed class Card : ValueObject
                     $"The CardYearExpiration field cannot be null or longer/shorter then {CardYearExpirationLength}"));
             }
         }
-        
 
         return new Card(cardName, cardNumber, CVV, cardDateExpiration, cardYearExpiration);
     }

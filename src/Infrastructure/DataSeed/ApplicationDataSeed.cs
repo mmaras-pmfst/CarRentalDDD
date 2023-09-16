@@ -26,6 +26,7 @@ public class ApplicationDataSeed
     {
         using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
         {
+            #region Repositories
             var _dbContext = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
             var _unitOfWorkRepository = serviceScope.ServiceProvider.GetService<IUnitOfWork>();
             var _carBrandRepository = serviceScope.ServiceProvider.GetService<ICarBrandRepository>();
@@ -37,7 +38,7 @@ public class ApplicationDataSeed
             var _reservationDetailRepository = serviceScope.ServiceProvider.GetService<IReservationItemRepository>();
             var _reservationRepository = serviceScope.ServiceProvider.GetService<IReservationRepository>();
             var _workerRepository = serviceScope.ServiceProvider.GetService<IWorkerRepository>();
-
+            #endregion
             _dbContext!.Database.EnsureCreated();
             var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var jsonRootPath = Path.Combine(path, "DataSeed\\JsonFiles");
@@ -47,7 +48,6 @@ public class ApplicationDataSeed
             };
 
             #region Office
-
             if (!_dbContext.Set<Office>().ToListAsync().Result.Any())
             {
                 List<Office> data = new List<Office>();
@@ -58,10 +58,7 @@ public class ApplicationDataSeed
                 }
                 data.ForEach(x => _officeRepository.AddAsync(x));
             }
-
-
             #endregion
-
             #region Worker
 
             if (!_dbContext.Set<Worker>().ToListAsync().Result.Any())
@@ -76,9 +73,6 @@ public class ApplicationDataSeed
             }
 
             #endregion
-
-
-
             #region CarBrand
 
             if (!_dbContext.Set<CarBrand>().ToListAsync().Result.Any())
@@ -93,7 +87,6 @@ public class ApplicationDataSeed
             }
 
             #endregion
-
             #region CarCategory
 
 
@@ -109,7 +102,6 @@ public class ApplicationDataSeed
             }
 
             #endregion
-
             #region CarModel
 
             if (!_dbContext.Set<CarModel>().ToListAsync().Result.Any())
@@ -124,7 +116,6 @@ public class ApplicationDataSeed
             }
 
             #endregion
-
             #region Car
 
             //if (!_dbContext.Set<Car>().ToListAsync().Result.Any())
@@ -139,9 +130,6 @@ public class ApplicationDataSeed
             //}
 
             #endregion
-
-
-
             #region Extra
 
             if (!_dbContext.Set<Extra>().ToListAsync().Result.Any())
@@ -156,9 +144,6 @@ public class ApplicationDataSeed
             }
 
             #endregion
-
-
-
             #region Reservation
 
             //if (!_dbContext.Set<Reservation>().ToListAsync().Result.Any())
@@ -173,7 +158,6 @@ public class ApplicationDataSeed
             //}
 
             #endregion
-
             #region ReservationDetail
 
             //if (!_dbContext.Set<ReservationDetail>().ToListAsync().Result.Any())
@@ -188,7 +172,6 @@ public class ApplicationDataSeed
             //}
 
             #endregion
-
             await _unitOfWorkRepository.SaveChangesAsync();
         }
     }
