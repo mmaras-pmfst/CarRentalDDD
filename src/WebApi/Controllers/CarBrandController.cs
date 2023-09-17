@@ -55,7 +55,7 @@ namespace WebApi.Controllers
 
             var command = new CarBrandGetAllQuery();
 
-            Result<List<CarBrand>> response = await Sender.Send(command);
+            var response = await Sender.Send(command);
 
             _logger.LogInformation("Finished CarBrandController.GetAll");
 
@@ -71,7 +71,7 @@ namespace WebApi.Controllers
 
             var command = new CarBrandGetByIdQuery(id);
 
-            Result<CarBrand?> response = await Sender.Send(command);
+            var response = await Sender.Send(command);
 
             _logger.LogInformation("Finished CarBrandController.GetById");
 

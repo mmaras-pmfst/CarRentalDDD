@@ -118,16 +118,16 @@ public class ApplicationDataSeed
             #endregion
             #region Car
 
-            //if (!_dbContext.Set<Car>().ToListAsync().Result.Any())
-            //{
-            //    List<Car> data = new List<Car>();
-            //    using (StreamReader r = new StreamReader(jsonRootPath + "/JsonFiles/Car.json"))
-            //    {
-            //        var json = r.ReadToEnd();
-            //        data = JsonConvert.DeserializeObject<List<Car>>(json, jsonSettings)!;
-            //    }
-            //    data.ForEach(x => _carRepository.AddAsync(x));
-            //}
+            if (!_dbContext.Set<Car>().ToListAsync().Result.Any())
+            {
+                List<Car> data = new List<Car>();
+                using (StreamReader r = new StreamReader(jsonRootPath + "/Car.json"))
+                {
+                    var json = r.ReadToEnd();
+                    data = JsonConvert.DeserializeObject<List<Car>>(json, jsonSettings)!;
+                }
+                data.ForEach(x => _carRepository.AddAsync(x));
+            }
 
             #endregion
             #region Extra

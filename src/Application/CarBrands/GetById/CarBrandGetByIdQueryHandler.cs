@@ -1,4 +1,6 @@
 ﻿using Application.Abstractions;
+using Application.Mappings.DtoModels;
+using AutoMapper;
 using Domain.Management.CarBrands;
 using Domain.Repositories;
 using Domain.Shared;
@@ -12,20 +14,21 @@ using System.Threading.Tasks;
 
 namespace Application.CarBrands.GetById;
 
-internal sealed class CarBrandGetByIdQueryHandler : IQueryHandler<CarBrandGetByIdQuery, CarBrand?>
+internal sealed class CarBrandGetByIdQueryHandler : IQueryHandler<CarBrandGetByIdQuery, CarBrandCarModelDto?>
 {
     private ILogger<CarBrandGetByIdQueryHandler> _logger;
     private readonly ICarBrandRepository _carBrandRepository;
-    private readonly IUnitOfWork _unitOfWork;
+    private IMapper _mapper;
 
-    public CarBrandGetByIdQueryHandler(ILogger<CarBrandGetByIdQueryHandler> logger, ICarBrandRepository carBrandRepository, IUnitOfWork unitOfWork)
+
+    public CarBrandGetByIdQueryHandler(ILogger<CarBrandGetByIdQueryHandler> logger, ICarBrandRepository carBrandRepository, IMapper mapper)
     {
         _logger = logger;
         _carBrandRepository = carBrandRepository;
-        _unitOfWork = unitOfWork;
+        _mapper = mapper;
     }
 
-    public async Task<Result<CarBrand?>> Handle(CarBrandGetByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<CarBrandCarModelDto?>> Handle(CarBrandGetByIdQuery request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Started CarBrandGetByIdCommandHandler");
 
@@ -36,21 +39,21 @@ internal sealed class CarBrandGetByIdQueryHandler : IQueryHandler<CarBrandGetByI
             {
 
                 _logger.LogWarning("CarBrandGetByIdCommandHandler: CarBrand doesn't exist!");
-                return Result.Failure<CarBrand?>(new Error(
+                return Result.Failure<CarBrandCarModelDto?>(new Error(
                     "CarBrand.NotFound",
                     $"The CarBrand with Id {request.CarBrandId} was not found"));
             }
 
-            //TODO: make mapping if needed!!!
+            var resultDto = _mapper.Map<CarBrand, CarBrandCarModelDto>(dbCarBrand);
 
             _logger.LogInformation("Finished CarBrandGetByIdCommandHandler");
-            return dbCarBrand;
+            return resultDto;
         }
         catch (Exception ex)
         {
 
             _logger.LogError("CarBrandGetByIdCommandHandler error: {0}", ex.Message);
-            return Result.Failure<CarBrand?>(new Error(
+            return Result.Failure<CarBrandCarModelDto?>(new Error(
                     "Error",
                     ex.Message));
         }

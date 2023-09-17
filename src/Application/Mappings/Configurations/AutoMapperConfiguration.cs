@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Application.Mappings.Profiles;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,9 @@ public class AutoMapperConfiguration
         var config = new MapperConfiguration(cfg =>
         {
             cfg.ShouldMapMethod = (m => false);
+
+            cfg.AddProfile<CarBrandProfile>();
+            cfg.AddProfile<CarBrandDetailProfile>();
 
         });
         return config;
