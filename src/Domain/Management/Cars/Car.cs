@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Management.Cars;
 
-public sealed class Car : AggregateRoot
+public sealed class Car : AggregateRoot, IAuditableEntity
 {
     public string NumberPlate { get; private set; }
     public decimal Kilometers { get; private set; }
@@ -22,12 +22,13 @@ public sealed class Car : AggregateRoot
     public FuelType FuelType { get; private set; }
     public Guid CarModelId { get; private set; }
     public Guid OfficeId { get; private set; }
+    public DateTime CreatedOnUtc { get; set; }
+    public DateTime? ModifiedOnUtc { get; set; }
 
     public CarModel CarModel { get; private set; }
     public Office Office { get; private set; }
     public IReadOnlyCollection<Contract> Contracts { get; private set; }
-
-
+    
 
     private Car(Guid id, string numberPlate, decimal kilometers, byte[]? image, CarStatus status, FuelType fuelType, Guid carModelId, Guid officeId)
         : base(id)

@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions;
+using Application.Mappings.DtoModels;
 using Domain.Management.CarCategories;
 using MediatR;
 using System;
@@ -9,4 +10,4 @@ using System.Threading.Tasks;
 
 namespace Application.CarCategories.GetAll;
 
-public sealed record CarCategoryGetAllQuery() : IQuery<List<CarCategory>>;
+public sealed record CarCategoryGetAllQuery() : IQuery<List<CarCategoryDto>>;

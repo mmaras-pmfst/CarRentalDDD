@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions;
+using Application.Mappings.DtoModels;
 using Domain.Management.Offices;
 using MediatR;
 using System;
@@ -9,4 +10,4 @@ using System.Threading.Tasks;
 
 namespace Application.Offices.GetById;
 
-public sealed record OfficeGetByIdQuery(Guid OfficeId) : IQuery<Office?>;
+public sealed record OfficeGetByIdQuery(Guid OfficeId) : IQuery<OfficeDetailDto?>;

@@ -1,4 +1,6 @@
 ﻿using Application.Abstractions;
+using Application.Mappings.DtoModels;
+using AutoMapper;
 using Domain.Management.CarCategories;
 using Domain.Repositories;
 using Domain.Shared;
@@ -12,18 +14,20 @@ using System.Threading.Tasks;
 
 namespace Application.CarCategories.GetById;
 
-internal sealed class CarCategoryGetByIdQueryHandler : IQueryHandler<CarCategoryGetByIdQuery, CarCategory?>
+internal sealed class CarCategoryGetByIdQueryHandler : IQueryHandler<CarCategoryGetByIdQuery, CarCategoryDetailDto?>
 {
     private ILogger<CarCategoryGetByIdQueryHandler> _logger;
     private readonly ICarCategoryRepository _carCategoryRepository;
+    private IMapper _mapper;
 
-    public CarCategoryGetByIdQueryHandler(ILogger<CarCategoryGetByIdQueryHandler> logger, ICarCategoryRepository carCategoryRepository)
+    public CarCategoryGetByIdQueryHandler(ILogger<CarCategoryGetByIdQueryHandler> logger, ICarCategoryRepository carCategoryRepository, IMapper mapper)
     {
         _logger = logger;
         _carCategoryRepository = carCategoryRepository;
+        _mapper = mapper;
     }
 
-    public async Task<Result<CarCategory?>> Handle(CarCategoryGetByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<CarCategoryDetailDto?>> Handle(CarCategoryGetByIdQuery request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Started CarCategoryGetByIdCommandHandler");
 
@@ -34,23 +38,23 @@ internal sealed class CarCategoryGetByIdQueryHandler : IQueryHandler<CarCategory
             if (dbCarCategory == null ||dbCarCategory is null)
             {
                 _logger.LogWarning("CarCategoryGetByIdCommandHandler: CarCategory doesn't exist!");
-                return Result.Failure<CarCategory?>(new Error(
+                return Result.Failure<CarCategoryDetailDto?>(new Error(
                     "CarCategory.NotFound",
                     $"The CarCategory with Id {request.CarCategoryId} was not found"));
 
             }
 
-            //TODO: mapping if needed!!!
+            var resultDto = _mapper.Map<CarCategory, CarCategoryDetailDto>(dbCarCategory);
 
             _logger.LogInformation("Finished CarCategoryGetByIdCommandHandler");
-            return dbCarCategory;
+            return resultDto;
 
         }
         catch (Exception ex)
         {
 
             _logger.LogError("CarCategoryGetByIdCommandHandler error: {0}", ex.Message);
-            return Result.Failure<CarCategory?>(new Error(
+            return Result.Failure<CarCategoryDetailDto?>(new Error(
                     "Error",
                     ex.Message));
         }

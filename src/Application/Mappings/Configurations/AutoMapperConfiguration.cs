@@ -17,6 +17,17 @@ public class AutoMapperConfiguration
 
             cfg.AddProfile<CarBrandProfile>();
             cfg.AddProfile<CarBrandDetailProfile>();
+            cfg.AddProfile<CarModelProfile>();
+            cfg.AddProfile<CarModelDetailProfile>();
+            cfg.AddProfile<CarProfile>();
+            cfg.AddProfile<CarDetailProfile>();
+            cfg.AddProfile<ExtraProfile>();
+            cfg.AddProfile<CarCategoryProfile>();
+            cfg.AddProfile<CarCategoryDetailProfile>();
+            cfg.AddProfile<OfficeProfile>();
+            cfg.AddProfile<OfficeDetailProfile>();
+            cfg.AddProfile<WorkerProfile>();
+            cfg.AddProfile<WorkerDetailProfile>();
 
         });
         return config;

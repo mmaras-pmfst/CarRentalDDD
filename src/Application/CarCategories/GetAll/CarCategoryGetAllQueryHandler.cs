@@ -1,4 +1,6 @@
 ﻿using Application.Abstractions;
+using Application.Mappings.DtoModels;
+using AutoMapper;
 using Domain.Management.CarCategories;
 using Domain.Repositories;
 using Domain.Shared;
@@ -12,20 +14,21 @@ using System.Threading.Tasks;
 
 namespace Application.CarCategories.GetAll;
 
-internal sealed class CarCategoryGetAllQueryHandler : IQueryHandler<CarCategoryGetAllQuery, List<CarCategory>>
+internal sealed class CarCategoryGetAllQueryHandler : IQueryHandler<CarCategoryGetAllQuery, List<CarCategoryDto>>
 {
     private ILogger<CarCategoryGetAllQueryHandler> _logger;
     private readonly ICarCategoryRepository _carCategoryRepository;
-    private readonly IUnitOfWork _unitOfWork;
+    private IMapper _mapper;
 
-    public CarCategoryGetAllQueryHandler(ILogger<CarCategoryGetAllQueryHandler> logger, ICarCategoryRepository carCategoryRepository, IUnitOfWork unitOfWork)
+
+    public CarCategoryGetAllQueryHandler(ILogger<CarCategoryGetAllQueryHandler> logger, ICarCategoryRepository carCategoryRepository, IMapper mapper)
     {
         _logger = logger;
         _carCategoryRepository = carCategoryRepository;
-        _unitOfWork = unitOfWork;
+        _mapper = mapper;
     }
 
-    public async Task<Result<List<CarCategory>>> Handle(CarCategoryGetAllQuery request, CancellationToken cancellationToken)
+    public async Task<Result<List<CarCategoryDto>>> Handle(CarCategoryGetAllQuery request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Started CarCategoryGetAllCommandHandler");
 
@@ -36,20 +39,20 @@ internal sealed class CarCategoryGetAllQueryHandler : IQueryHandler<CarCategoryG
             if (!dbCarCategories.Any())
             {
                 _logger.LogWarning("CarBrandGetAllCommandHandler: No CarCategories in database");
-                return Result.Failure<List<CarCategory>>(new Error(
+                return Result.Failure<List<CarCategoryDto>>(new Error(
                         "CarCategory.NoData",
                         "There are no CarCategories to fetch"));
             }
 
-            //TODO: make mapping if needed!!!
+            var resultDto = _mapper.Map<List<CarCategory>,List<CarCategoryDto>>(dbCarCategories);
             _logger.LogInformation("Finished CarCategoryGetAllCommandHandler");
-            return dbCarCategories;
+            return resultDto;
 
         }
         catch (Exception ex)
         {
             _logger.LogError("CarCategoryGetAllCommandHandler error: {0}", ex.Message);
-            return Result.Failure<List<CarCategory>>(new Error(
+            return Result.Failure<List<CarCategoryDto>>(new Error(
                     "Error",
                     ex.Message));
         }

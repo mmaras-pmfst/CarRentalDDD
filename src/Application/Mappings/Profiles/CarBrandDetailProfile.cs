@@ -31,6 +31,7 @@ public class CarBrandDetailProfile : Profile
             {
                 var oneCarModel = new CarModelDto
                 {
+                    Id = carmodel.Id,
                     Name = carmodel.Name,
                     CarCategoryId = carmodel.CarCategoryId,
                     CreatedOnUtc = carmodel.CreatedOnUtc,

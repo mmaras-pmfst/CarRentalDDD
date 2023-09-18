@@ -1,4 +1,6 @@
 ﻿using Application.Abstractions;
+using Application.Mappings.DtoModels;
+using AutoMapper;
 using Domain.Management.CarModels;
 using Domain.Repositories;
 using Domain.Shared;
@@ -12,23 +14,24 @@ using System.Threading.Tasks;
 
 namespace Application.CarModels.GetById;
 
-internal sealed class CarModelGetByIdQueryHandler : IQueryHandler<CarModelGetByIdQuery, CarModel?>
+internal sealed class CarModelGetByIdQueryHandler : IQueryHandler<CarModelGetByIdQuery, CarModelDetailDto?>
 {
     private ILogger<CarModelGetByIdQueryHandler> _logger;
     private ICarModelRepository _carModelRepository;
-    private IUnitOfWork _unitOfWork;
+    private IMapper _mapper;
+
 
     public CarModelGetByIdQueryHandler(
         ILogger<CarModelGetByIdQueryHandler> logger,
-        IUnitOfWork unitOfWork,
-        ICarModelRepository carModelRepository)
+        ICarModelRepository carModelRepository,
+        IMapper mapper)
     {
         _logger = logger;
-        _unitOfWork = unitOfWork;
         _carModelRepository = carModelRepository;
+        _mapper = mapper;
     }
 
-    public async Task<Result<CarModel?>> Handle(CarModelGetByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<CarModelDetailDto?>> Handle(CarModelGetByIdQuery request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Started CarModelGetByIdCommandHandler");
 
@@ -39,20 +42,22 @@ internal sealed class CarModelGetByIdQueryHandler : IQueryHandler<CarModelGetByI
             if(carModel is null ||carModel == null)
             {
                 _logger.LogWarning("CarModelGetByIdCommandHandler: CarModel doesn't exist!");
-                return Result.Failure<CarModel?>(new Error(
+                return Result.Failure<CarModelDetailDto?>(new Error(
                     "CarModel.NotFound",
                     $"The CarModel with Id {request.CarModelId} was not found"));
             }
 
+            var resultDto = _mapper.Map<CarModel, CarModelDetailDto>(carModel);
+
             _logger.LogInformation("Finished CarModelGetByIdCommandHandler");
 
-            return carModel;
+            return resultDto;
         }
         catch (Exception ex)
         {
 
             _logger.LogError("CarModelGetByIdCommandHandler error: {0}", ex.Message);
-            return Result.Failure<CarModel?>(new Error(
+            return Result.Failure<CarModelDetailDto?>(new Error(
                     "Error",
                     ex.Message));
         }
