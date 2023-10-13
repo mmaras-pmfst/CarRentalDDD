@@ -1,5 +1,7 @@
 ﻿using Application.Abstractions;
 using Application.Extras.Create;
+using Application.Mappings.DtoModels;
+using AutoMapper;
 using Domain.Repositories;
 using Domain.Sales.Extras;
 using Domain.Shared;
@@ -11,17 +13,19 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Extras.GetAll;
-internal class ExtrasGetAllQueryHandler : IQueryHandler<ExtrasGetAllQuery, List<Extra>>
+internal class ExtrasGetAllQueryHandler : IQueryHandler<ExtrasGetAllQuery, List<ExtraDto>>
 {
     private ILogger<ExtrasGetAllQueryHandler> _logger;
     private readonly IExtrasRepository _extrasRepository;
+    private IMapper _mapper;
 
-    public ExtrasGetAllQueryHandler(ILogger<ExtrasGetAllQueryHandler> logger, IExtrasRepository extrasRepository)
+    public ExtrasGetAllQueryHandler(ILogger<ExtrasGetAllQueryHandler> logger, IExtrasRepository extrasRepository, IMapper mapper)
     {
         _logger = logger;
         _extrasRepository = extrasRepository;
+        _mapper = mapper;
     }
-    public async Task<Result<List<Extra>>> Handle(ExtrasGetAllQuery request, CancellationToken cancellationToken)
+    public async Task<Result<List<ExtraDto>>> Handle(ExtrasGetAllQuery request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Started ExtrasGetAllQueryHandler");
 
@@ -32,19 +36,20 @@ internal class ExtrasGetAllQueryHandler : IQueryHandler<ExtrasGetAllQuery, List<
             if (!dbExtras.Any())
             {
                 _logger.LogWarning("ExtrasGetAllQueryHandler: No Extras in database");
-                return Result.Failure<List<Extra>>(new Error(
+                return Result.Failure<List<ExtraDto>>(new Error(
                         "Extra.NoData",
                         "There are no Extras to fetch"));
             }
-            //TODO: do mapping!!!
+            
+            var resultDto = _mapper.Map<List<Extra>, List<ExtraDto>>(dbExtras);
 
             _logger.LogInformation("Finished ExtrasGetAllQueryHandler");
-            return dbExtras;
+            return resultDto;
         }
         catch (Exception ex)
         {
             _logger.LogError("ExtrasGetAllQueryHandler error: {0}", ex.Message);
-            return Result.Failure<List<Extra>>(new Error(
+            return Result.Failure<List<ExtraDto>>(new Error(
                 "Error",
                 ex.Message));
         }

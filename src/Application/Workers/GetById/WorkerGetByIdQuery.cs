@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions;
+using Application.Mappings.DtoModels;
 using Domain.Management.Workers;
 using System;
 using System.Collections.Generic;
@@ -7,4 +8,4 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Workers.GetById;
-public sealed record WorkerGetByIdQuery(Guid WorkerId) : IQuery<Worker?>;
+public sealed record WorkerGetByIdQuery(Guid WorkerId) : IQuery<WorkerDetailDto?>;

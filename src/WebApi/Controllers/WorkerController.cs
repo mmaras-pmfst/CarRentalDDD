@@ -49,7 +49,6 @@ public class WorkerController : ApiController
 
     }
 
-    [Route("getall")]
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {

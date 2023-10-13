@@ -49,6 +49,7 @@ namespace Persistence.Repositories
         {
             return await _dbContext.Set<Office>()
                 .Include(x => x.Workers)
+                .Include(x => x.Cars)
                 .Where(x => x.Id == id)
                 .SingleOrDefaultAsync();
         }

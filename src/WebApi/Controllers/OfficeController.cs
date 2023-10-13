@@ -51,7 +51,7 @@ namespace WebApi.Controllers
 
             var command = new OfficeGetAllQuery();
 
-            Result<List<Office>> response = await Sender.Send(command);
+            var response = await Sender.Send(command);
 
             _logger.LogInformation("Finished OfficeController.GetAll");
 
@@ -68,7 +68,7 @@ namespace WebApi.Controllers
 
             var command = new OfficeGetByIdQuery(id);
 
-            Result<Office?> response = await Sender.Send(command);
+            var response = await Sender.Send(command);
 
             _logger.LogInformation("Finished OfficeController.GetById");
 

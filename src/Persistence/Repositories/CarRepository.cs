@@ -37,6 +37,7 @@ internal sealed class CarRepository : ICarRepository
                 .ThenInclude(x => x.CarCategory)
             .Include(x => x.CarModel)
                 .ThenInclude(x => x.CarBrand)
+            .Include(x => x.Contracts)
             .SingleOrDefaultAsync(cancellationToken);
 
         return car;

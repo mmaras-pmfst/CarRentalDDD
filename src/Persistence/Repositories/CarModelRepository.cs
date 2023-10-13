@@ -54,6 +54,7 @@ internal sealed class CarModelRepository : ICarModelRepository
             .Where(x => x.Id == id)
             .Include(x => x.CarBrand)
             .Include(x => x.CarCategory)
+            .Include(x => x.Cars)
             .SingleOrDefaultAsync(cancellationToken);
     }
 }

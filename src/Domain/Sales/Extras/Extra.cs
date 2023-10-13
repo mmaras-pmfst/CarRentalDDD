@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 
 namespace Domain.Sales.Extras;
 
-public sealed class Extra : AggregateRoot
+public sealed class Extra : AggregateRoot, IAuditableEntity
 {
     public string Name { get; private set; }
     public string Description { get; private set; }
     public decimal PricePerDay { get; private set; }
+    public DateTime CreatedOnUtc { get; set; }
+    public DateTime? ModifiedOnUtc { get; set; }
 
     private Extra()
     {

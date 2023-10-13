@@ -1,3 +1,322 @@
-{
-
-}
+[
+  {
+    "Id": "8875854b-3ef0-4a9d-8eb1-7fa295ae6a37",
+    "NumberPlate": "ST-111-AA",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "cfb21da8-9714-4d30-8526-9b378ca98b79", //Polo
+    "OfficeId": "28d5d144-32e7-4ecc-889f-160091349f0b"
+  },
+  {
+    "Id": "c193c14c-f596-4324-9e98-f6bd08a7d219",
+    "NumberPlate": "ZG-111-AA",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "cfb21da8-9714-4d30-8526-9b378ca98b79", //Polo
+    "OfficeId": "9229a4fc-24cd-4e04-a513-aac620620876"
+  },
+  {
+    "Id": "bdd98a12-6f09-4dd2-91b8-3b7edafdeff0",
+    "NumberPlate": "ST-222-BB",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "b87ce676-6a60-4464-a1e4-a585461b9226", //Passat
+    "OfficeId": "28d5d144-32e7-4ecc-889f-160091349f0b"
+  },
+  {
+    "Id": "09e98c1f-e6d4-4913-97f8-21655579d9e4",
+    "NumberPlate": "ZG-222-BB",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "b87ce676-6a60-4464-a1e4-a585461b9226", //Passat
+    "OfficeId": "9229a4fc-24cd-4e04-a513-aac620620876"
+  },
+  {
+    "Id": "1afd3805-26ff-4627-9c5f-369e5b8596c3",
+    "NumberPlate": "ST-333-CC",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "a161e79c-5d61-4235-b5ca-539804fc3413", //M1
+    "OfficeId": "28d5d144-32e7-4ecc-889f-160091349f0b"
+  },
+  {
+    "Id": "3a500aac-eb19-49b6-915c-421b010af2d2",
+    "NumberPlate": "ZG-333-CC",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "a161e79c-5d61-4235-b5ca-539804fc3413", //M1
+    "OfficeId": "9229a4fc-24cd-4e04-a513-aac620620876"
+  },
+  {
+    "Id": "5d6d9870-8534-4f0d-89b1-b2414067857d",
+    "NumberPlate": "ST-444-DD",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "1bce9f28-0685-410c-a41c-0354a55313f6", //M5
+    "OfficeId": "28d5d144-32e7-4ecc-889f-160091349f0b"
+  },
+  {
+    "Id": "222975fa-bd5a-46c9-89d1-602674bb1b1b",
+    "NumberPlate": "ZG-444-DD",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "1bce9f28-0685-410c-a41c-0354a55313f6", //M5
+    "OfficeId": "9229a4fc-24cd-4e04-a513-aac620620876"
+  },
+  {
+    "Id": "9d4cbc42-2603-469d-aa75-0795ffb4f750",
+    "NumberPlate": "ST-555-EE",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "2e6091e2-0859-4674-879a-aaad0baab8db", //Tiguan
+    "OfficeId": "28d5d144-32e7-4ecc-889f-160091349f0b"
+  },
+  {
+    "Id": "bac996ca-2e99-4f96-95df-79be8549a7aa",
+    "NumberPlate": "ZG-555-EE",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "2e6091e2-0859-4674-879a-aaad0baab8db", //Tiguan
+    "OfficeId": "9229a4fc-24cd-4e04-a513-aac620620876"
+  },
+  {
+    "Id": "9e824778-4ab9-4220-9ecb-9a4c73f7e4ab",
+    "NumberPlate": "ST-777-FF",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "b7547632-f25d-4faa-a8d1-e7b65bc72a34", //A1
+    "OfficeId": "28d5d144-32e7-4ecc-889f-160091349f0b"
+  },
+  {
+    "Id": "85e12890-08d9-46f7-a72e-3260ddcac69e",
+    "NumberPlate": "ZG-777-FF",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "b7547632-f25d-4faa-a8d1-e7b65bc72a34", //A1
+    "OfficeId": "9229a4fc-24cd-4e04-a513-aac620620876"
+  },
+  {
+    "Id": "7978ef88-c2aa-480d-8429-3a276a3b0f05",
+    "NumberPlate": "ST-888-GG",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "10c48ef1-e9c5-4092-a0c2-c15b8baa6801", //A6
+    "OfficeId": "28d5d144-32e7-4ecc-889f-160091349f0b"
+  },
+  {
+    "Id": "408bcc00-4fe1-42a3-99d2-927587356fc3",
+    "NumberPlate": "ZG-888-GG",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "10c48ef1-e9c5-4092-a0c2-c15b8baa6801", //A6
+    "OfficeId": "9229a4fc-24cd-4e04-a513-aac620620876"
+  },
+  {
+    "Id": "673dd282-79f1-435e-af3e-26ccd34401d4",
+    "NumberPlate": "ST-999-HH",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "2680ffdc-07d7-429d-a655-161c6a510ede", //Q7
+    "OfficeId": "28d5d144-32e7-4ecc-889f-160091349f0b"
+  },
+  {
+    "Id": "08b2637d-15a0-4866-9b0d-d817a0dbe341",
+    "NumberPlate": "ZG-999-HH",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "2680ffdc-07d7-429d-a655-161c6a510ede", //Q7
+    "OfficeId": "9229a4fc-24cd-4e04-a513-aac620620876"
+  },
+  {
+    "Id": "12b99147-5300-4751-af5a-cd13251ad4cd",
+    "NumberPlate": "ST-121-AE",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "bbcdee04-ffe4-4870-bdf5-6df5d9e05598", //Leon
+    "OfficeId": "28d5d144-32e7-4ecc-889f-160091349f0b"
+  },
+  {
+    "Id": "98c29b55-e822-404e-b98e-c4083f12da0a",
+    "NumberPlate": "ZG-121-AE",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "bbcdee04-ffe4-4870-bdf5-6df5d9e05598", //Leon
+    "OfficeId": "9229a4fc-24cd-4e04-a513-aac620620876"
+  },
+  {
+    "Id": "b1c2777e-95e8-4db6-bcfc-929af755fd12",
+    "NumberPlate": "ST-212-EF",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "c7db1583-db30-4831-bc97-e51b12ed60a6", //Formentor
+    "OfficeId": "28d5d144-32e7-4ecc-889f-160091349f0b"
+  },
+  {
+    "Id": "7ceaaea5-a12f-45d8-bb27-deb51dd2eb9b",
+    "NumberPlate": "ZG-212-EF",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "c7db1583-db30-4831-bc97-e51b12ed60a6", //Formentor
+    "OfficeId": "9229a4fc-24cd-4e04-a513-aac620620876"
+  },
+  {
+    "Id": "724f7e4b-7cec-4fa0-a265-d98a8ca6668e",
+    "NumberPlate": "ST-123-AT",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "50524cad-cb86-4210-b92e-4c692416c6ec", //Transporter
+    "OfficeId": "28d5d144-32e7-4ecc-889f-160091349f0b"
+  },
+  {
+    "Id": "799e14c1-ca4a-4305-9d4a-378db240face",
+    "NumberPlate": "ZG-123-AT",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "50524cad-cb86-4210-b92e-4c692416c6ec", //Transporter
+    "OfficeId": "9229a4fc-24cd-4e04-a513-aac620620876"
+  },
+  {
+    "Id": "2db00e89-b24e-4aa4-a10c-e8db4f44ad95",
+    "NumberPlate": "ST-321-CR",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "0238f519-9ee0-45bc-bf87-12a137dd64f5", //Megane
+    "OfficeId": "28d5d144-32e7-4ecc-889f-160091349f0b"
+  },
+  {
+    "Id": "99b3923a-acd9-4bb9-ad18-2a06b9d0eb1f",
+    "NumberPlate": "ZG-321-CR",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "0238f519-9ee0-45bc-bf87-12a137dd64f5", //Megane
+    "OfficeId": "9229a4fc-24cd-4e04-a513-aac620620876"
+  },
+  {
+    "Id": "9bd0200c-150c-4956-9db9-4099cf5e0fd8",
+    "NumberPlate": "ZG-454-IJ",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "f782ebed-4b3f-417d-ba28-688a70417f97", //Clio
+    "OfficeId": "9229a4fc-24cd-4e04-a513-aac620620876"
+  },
+  {
+    "Id": "7223c06f-5116-408a-96be-97838fc07353",
+    "NumberPlate": "ST-454-IJ",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "f782ebed-4b3f-417d-ba28-688a70417f97", //Clio
+    "OfficeId": "28d5d144-32e7-4ecc-889f-160091349f0b"
+  },
+  {
+    "Id": "7e712756-5f46-4251-b98d-f65f687817f2",
+    "NumberPlate": "ST-545-VT",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "ba4e69ed-aa5a-4ac3-bb6a-d7180a2b307f", //E220
+    "OfficeId": "28d5d144-32e7-4ecc-889f-160091349f0b"
+  },
+  {
+    "Id": "14aaa3e4-5a3f-4b0c-9b89-c0b0a24109e3",
+    "NumberPlate": "ZG-545-VT",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "ba4e69ed-aa5a-4ac3-bb6a-d7180a2b307f", //E220
+    "OfficeId": "9229a4fc-24cd-4e04-a513-aac620620876"
+  },
+  {
+    "Id": "6d830c6b-5b04-4953-8679-649a471565ce",
+    "NumberPlate": "ST-789-EE",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "ea77b491-85dc-42b6-b286-8c789c421eb6", //GLS
+    "OfficeId": "28d5d144-32e7-4ecc-889f-160091349f0b"
+  },
+  {
+    "Id": "a27989d4-5d42-4ad4-b51a-443af5733980",
+    "NumberPlate": "ZG-789-EE",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "ea77b491-85dc-42b6-b286-8c789c421eb6", //GLS
+    "OfficeId": "9229a4fc-24cd-4e04-a513-aac620620876"
+  },
+  {
+    "Id": "232d1493-1ef2-475b-a2f2-199d6f1ea608",
+    "NumberPlate": "ST-987-ZU",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "a24bc702-95ee-4dac-a279-6e3259168428", //Sprinter
+    "OfficeId": "28d5d144-32e7-4ecc-889f-160091349f0b"
+  },
+  {
+    "Id": "8c8b05ec-a1b8-4d3c-ad2d-6c7703db7d8d",
+    "NumberPlate": "ZG-987-ZU",
+    "Kilometers": 0,
+    "Image": null,
+    "Status": 1,
+    "FuelType": 1,
+    "CarModelId": "a24bc702-95ee-4dac-a279-6e3259168428", //Sprinter
+    "OfficeId": "9229a4fc-24cd-4e04-a513-aac620620876"
+  }
+]

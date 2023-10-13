@@ -1,4 +1,6 @@
 ﻿using Application.Abstractions;
+using Application.Mappings.DtoModels;
+using AutoMapper;
 using Domain.Management.CarModels;
 using Domain.Repositories;
 using Domain.Shared;
@@ -12,19 +14,22 @@ using System.Threading.Tasks;
 
 namespace Application.CarModels.GetAll;
 
-internal sealed class CarModelGetAllQueryHandler : IQueryHandler<CarModelGetAllQuery, List<CarModel>>
+internal sealed class CarModelGetAllQueryHandler : IQueryHandler<CarModelGetAllQuery, List<CarModelDto>>
 {
     private ILogger<CarModelGetAllQueryHandler> _logger;
     private ICarModelRepository _carModelRepository;
+    private IMapper _mapper;
 
     public CarModelGetAllQueryHandler(
         ILogger<CarModelGetAllQueryHandler> logger,
-        ICarModelRepository carModelRepository)
+        ICarModelRepository carModelRepository,
+        IMapper mapper)
     {
         _logger = logger;
         _carModelRepository = carModelRepository;
+        _mapper = mapper;
     }
-    public async Task<Result<List<CarModel>>> Handle(CarModelGetAllQuery request, CancellationToken cancellationToken)
+    public async Task<Result<List<CarModelDto>>> Handle(CarModelGetAllQuery request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Started CarModelGetAllCommandHandler");
 
@@ -35,20 +40,22 @@ internal sealed class CarModelGetAllQueryHandler : IQueryHandler<CarModelGetAllQ
             if (!carModels.Any())
             {
                 _logger.LogWarning("CarBrandGetAllCommandHandler: No CarModels in database");
-                return Result.Failure<List<CarModel>>(new Error(
+                return Result.Failure<List<CarModelDto>>(new Error(
                         "CarModel.NoData",
                         "There are no CarModels to fetch"));
             }
 
             _logger.LogInformation("Finished CarModelGetAllCommandHandler");
 
-            return carModels;
+            var resultDto = _mapper.Map<List<CarModel>,List<CarModelDto>>(carModels);
+
+            return resultDto;
         }
         catch (Exception ex)
         {
 
             _logger.LogError("CarModelCreateCommandHandler error: {0}", ex.Message);
-            return Result.Failure<List<CarModel>>(new Error(
+            return Result.Failure<List<CarModelDto>>(new Error(
                     "Error",
                     ex.Message));
         }

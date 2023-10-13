@@ -46,6 +46,7 @@ internal sealed class WorkerRepository : IWorkerRepository
         return await _dbContext.Set<Worker>()
                 .Where(x => x.Id == id)
                 .Include(x => x.Office)
+                .Include(x => x.Contracts)
                 .SingleOrDefaultAsync();
     }
 }
